@@ -1,0 +1,4 @@
+; $Id$
+name = Membership
+description = "Provides easy time-limited membership management."
+version = 5.x

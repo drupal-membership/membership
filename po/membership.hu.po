@@ -1,0 +1,206 @@
+# translation of membership.po to Hungarian
+# $Id$
+# Hungarian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  n/a
+#  bible.info,v 1.0 2007/07/27 22:02:46 boobaa
+#
+# CSECSY Laszlo <boobaa@frugalware.org>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: membership\n"
+"POT-Creation-Date: 2008-01-31 08:55+0100\n"
+"PO-Revision-Date: 2008-01-31 10:05+0100\n"
+"Last-Translator: CSECSY Laszlo <boobaa@frugalware.org>\n"
+"Language-Team: Hungarian <hu@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: membership.module:18 membership.info:0
+msgid "Provides easy time-limited membership management."
+msgstr "Egyszerű, idővel lejáró tagságkezelést biztosít."
+
+#: membership.module:30;39
+msgid "Membership management"
+msgstr "Tagságkezelés"
+
+#: membership.module:31
+msgid "Configure time-limited membership management."
+msgstr "Idővel lejáró tagságkezelés beállítása."
+
+#: membership.module:40
+msgid "Easy time-limited membership management."
+msgstr "Egyszerű, idővel lejáró tagságkezelés."
+
+#: membership.module:58;171
+msgid "Username"
+msgstr "Felhasználói név"
+
+#: membership.module:59;172
+msgid "Last modified"
+msgstr "Utoljára módosítva"
+
+#: membership.module:60;90;173
+msgid "Expires"
+msgstr "Lejárat"
+
+#: membership.module:61;174
+msgid "Operations"
+msgstr "Műveletek"
+
+#: membership.module:70;71
+msgid "Y-m-d"
+msgstr "Y. F j."
+
+#: membership.module:72
+msgid "Expire now"
+msgstr "Azonnal lejár"
+
+#: membership.module:73
+msgid "Edit membership"
+msgstr "Tagság szerkesztése"
+
+#: membership.module:79
+msgid "Add a new member"
+msgstr "Új tag hozzáadása"
+
+#: membership.module:85
+msgid "New member"
+msgstr "Új tag"
+
+#: membership.module:99;247
+msgid "Submit"
+msgstr "Beküldés"
+
+#: membership.module:107
+msgid "A username must be given."
+msgstr "Meg kell adni egy felhasználónevet."
+
+#: membership.module:113
+msgid "Nonexistent username."
+msgstr "Nem létező felhasználónév."
+
+#: membership.module:120
+msgid "This user is already a member of the %role role."
+msgstr "Ez a felhasználó már tagja a %role csoportnak."
+
+#: membership.module:129;256
+msgid "Expires should be in the future."
+msgstr "A lejáratnak a jövőben kell lennie."
+
+#: membership.module:149;204;269;376
+msgid "an unknown site"
+msgstr "egy ismeretlen oldal"
+
+#: membership.module:155;163
+msgid "New membership"
+msgstr "Új tagság"
+
+#: membership.module:155
+msgid "Dear !member,\n\nyou have just been added to the !role role at !site (!url). Your membership expires at !date.\n\nSincerely: !owner"
+msgstr "Kedves !member!\n\nHozzáadtak !role csoporthoz az oldalunkon: !site (!url). A tagságod lejár: !date.\n\nTisztelettel: !owner"
+
+#: membership.module:163
+msgid "Dear Power Manager,\n\n!owner has just added !member to the !role role at !site (!url). This new membership expires at !date."
+msgstr "Kedves főadminisztrátor!\n\n!owner hozzáadta !member felhasználót !role csoporthoz az oldalunkon: !site (!url). A tagság lejár: !date."
+
+#: membership.module:187
+msgid "There are no members."
+msgstr "Nincsenek tagok."
+
+#: membership.module:209;217
+msgid "Deleted membership"
+msgstr "Törölt tagság"
+
+#: membership.module:209
+msgid "Dear !member,\n\nyou have just been removed from the !role role at !site (!url).\n\nSincerely: !owner"
+msgstr "Kedves !member!\n\nA tagságodat !role csoportból törölték az oldalunkon: !site (!url).\n\nTisztelettel: !owner"
+
+#: membership.module:217
+msgid "Dear Power Manager,\n\n!owner has just removed !member from the !role role at !site (!url)."
+msgstr "Kedves főadminisztrátor!\n\n!owner törölte !member felhasználó !role csoportbeli tagságát az oldalunkon: !site (!url)."
+
+#: membership.module:230
+msgid "There is no such member."
+msgstr "Nincs ilyen tag."
+
+#: membership.module:238
+msgid "Expire date of !member"
+msgstr "!member tagsága lejár"
+
+#: membership.module:275;283
+msgid "Modified membership"
+msgstr "Módosult tagság"
+
+#: membership.module:275
+msgid "Dear !member,\n\nyour membership of the !role role has just been modified at !site (!url): it expires at !date.\n\nSincerely: !owner"
+msgstr "Kedves !member!\n\nMódosult !role csoportbeli tagságod az oldalunkon: !site (!url), lejárata: !date.\n\nTisztelettel: !owner"
+
+#: membership.module:283
+msgid "Dear Power Manager,\n\n!owner has just modified the membership of !member regarding to the !role role at !site (!url): it expires at !date."
+msgstr "Kedves főadminisztrátor!\n\n!owner módosította !member felhasználó !role csoportbeli tagságát az oldalunkon: !site (!url), lejárata: !date."
+
+#: membership.module:292
+msgid "The module has not been set up yet."
+msgstr "A modul még nincs beállítva."
+
+#: membership.module:318
+msgid "Membership-managed role"
+msgstr "Szabályozott tagságú csoport"
+
+#: membership.module:321
+msgid "Select the role whose members should be managed in a time-limited manner."
+msgstr "Azon csoport, melynek tagságát idővel lejáró módon kell kezelni."
+
+#: membership.module:326
+msgid "Membership-managed role cannot be changed as it already has members."
+msgstr "Az idővel lejáró módon kezelendő csoport nem változtatható meg, mert már van tagja."
+
+#: membership.module:331
+msgid "none"
+msgstr "nincs"
+
+#: membership.module:339
+msgid "Membership Power Manager"
+msgstr "A tagság főadminisztrátora"
+
+#: membership.module:342
+msgid "Select the Power Manager who will receive emails on every membership change."
+msgstr "A főadminisztrátor minden tagság-változásról értesítést kap emailben."
+
+#: membership.module:348
+msgid "Power Manager cannot be specified as there are no roles with %priv privilege."
+msgstr "A főadminisztrátor nem adható meg, mert nincs olyan csoport, amely rendelkezne %priv jogosultsággal."
+
+#: membership.module:349;52
+msgid "access membership"
+msgstr "tagság kezelése"
+
+#: membership.module:387;392
+msgid "Expired membership"
+msgstr "Lejárt tagság"
+
+#: membership.module:387
+msgid "Dear !member,\n\nyou have just been removed from the !role role at !site (!url) because your membership has expired."
+msgstr "Kedves !member!\n\nTöröltek !role csoportból az oldalunkon: !site (!url), mert tagságod lejárt."
+
+#: membership.module:392
+msgid "Dear Power Manager,\n\n!member has just been removed from the !role role at !site (!url) because of membership expiration."
+msgstr "Kedves főadminisztrátor!\n\n!member felhasználót töröltük !role csoportból az oldalunkon: !site (!url), mert tagsága lejárt."
+
+#: membership.module:52
+msgid "administer membership"
+msgstr "tagság beállítása"
+
+#: membership.module:0
+msgid "membership"
+msgstr "tagság"
+
+#: membership.info:0
+msgid "Membership"
+msgstr "Tagság"
+

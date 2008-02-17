@@ -1,0 +1,403 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Provides easy time-limited membership management.
+ */
+
+/**
+ * Display help and module information
+ * @param section which section of the site we're displaying help
+ * @return help text for section
+ */
+function membership_help($section = '') {
+  $output = '';
+  switch($section) {
+  case 'admin/help#membership':
+    $output = '<p>'. t('Provides easy time-limited membership management.') . '</p>';
+    break;
+  }
+  return $output;
+}
+
+/**
+ * Implementation of hook_menu()
+ */
+function membership_menu() {
+  $items[] = array(
+    'path'					=> 'admin/settings/membership',
+    'title'					=> t('Membership management'),
+    'description'			=> t('Configure time-limited membership management.'),
+    'callback'				=> 'drupal_get_form',
+    'callback arguments'	=> 'membership_admin_settings',
+    'access'				=> user_access('administer membership'),
+    'type'					=> MENU_NORMAL_ITEM,
+  );
+  $items[] = array(
+    'path'					=> 'admin/user/membership',
+    'title'					=> t('Membership management'),
+    'description'			=> t('Easy time-limited membership management.'),
+    'callback'				=> 'membership_edit',
+    'access'				=> user_access('access membership'),
+    'type'					=> MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_perm()
+ */
+function membership_perm() {
+  return array('access membership', 'administer membership');
+}
+
+function membership_list_form() {
+  $pagelen = 25;
+  $header = array(
+    array('data' => t('Username'), 'field' => 'name'),
+    array('data' => t('Last modified'), 'field' => 'lastmod'),
+    array('data' => t('Expires'), 'field' => 'expires'),
+    t('Operations'),
+  );
+  $sql = 'SELECT u.uid AS uid, name, lastmod, expires FROM {membership} AS m INNER JOIN {users} AS u ON u.uid = m.uid';
+  $sql .= tablesort_sql($header);
+  $result = pager_query($sql, $pagelen, 0, NULL);
+  $form = array();
+  if(db_num_rows($result)) {
+    while($user = db_fetch_object($result)) {
+      $form['name'][$user->uid] = array('#value' => theme('username', $user));
+      $form['lastmod'][$user->uid] = array('#value' => format_date($user->lastmod, 'custom', t('Y-m-d')));
+      $form['expires'][$user->uid] = array('#value' => format_date($user->expires, 'custom', t('Y-m-d')));
+      $form['expire_now'][$user->uid] = array('#value' => l(t('Expire now'), 'admin/user/membership/expire/' . $user->uid) . ' - '.
+        l(t('Edit membership'), 'admin/user/membership/edit/' . $user->uid));
+    }
+    $form['pager'] = array('#value' => theme('pager', NULL, $pagelen, 0));
+  }
+  $form['newmember'] = array(
+    '#type'			=> 'fieldset',
+    '#title'		=> t('Add a new member'),
+    '#tree'			=> TRUE,
+    '#collapsible'	=> TRUE,
+  );
+  $form['newmember']['member'] = array(
+    '#type'		=> 'textfield',
+    '#title'	=> t('New member'),
+    '#autocomplete_path'	=> 'user/autocomplete',
+  );
+  $form['newmember']['expires'] = array(
+    '#type'				=> 'date',
+    '#title'			=> t('Expires'),
+    '#default_value'	=> array(	// XXX: is there any nicer way to set it to "tomorrow"?
+      'year'	=> date('Y',strtotime('now') + 60*60*24),
+      'month'	=> date('n',strtotime('now') + 60*60*24),
+      'day'	=> date('j',strtotime('now') + 60*60*24),
+    ),
+  );
+  $form['newmember']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+    '#weight'	=> 1,
+  );
+  return $form;
+}
+
+function membership_list_form_validate($form_id, $form_values) {
+  if(empty($form_values['newmember']['member'])) {
+    form_set_error('newmember][member', t('A username must be given.'));
+  }
+  else {
+    // FIXME: user_load() wouldn't be better?
+    $result = db_query("SELECT uid FROM {users} WHERE name = '%s'", $form_values['newmember']['member']);
+    if(db_num_rows($result) == 0) {
+      form_set_error('newmember][member', t('Nonexistent username.'));
+    }
+    else {
+      $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
+      $row = db_fetch_object($result);
+      $result = db_fetch_object(db_query("SELECT COUNT(mid) AS mid_cnt FROM {membership} WHERE uid = %d", $row->uid));
+      if($result->mid_cnt > 0) {
+        form_set_error('newmember][member', t('This user is already a member of the %role role.',
+          array('%role' => $roles[variable_get('membership_role', 0)])));
+      }
+    }
+  }
+  $form_time = strtotime($form_values['newmember']['expires']['year'] . '-' . $form_values['newmember']['expires']['month'] . '-'.
+    $form_values['newmember']['expires']['day']);
+  $sys_time = strtotime(date('Y-n-j'));
+  if($form_time < ($sys_time + 60*60*24)) {
+    form_set_error('newmember][expires][year', t('Expires should be in the future.'));
+    // XXX: form_set_error DOES NOT set error on all the children of newmember][expires - so we must use this hack :S
+    form_set_error('newmember][expires][month', ' ');
+    form_set_error('newmember][expires][day', ' ');
+  }
+}
+
+function membership_list_form_submit($form_id, $form_values) {
+  global $user, $base_url;
+  $next_mid = db_next_id("{membership_id}");
+  $member = user_load(array('name' => $form_values['newmember']['member']));
+  $datestamp = mktime(0, 0, 0, $form_values['newmember']['expires']['month'], $form_values['newmember']['expires']['day'],
+    $form_values['newmember']['expires']['year']);
+  db_query('INSERT INTO {membership} (mid, uid, oid, lastmod, expires) VALUES (%d, %d, %d, %d, %d)', $next_mid, $member->uid, $user->uid,
+    mktime(), $datestamp);
+  db_query('INSERT INTO {users_roles} (uid, rid) VALUES (%d, %d)', $member->uid, variable_get('membership_role', 0));
+  $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
+  $variables = array(
+    '!member'	=> $form_values['newmember']['member'],
+    '!role'		=> $roles[variable_get('membership_role', 0)],
+    '!site'		=> variable_get('site_name', t('an unknown site')),
+    '!url'		=> $base_url,
+    '!date'		=> format_date($datestamp, 'custom', 'Y-m-d'),
+    '!owner'	=> $user->name,
+  );
+  // send a mail to the new member
+  membership_mail('member_add', $member->mail, t('New membership'), t('Dear !member,
+
+you have just been added to the !role role at !site (!url). Your membership expires at !date.
+
+Sincerely: !owner'), $variables);
+  // send a mail to the manager (if exists)
+  if(($uid = variable_get('membership_manager', 0)) != 0) {
+    $manager = user_load(array('uid' => $uid));
+    membership_mail('managed_add', $manager->mail, t('New membership'), t('Dear Power Manager,
+
+!owner has just added !member to the !role role at !site (!url). This new membership expires at !date.'), $variables);
+  }
+}
+
+function theme_membership_list_form($form) {
+  $header = array(
+    array('data' => t('Username'), 'field' => 'name'),
+    array('data' => t('Last modified'), 'field' => 'lastmod'),
+    array('data' => t('Expires'), 'field' => 'expires'),
+    t('Operations'),
+  );
+  if(isset($form['name']) && is_array($form['name'])) {
+    foreach(element_children($form['name']) as $key) {
+      $rows[] = array(
+        drupal_render($form['name'][$key]),
+        drupal_render($form['lastmod'][$key]),
+        drupal_render($form['expires'][$key]),
+        drupal_render($form['expire_now'][$key]),
+      );
+    }
+  }
+  else {
+    $rows[] = array(array('data' => t('There are no members.'), 'colspan' => '4'));
+  }
+  $output = theme('table', $header, $rows);
+  if($form['pager']['#value']) {
+    $output .= drupal_render($form['pager']);
+  }
+  $output .= drupal_render($form);
+  return $output;
+}
+
+function membership_expire($uid) {
+  global $user, $base_url;
+  $member = user_load(array('uid' => $uid));
+  $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
+  $variables = array(
+    '!member'	=> check_plain($member->name),
+    '!role'		=> $roles[variable_get('membership_role', 0)],
+    '!site'		=> variable_get('site_name', t('an unknown site')),
+    '!url'		=> $base_url,
+    '!owner'	=> $user->name,
+  );
+  // send a mail to the ex-member
+  membership_mail('member_del', $member->mail, t('Deleted membership'), t('Dear !member,
+
+you have just been removed from the !role role at !site (!url).
+
+Sincerely: !owner'), $variables);
+  // send a mail to the manager (if exists)
+  if(($manager_uid = variable_get('membership_manager', 0)) != 0) {
+    $manager = user_load(array('uid' => $manager_uid));
+    membership_mail('managed_del', $manager->mail, t('Deleted membership'), t('Dear Power Manager,
+
+!owner has just removed !member from the !role role at !site (!url).'), $variables);
+  }
+  // mail should be sent before delete, as we need some info for it
+  db_query('DELETE FROM {membership} WHERE uid = %d', $uid);
+  db_query('DELETE FROM {users_roles} WHERE uid = %d AND rid = %d', $uid, variable_get('membership_role', 0));
+}
+
+function membership_edit_form() {
+  $uid = arg(4);
+  $result = db_query('SELECT expires FROM {membership} WHERE uid = %d', $uid);
+  if(db_num_rows($result) <= 0) {
+    drupal_set_message(t('There is no such member.'), 'error');
+    drupal_goto('admin/user/membership');
+  }
+  $member = db_fetch_object($result);
+  $user = user_load(array('uid' => $uid));
+  $form = array();
+  $form['expires'] = array(
+    '#type'				=> 'date',
+    '#title'			=> t('Expire date of !member', array('!member' => theme('username', $user))),
+    '#default_value'	=> array(
+      'year'	=> date('Y', $member->expires),
+      'month'	=> date('n', $member->expires),
+      'day'	=> date('j', $member->expires),
+    ),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
+}
+
+function membership_edit_form_validate($form_id, $form_values) {
+  $form_time = strtotime($form_values['expires']['year'] . '-' . $form_values['expires']['month'] . '-' . $form_values['expires']['day']);
+  $sys_time = strtotime(date('Y-n-j'));
+  if($form_time < ($sys_time + 60*60*24)) {
+    form_set_error('expires', t('Expires should be in the future.'));
+  }
+}
+
+function membership_edit_form_submit($form_id, $form_values) {
+  global $user, $base_url;
+  $datestamp = mktime(0, 0, 0, $form_values['expires']['month'], $form_values['expires']['day'], $form_values['expires']['year']);
+  db_query('UPDATE {membership} SET oid = %d, lastmod = %d, expires = %d WHERE uid = %d', $user->uid, mktime(), $datestamp, arg(4));
+  $member = user_load(array('uid' => arg(4)));
+  $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
+  $variables = array(
+    '!member'	=> check_plain($member->name),
+    '!role'		=> $roles[variable_get('membership_role', 0)],
+    '!site'		=> variable_get('site_name', t('an unknown site')),
+    '!url'		=> $base_url,
+    '!date'		=> format_date($datestamp, 'custom', 'Y-m-d'),
+    '!owner'	=> $user->name,
+  );
+  // send a mail to the new member
+  membership_mail('member_mod', $member->mail, t('Modified membership'), t('Dear !member,
+
+your membership of the !role role has just been modified at !site (!url): it expires at !date.
+
+Sincerely: !owner'), $variables);
+  // send a mail to the manager (if exists)
+  if(($uid = variable_get('membership_manager', 0)) != 0) {
+    $manager = user_load(array('uid' => $uid));
+    membership_mail('managed_mod', $manager->mail, t('Modified membership'), t('Dear Power Manager,
+
+!owner has just modified the membership of !member regarding to the !role role at !site (!url): it expires at !date.'), $variables);
+  }
+  drupal_goto('admin/user/membership');
+}
+
+function membership_edit() {
+  if(variable_get('membership_role', 0) == 0) {
+    return t('The module has not been set up yet.');
+  }
+  switch(arg(3)) {
+  case NULL:
+    $form = drupal_get_form('membership_list_form');
+    break;
+  case 'expire':
+    membership_expire(arg(4));
+    drupal_goto('admin/user/membership');
+    break;
+  case 'edit':
+    $form = drupal_get_form('membership_edit_form');
+    break;
+  default:
+    $form = 'Op: ' . arg(3) . ', uid: ' . arg(4);
+    break;
+  }
+  return $form;
+}
+
+function membership_admin_settings() {
+  $roles = user_roles(TRUE);
+  $keys = array_keys($roles, 'authenticated user');
+  unset($roles[$keys[0]]);
+  $form['membership_role'] = array(
+    '#type'				=> 'radios',
+    '#title'			=> t('Membership-managed role') . $foo,
+    '#default_value'	=> variable_get('membership_role', 0),
+    '#options'			=> $roles,
+    '#description'		=> t('Select the role whose members should be managed in a time-limited manner.'),
+  );
+  $cnt = db_fetch_object(db_query('SELECT COUNT(uid) AS uid_cnt FROM {users_roles} WHERE rid = %d', variable_get('membership_role', 0)));
+  if($cnt->uid_cnt != 0) {
+    $form['membership_role']['#disabled'] = 'disabled';
+    $form['membership_role']['#description'] = t('Membership-managed role cannot be changed as it already has members.');
+  }
+  $result = db_query('SELECT DISTINCT u.uid AS uid, name FROM {permission} AS p INNER JOIN {users_roles} AS ur ON ur.rid = p.rid '.
+    'INNER JOIN {users} AS u ON ur.uid = u.uid WHERE p.perm LIKE "%access membership%" AND status != 0 AND access != 0 ORDER BY name');
+  if(db_num_rows($result)) {
+    $users = array('0' => t('none'));
+    while($account = db_fetch_object($result)) {
+      // XXX: is it the intended way to output usernames into a dropdown select?
+      $users[$account->uid] = check_plain($account->name);
+      $userlist[] = $account;
+    }
+    $form['membership_manager'] = array(
+      '#type'				=> 'select',
+      '#title'			=> t('Membership Power Manager'),
+      '#default_value'	=> variable_get('membership_manager', 1),
+      '#options'			=> $users,
+      '#description'		=> t('Select the Power Manager who will receive emails on every membership change.'),
+    );
+  }
+  else {
+    $form['membership_manager'] = array(
+      '#type'		=> 'markup',
+      '#value'	=> t('Power Manager cannot be specified as there are no roles with %priv privilege.',
+      array('%priv' => t('access membership'))) . '<br />',
+    );
+  }
+  return system_settings_form($form);
+}
+
+function membership_mail($id, $recipient, $subject, $message, $variables = NULL) {
+  $from = variable_get('site_mail', ini_get('sendmail_from'));
+  $headers = array(
+    'Reply-to'		=> $from,
+    'Return-path'	=> "<$from>",
+    'Errors-to'		=> $from,
+  );
+  if(is_array($variables)) {
+    $message = strtr($message, $variables);
+  }
+  drupal_mail('membership_' . $id, trim($recipient), $subject, wordwrap($message, 80), $from, $headers);
+}
+
+function membership_cron() {
+  global $base_url;
+  $result = db_query('SELECT mid, uid FROM {membership} WHERE expires < %d', mktime());
+  if(db_num_rows($result)) {
+    $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
+    $membership_role = variable_get('membership_role', 0);
+    $variables = array(
+      '!role'		=> $roles[$membership_role],
+      '!site'		=> variable_get('site_name', t('an unknown site')),
+      '!url'		=> $base_url,
+    );
+    if(($manager_uid = variable_get('membership_manager', 0)) != 0) {
+      $manager = user_load(array('uid' => $manager_uid));
+    }
+    while($row = db_fetch_object($result)) {
+      // XXX: wouldn't it be faster if we fetch the name & mail with the membership info?
+      $member = user_load(array('uid' => $row->uid));
+      $variables['!member'] = check_plain($member->name);
+      // send a mail to the ex-member
+      membership_mail('member_exp', $member->mail, t('Expired membership'), t('Dear !member,
+
+you have just been removed from the !role role at !site (!url) because your membership has expired.'), $variables);
+      // send a mail to the manager (if exists)
+      if($manager) {
+        membership_mail('managed_del', $manager->mail, t('Expired membership'), t('Dear Power Manager,
+
+!member has just been removed from the !role role at !site (!url) because of membership expiration.'), $variables);
+      }
+      // mail should be sent before delete, as we need some info for it
+      db_query('DELETE FROM {membership} WHERE uid = %d', $row->uid);
+      db_query('DELETE FROM {users_roles} WHERE uid = %d AND rid = %d', $row->uid, $membership_role);
+    }
+  }
+}
+
+// vim: set ft=php syntax=php expandtab ts=2 sw=2 autoindent smartindent:

@@ -1,0 +1,36 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install().
+ */
+function membership_install() {
+  switch ($GLOBALS['db_type']) {
+  case 'mysql':
+  case 'mysqli':
+    db_query("CREATE TABLE {membership} (
+      mid int unsigned default '0',
+      uid int(10) UNSIGNED NOT NULL default '1',
+      oid int(10) UNSIGNED NOT NULL default '1',
+      lastmod int(11) NOT NULL default '0',
+      expires int(11) NOT NULL default '0',
+      PRIMARY KEY (mid)
+    ) /*!40100 DEFAULT CHARACTER SET UTF8 */");
+    break;
+
+  case 'pgsql':
+    // FIXME: to be implemented
+    break;
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function membership_uninstall() {
+  db_query('DROP TABLE {membership}');
+  variable_del('membership_role');
+  variable_del('membership_manager');
+}
+
+// vim: set ft=php syntax=php expandtab ts=2 sw=2 autoindent smartindent:
