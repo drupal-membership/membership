@@ -2,33 +2,67 @@
 // $Id$
 
 /**
+ * Implementation of hook_schema().
+ */
+function membership_schema() {
+  $schema['membership'] = array(
+    'fields' => array(
+      'mid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => t('Primary Key: Unique member ID.'),
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('The {users}.uid who is a member of the given role.'),
+      ),
+      'oid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('The {users}.uid who has last modified this membership.'),
+      ),
+      'lastmod' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('The time when the membership was last modified, as a Unix timestamp.'),
+      ),
+      'expires' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('The time when the membership will expire, as a Unix timestamp.'),
+      ),
+    ),
+    'indexes' => array(
+      'uid' => array('uid'),
+      'oid' => array('oid'), // This index is probably unused.
+      'lastmod' => array('lastmod'),
+      'expires' => array('expires'),
+    ),
+    'primary key' => array('mid'),
+  );
+  return $schema;
+}
+
+/**
  * Implementation of hook_install().
  */
 function membership_install() {
-  switch ($GLOBALS['db_type']) {
-  case 'mysql':
-  case 'mysqli':
-    db_query("CREATE TABLE {membership} (
-      mid int unsigned default '0',
-      uid int(10) UNSIGNED NOT NULL default '1',
-      oid int(10) UNSIGNED NOT NULL default '1',
-      lastmod int(11) NOT NULL default '0',
-      expires int(11) NOT NULL default '0',
-      PRIMARY KEY (mid)
-    ) /*!40100 DEFAULT CHARACTER SET UTF8 */");
-    break;
-
-  case 'pgsql':
-    // FIXME: to be implemented
-    break;
-  }
+  // Create tables.
+  drupal_install_schema('membership');
 }
 
 /**
  * Implementation of hook_uninstall().
  */
 function membership_uninstall() {
-  db_query('DROP TABLE {membership}');
+  // Remove tables.
+  drupal_uninstall_schema('membership');
+  // Remove variables.
   variable_del('membership_role');
   variable_del('membership_manager');
 }
