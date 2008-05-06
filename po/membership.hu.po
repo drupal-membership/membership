@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: membership\n"
 "POT-Creation-Date: 2008-01-31 08:55+0100\n"
-"PO-Revision-Date: 2008-01-31 10:05+0100\n"
+"PO-Revision-Date: 2008-05-05 22:19+0200\n"
 "Last-Translator: CSECSY Laszlo <boobaa@frugalware.org>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -191,6 +191,18 @@ msgstr "Kedves !member!\n\nTöröltek !role csoportból az oldalunkon: !site (!u
 #: membership.module:392
 msgid "Dear Power Manager,\n\n!member has just been removed from the !role role at !site (!url) because of membership expiration."
 msgstr "Kedves főadminisztrátor!\n\n!member felhasználót töröltük !role csoportból az oldalunkon: !site (!url), mert tagsága lejárt."
+
+#: membership.module:419
+msgid "Membership: Expires"
+msgstr "Tagság: Lejárat"
+
+#: membership.module:421
+msgid "Displays expiration date of author's membership."
+msgstr "Megjeleníti a szerző tagságának lejárati dátumát."
+
+#: membership.module:421
+msgid "The option field may be used to specify the custom date format as it's required by the date() function."
+msgstr "A kiegészítés mező használható tetszőleges dátumforma megadására oly módon, ahogy azt a date() függvény elvárja."
 
 #: membership.module:52
 msgid "administer membership"

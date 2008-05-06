@@ -197,6 +197,7 @@ function theme_membership_list_form($form) {
 function membership_expire($uid) {
   global $user, $base_url;
   $member = user_load(array('uid' => $uid));
+  // TODO: check whether the user exists and/or has membership info.
   $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
   $variables = array(
     '!member'	=> check_plain($member->name),
@@ -398,6 +399,35 @@ you have just been removed from the !role role at !site (!url) because your memb
       db_query('DELETE FROM {users_roles} WHERE uid = %d AND rid = %d', $row->uid, $membership_role);
     }
   }
+}
+
+function membership_views_tables() {
+  $handler = views_handler_field_dates();
+  unset($handler['views_handler_field_since']);
+  $table = array(
+    'name' => 'membership',
+    'join' => array(
+      'left' => array(
+        'table' => 'node',
+        'field' => 'uid',
+      ),
+      'right' => array(
+        'field' => 'uid',
+      ),
+    ),
+    'fields' => array(
+      'expires' => array(
+        'name' => t('Membership: Expires'),
+        'field' => 'expires',
+        'help' => t('Displays expiration date of author\'s membership.') .' '. t('The option field may be used to specify the custom date format as it\'s required by the date() function.'),
+        'handler' => $handler,
+        'option' => 'string',
+        'sortable' => TRUE,
+      ),
+    ),
+  );
+  $tables['membership'] = $table;
+  return $tables;
 }
 
 // vim: set ft=php syntax=php expandtab ts=2 sw=2 autoindent smartindent:
