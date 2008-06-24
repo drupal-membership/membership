@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: membership\n"
-"POT-Creation-Date: 2008-01-31 08:55+0100\n"
-"PO-Revision-Date: 2008-05-05 22:19+0200\n"
+"POT-Creation-Date: 2008-06-24 13:15+0200\n"
+"PO-Revision-Date: 2008-06-24 13:27+0200\n"
 "Last-Translator: CSECSY Laszlo <boobaa@frugalware.org>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,19 +36,19 @@ msgstr "Idővel lejáró tagságkezelés beállítása."
 msgid "Easy time-limited membership management."
 msgstr "Egyszerű, idővel lejáró tagságkezelés."
 
-#: membership.module:58;171
+#: membership.module:58;176
 msgid "Username"
 msgstr "Felhasználói név"
 
-#: membership.module:59;172
+#: membership.module:59;177
 msgid "Last modified"
 msgstr "Utoljára módosítva"
 
-#: membership.module:60;90;173
+#: membership.module:60;90;178
 msgid "Expires"
 msgstr "Lejárat"
 
-#: membership.module:61;174
+#: membership.module:61;179
 msgid "Operations"
 msgstr "Műveletek"
 
@@ -72,7 +72,7 @@ msgstr "Új tag hozzáadása"
 msgid "New member"
 msgstr "Új tag"
 
-#: membership.module:99;247
+#: membership.module:99;257
 msgid "Submit"
 msgstr "Beküldés"
 
@@ -88,129 +88,225 @@ msgstr "Nem létező felhasználónév."
 msgid "This user is already a member of the %role role."
 msgstr "Ez a felhasználó már tagja a %role csoportnak."
 
-#: membership.module:129;256
+#: membership.module:129;266
 msgid "Expires should be in the future."
 msgstr "A lejáratnak a jövőben kell lennie."
 
-#: membership.module:149;204;269;376
+#: membership.module:151;212;281;392
 msgid "an unknown site"
 msgstr "egy ismeretlen oldal"
 
-#: membership.module:155;163
+#: membership.module:159;167
 msgid "New membership"
 msgstr "Új tagság"
 
-#: membership.module:155
-msgid "Dear !member,\n\nyou have just been added to the !role role at !site (!url). Your membership expires at !date.\n\nSincerely: !owner"
-msgstr "Kedves !member!\n\nHozzáadtak !role csoporthoz az oldalunkon: !site (!url). A tagságod lejár: !date.\n\nTisztelettel: !owner"
+#: membership.module:159
+msgid ""
+"Dear !member,\n"
+"\n"
+"you have just been added to the !role role at !site (!url). Your membership "
+"expires at !date.\n"
+"\n"
+"Sincerely: !owner"
+msgstr ""
+"Kedves !member!\n"
+"\n"
+"Hozzáadtak !role csoporthoz az oldalunkon: !site (!url). A tagságod lejár: !"
+"date.\n"
+"\n"
+"Tisztelettel: !owner"
 
-#: membership.module:163
-msgid "Dear Power Manager,\n\n!owner has just added !member to the !role role at !site (!url). This new membership expires at !date."
-msgstr "Kedves főadminisztrátor!\n\n!owner hozzáadta !member felhasználót !role csoporthoz az oldalunkon: !site (!url). A tagság lejár: !date."
+#: membership.module:167
+msgid ""
+"Dear Power Manager,\n"
+"\n"
+"!owner has just added !member to the !role role at !site (!url). This new "
+"membership expires at !date."
+msgstr ""
+"Kedves főadminisztrátor!\n"
+"\n"
+"!owner hozzáadta !member felhasználót !role csoporthoz az oldalunkon: !site "
+"(!url). A tagság lejár: !date."
 
-#: membership.module:187
+#: membership.module:171
+msgid "%owner added %member to %role, membership expires at %date."
+msgstr "%owner %member felhasználóval bővítette a(z) %role csoportot; tagsága lejár: %date."
+
+#: membership.module:192
 msgid "There are no members."
 msgstr "Nincsenek tagok."
 
-#: membership.module:209;217
+#: membership.module:218;226
 msgid "Deleted membership"
 msgstr "Törölt tagság"
 
-#: membership.module:209
-msgid "Dear !member,\n\nyou have just been removed from the !role role at !site (!url).\n\nSincerely: !owner"
-msgstr "Kedves !member!\n\nA tagságodat !role csoportból törölték az oldalunkon: !site (!url).\n\nTisztelettel: !owner"
+#: membership.module:218
+msgid ""
+"Dear !member,\n"
+"\n"
+"you have just been removed from the !role role at !site (!url).\n"
+"\n"
+"Sincerely: !owner"
+msgstr ""
+"Kedves !member!\n"
+"\n"
+"A tagságodat !role csoportból törölték az oldalunkon: !site (!url).\n"
+"\n"
+"Tisztelettel: !owner"
 
-#: membership.module:217
-msgid "Dear Power Manager,\n\n!owner has just removed !member from the !role role at !site (!url)."
-msgstr "Kedves főadminisztrátor!\n\n!owner törölte !member felhasználó !role csoportbeli tagságát az oldalunkon: !site (!url)."
+#: membership.module:226
+msgid ""
+"Dear Power Manager,\n"
+"\n"
+"!owner has just removed !member from the !role role at !site (!url)."
+msgstr ""
+"Kedves főadminisztrátor!\n"
+"\n"
+"!owner törölte !member felhasználó !role csoportbeli tagságát az "
+"oldalunkon: !site (!url)."
 
-#: membership.module:230
+#: membership.module:233
+msgid "%owner removed %member from %role."
+msgstr "%owner törölte %member felhasználót a(z) %role csoportból."
+
+#: membership.module:240
 msgid "There is no such member."
 msgstr "Nincs ilyen tag."
 
-#: membership.module:238
+#: membership.module:248
 msgid "Expire date of !member"
 msgstr "!member tagsága lejár"
 
-#: membership.module:275;283
+#: membership.module:289;297
 msgid "Modified membership"
 msgstr "Módosult tagság"
 
-#: membership.module:275
-msgid "Dear !member,\n\nyour membership of the !role role has just been modified at !site (!url): it expires at !date.\n\nSincerely: !owner"
-msgstr "Kedves !member!\n\nMódosult !role csoportbeli tagságod az oldalunkon: !site (!url), lejárata: !date.\n\nTisztelettel: !owner"
+#: membership.module:289
+msgid ""
+"Dear !member,\n"
+"\n"
+"your membership of the !role role has just been modified at !site (!url): it "
+"expires at !date.\n"
+"\n"
+"Sincerely: !owner"
+msgstr ""
+"Kedves !member!\n"
+"\n"
+"Módosult !role csoportbeli tagságod az oldalunkon: !site (!url), lejárata: !"
+"date.\n"
+"\n"
+"Tisztelettel: !owner"
 
-#: membership.module:283
-msgid "Dear Power Manager,\n\n!owner has just modified the membership of !member regarding to the !role role at !site (!url): it expires at !date."
-msgstr "Kedves főadminisztrátor!\n\n!owner módosította !member felhasználó !role csoportbeli tagságát az oldalunkon: !site (!url), lejárata: !date."
+#: membership.module:297
+msgid ""
+"Dear Power Manager,\n"
+"\n"
+"!owner has just modified the membership of !member regarding to the !role "
+"role at !site (!url): it expires at !date."
+msgstr ""
+"Kedves főadminisztrátor!\n"
+"\n"
+"!owner módosította !member felhasználó !role csoportbeli tagságát az "
+"oldalunkon: !site (!url), lejárata: !date."
 
-#: membership.module:292
+#: membership.module:301
+msgid "%owner modified membership of %member in %role, expires at %date."
+msgstr "%owner megváltoztatta %member felhasználó tagságát, melynek lejárata: %date."
+
+#: membership.module:307
 msgid "The module has not been set up yet."
 msgstr "A modul még nincs beállítva."
 
-#: membership.module:318
+#: membership.module:333
 msgid "Membership-managed role"
 msgstr "Szabályozott tagságú csoport"
 
-#: membership.module:321
+#: membership.module:336
 msgid "Select the role whose members should be managed in a time-limited manner."
 msgstr "Azon csoport, melynek tagságát idővel lejáró módon kell kezelni."
 
-#: membership.module:326
+#: membership.module:341
 msgid "Membership-managed role cannot be changed as it already has members."
-msgstr "Az idővel lejáró módon kezelendő csoport nem változtatható meg, mert már van tagja."
+msgstr ""
+"Az idővel lejáró módon kezelendő csoport nem változtatható meg, mert már van "
+"tagja."
 
-#: membership.module:331
+#: membership.module:346
 msgid "none"
 msgstr "nincs"
 
-#: membership.module:339
+#: membership.module:354
 msgid "Membership Power Manager"
 msgstr "A tagság főadminisztrátora"
 
-#: membership.module:342
+#: membership.module:357
 msgid "Select the Power Manager who will receive emails on every membership change."
 msgstr "A főadminisztrátor minden tagság-változásról értesítést kap emailben."
 
-#: membership.module:348
+#: membership.module:363
 msgid "Power Manager cannot be specified as there are no roles with %priv privilege."
-msgstr "A főadminisztrátor nem adható meg, mert nincs olyan csoport, amely rendelkezne %priv jogosultsággal."
+msgstr ""
+"A főadminisztrátor nem adható meg, mert nincs olyan csoport, amely "
+"rendelkezne %priv jogosultsággal."
 
-#: membership.module:349;52
+#: membership.module:364;52
 msgid "access membership"
 msgstr "tagság kezelése"
 
-#: membership.module:387;392
+#: membership.module:404;409
 msgid "Expired membership"
 msgstr "Lejárt tagság"
 
-#: membership.module:387
-msgid "Dear !member,\n\nyou have just been removed from the !role role at !site (!url) because your membership has expired."
-msgstr "Kedves !member!\n\nTöröltek !role csoportból az oldalunkon: !site (!url), mert tagságod lejárt."
+#: membership.module:404
+msgid ""
+"Dear !member,\n"
+"\n"
+"you have just been removed from the !role role at !site (!url) because your "
+"membership has expired."
+msgstr ""
+"Kedves !member!\n"
+"\n"
+"Töröltek !role csoportból az oldalunkon: !site (!url), mert tagságod lejárt."
 
-#: membership.module:392
-msgid "Dear Power Manager,\n\n!member has just been removed from the !role role at !site (!url) because of membership expiration."
-msgstr "Kedves főadminisztrátor!\n\n!member felhasználót töröltük !role csoportból az oldalunkon: !site (!url), mert tagsága lejárt."
+#: membership.module:409
+msgid ""
+"Dear Power Manager,\n"
+"\n"
+"!member has just been removed from the !role role at !site (!url) because of "
+"membership expiration."
+msgstr ""
+"Kedves főadminisztrátor!\n"
+"\n"
+"!member felhasználót töröltük !role csoportból az oldalunkon: !site (!url), "
+"mert tagsága lejárt."
 
-#: membership.module:419
+#: membership.module:416
+msgid "Membership of %member in %role expired."
+msgstr "%member felhasználó %role csoportbeli tagsága lejárt."
+
+#: membership.module:437
 msgid "Membership: Expires"
 msgstr "Tagság: Lejárat"
 
-#: membership.module:421
+#: membership.module:439
 msgid "Displays expiration date of author's membership."
 msgstr "Megjeleníti a szerző tagságának lejárati dátumát."
 
-#: membership.module:421
-msgid "The option field may be used to specify the custom date format as it's required by the date() function."
-msgstr "A kiegészítés mező használható tetszőleges dátumforma megadására oly módon, ahogy azt a date() függvény elvárja."
+#: membership.module:439
+msgid ""
+"The option field may be used to specify the custom date format as it's "
+"required by the date() function."
+msgstr ""
+"A kiegészítés mező használható tetszőleges dátumforma megadására oly módon, "
+"ahogy azt a date() függvény elvárja."
+
+#: membership.module:171;233;301;416;0
+msgid "membership"
+msgstr "tagság"
 
 #: membership.module:52
 msgid "administer membership"
 msgstr "tagság beállítása"
-
-#: membership.module:0
-msgid "membership"
-msgstr "tagság"
 
 #: membership.info:0
 msgid "Membership"

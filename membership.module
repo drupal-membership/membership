@@ -145,11 +145,15 @@ function membership_list_form_submit($form_id, $form_values) {
   $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
   $variables = array(
     '!member'	=> $form_values['newmember']['member'],
+    '%member'	=> $form_values['newmember']['member'],
     '!role'		=> $roles[variable_get('membership_role', 0)],
+    '%role'		=> $roles[variable_get('membership_role', 0)],
     '!site'		=> variable_get('site_name', t('an unknown site')),
     '!url'		=> $base_url,
     '!date'		=> format_date($datestamp, 'custom', 'Y-m-d'),
+    '%date'		=> format_date($datestamp, 'custom', 'Y-m-d'),
     '!owner'	=> $user->name,
+    '%owner'	=> $user->name,
   );
   // send a mail to the new member
   membership_mail('member_add', $member->mail, t('New membership'), t('Dear !member,
@@ -164,6 +168,7 @@ Sincerely: !owner'), $variables);
 
 !owner has just added !member to the !role role at !site (!url). This new membership expires at !date.'), $variables);
   }
+  watchdog('membership', t('%owner added %member to %role, membership expires at %date.', $variables));
 }
 
 function theme_membership_list_form($form) {
@@ -201,10 +206,13 @@ function membership_expire($uid) {
   $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
   $variables = array(
     '!member'	=> check_plain($member->name),
+    '%member'	=> check_plain($member->name),
     '!role'		=> $roles[variable_get('membership_role', 0)],
+    '%role'		=> $roles[variable_get('membership_role', 0)],
     '!site'		=> variable_get('site_name', t('an unknown site')),
     '!url'		=> $base_url,
     '!owner'	=> $user->name,
+    '%owner'	=> $user->name,
   );
   // send a mail to the ex-member
   membership_mail('member_del', $member->mail, t('Deleted membership'), t('Dear !member,
@@ -222,6 +230,7 @@ Sincerely: !owner'), $variables);
   // mail should be sent before delete, as we need some info for it
   db_query('DELETE FROM {membership} WHERE uid = %d', $uid);
   db_query('DELETE FROM {users_roles} WHERE uid = %d AND rid = %d', $uid, variable_get('membership_role', 0));
+  watchdog('membership', t('%owner removed %member from %role.', $variables));
 }
 
 function membership_edit_form() {
@@ -266,11 +275,15 @@ function membership_edit_form_submit($form_id, $form_values) {
   $roles = user_roles(TRUE);	// XXX: wouldn't it be faster without TRUE?
   $variables = array(
     '!member'	=> check_plain($member->name),
+    '%member'	=> check_plain($member->name),
     '!role'		=> $roles[variable_get('membership_role', 0)],
+    '%role'		=> $roles[variable_get('membership_role', 0)],
     '!site'		=> variable_get('site_name', t('an unknown site')),
     '!url'		=> $base_url,
     '!date'		=> format_date($datestamp, 'custom', 'Y-m-d'),
+    '%date'		=> format_date($datestamp, 'custom', 'Y-m-d'),
     '!owner'	=> $user->name,
+    '%owner'	=> $user->name,
   );
   // send a mail to the new member
   membership_mail('member_mod', $member->mail, t('Modified membership'), t('Dear !member,
@@ -285,6 +298,7 @@ Sincerely: !owner'), $variables);
 
 !owner has just modified the membership of !member regarding to the !role role at !site (!url): it expires at !date.'), $variables);
   }
+  watchdog('membership', t('%owner modified membership of %member in %role, expires at %date.', $variables));
   drupal_goto('admin/user/membership');
 }
 
@@ -374,6 +388,7 @@ function membership_cron() {
     $membership_role = variable_get('membership_role', 0);
     $variables = array(
       '!role'		=> $roles[$membership_role],
+      '%role'		=> $roles[$membership_role],
       '!site'		=> variable_get('site_name', t('an unknown site')),
       '!url'		=> $base_url,
     );
@@ -384,6 +399,7 @@ function membership_cron() {
       // XXX: wouldn't it be faster if we fetch the name & mail with the membership info?
       $member = user_load(array('uid' => $row->uid));
       $variables['!member'] = check_plain($member->name);
+      $variables['%member'] = check_plain($member->name);
       // send a mail to the ex-member
       membership_mail('member_exp', $member->mail, t('Expired membership'), t('Dear !member,
 
@@ -397,6 +413,7 @@ you have just been removed from the !role role at !site (!url) because your memb
       // mail should be sent before delete, as we need some info for it
       db_query('DELETE FROM {membership} WHERE uid = %d', $row->uid);
       db_query('DELETE FROM {users_roles} WHERE uid = %d AND rid = %d', $row->uid, $membership_role);
+      watchdog('membership', t('Membership of %member in %role expired.', $variables));
     }
   }
 }

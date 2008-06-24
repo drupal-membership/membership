@@ -113,11 +113,16 @@ used to specify the custom date format as it's required by the date() function.
 == Ideas to be implemented
 
 * Add new user in a block - http://drupal.org/node/240359[]
-* Log membership changes to the watchdog - http://drupal.org/node/237027[]
 * Ability to change the notifications' text - http://drupal.org/node/237020[]
 * Ability to set a date when all members' membership expires -
 http://drupal.org/node/237018[]
 * Prevent changing the time-limited role's membership through other (core
-Drupal) forms.
+Drupal) forms - http://drupal.org/node/259232[]
+* Ability to administer more than one role's membership -
+http://drupal.org/node/259232[], http://drupal.org/node/237020[]
+* Ability to (temporarily) disable the email notifications -
+http://drupal.org/node/237020#comment-846232[]
+* Log all the history of any user's membership changes -
+http://drupal.org/node/273973[]
 
 // vim: set tw=80:
