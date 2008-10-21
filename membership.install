@@ -2,6 +2,11 @@
 // $Id$
 
 /**
+ * @file
+ *   Handles membership (un)installation tasks.
+ */
+
+/**
  * Implementation of hook_install().
  */
 function membership_install() {
@@ -16,10 +21,12 @@ function membership_install() {
       expires int(11) NOT NULL default '0',
       PRIMARY KEY (mid)
     ) /*!40100 DEFAULT CHARACTER SET UTF8 */");
+    drupal_set_message(t('Membership module has been installed, go <a href="@url">set it up</a>.', array('@url' => url('admin/settings/membership'))));
     break;
 
   case 'pgsql':
     // FIXME: to be implemented
+    drupal_set_message(t('Membership module does not support PGSQL yet. Patches welcome.'));
     break;
   }
 }

@@ -5,12 +5,13 @@
 # Generated from files:
 #  membership.module,v 1.1 2008/02/17 16:50:46 boobaa
 #  membership.info,v 1.1 2008/02/17 16:50:46 boobaa
+#  membership.install,v 1.1 2008/02/17 16:50:46 boobaa
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2008-06-24 13:15+0200\n"
+"POT-Creation-Date: 2008-10-21 08:47+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -35,196 +36,220 @@ msgstr ""
 msgid "Easy time-limited membership management."
 msgstr ""
 
-#: membership.module:58;176
+#: membership.module:58
+msgid "The module has not been set up yet; go <a href=\"%url\">set it up</a>."
+msgstr ""
+
+#: membership.module:63;180
 msgid "Username"
 msgstr ""
 
-#: membership.module:59;177
+#: membership.module:64;181
 msgid "Last modified"
 msgstr ""
 
-#: membership.module:60;90;178
+#: membership.module:65;95;182
 msgid "Expires"
 msgstr ""
 
-#: membership.module:61;179
+#: membership.module:66;183
 msgid "Operations"
 msgstr ""
 
-#: membership.module:70;71
+#: membership.module:75;76
 msgid "Y-m-d"
 msgstr ""
 
-#: membership.module:72
+#: membership.module:77
 msgid "Expire now"
 msgstr ""
 
-#: membership.module:73
+#: membership.module:78
 msgid "Edit membership"
 msgstr ""
 
-#: membership.module:79
+#: membership.module:84
 msgid "Add a new member"
 msgstr ""
 
-#: membership.module:85
+#: membership.module:90
 msgid "New member"
 msgstr ""
 
-#: membership.module:99;257
+#: membership.module:104;261
 msgid "Submit"
 msgstr ""
 
-#: membership.module:107
+#: membership.module:112
 msgid "A username must be given."
 msgstr ""
 
-#: membership.module:113
+#: membership.module:118
 msgid "Nonexistent username."
 msgstr ""
 
-#: membership.module:120
+#: membership.module:125
 msgid "This user is already a member of the %role role."
 msgstr ""
 
-#: membership.module:129;266
+#: membership.module:133;269
 msgid "Expires should be in the future."
 msgstr ""
 
-#: membership.module:151;212;281;392
+#: membership.module:155;216;284;400
 msgid "an unknown site"
 msgstr ""
 
-#: membership.module:159;167
+#: membership.module:163;171
 msgid "New membership"
 msgstr ""
 
-#: membership.module:159
-msgid "Dear !member,\n\nyou have just been added to the !role role at !site (!url). Your membership expires at !date.\n\nSincerely: !owner"
-msgstr ""
-
-#: membership.module:167
-msgid "Dear Power Manager,\n\n!owner has just added !member to the !role role at !site (!url). This new membership expires at !date."
+#: membership.module:163
+msgid "Dear !member,\n\n    you have just been added to the !role role at !site (!url). Your membership expires at !date.\n\n    Sincerely: !owner"
 msgstr ""
 
 #: membership.module:171
+msgid "Dear Power Manager,\n\n      !owner has just added !member to the !role role at !site (!url). This new membership expires at !date."
+msgstr ""
+
+#: membership.module:175
 msgid "%owner added %member to %role, membership expires at %date."
 msgstr ""
 
-#: membership.module:192
+#: membership.module:196
 msgid "There are no members."
 msgstr ""
 
-#: membership.module:218;226
+#: membership.module:222;230
 msgid "Deleted membership"
 msgstr ""
 
-#: membership.module:218
-msgid "Dear !member,\n\nyou have just been removed from the !role role at !site (!url).\n\nSincerely: !owner"
+#: membership.module:222
+msgid "Dear !member,\n\n    you have just been removed from the !role role at !site (!url).\n\n    Sincerely: !owner"
 msgstr ""
 
-#: membership.module:226
-msgid "Dear Power Manager,\n\n!owner has just removed !member from the !role role at !site (!url)."
+#: membership.module:230
+msgid "Dear Power Manager,\n\n      !owner has just removed !member from the !role role at !site (!url)."
 msgstr ""
 
-#: membership.module:233
+#: membership.module:237
 msgid "%owner removed %member from %role."
 msgstr ""
 
-#: membership.module:240
+#: membership.module:244
 msgid "There is no such member."
 msgstr ""
 
-#: membership.module:248
+#: membership.module:252
 msgid "Expire date of !member"
 msgstr ""
 
-#: membership.module:289;297
+#: membership.module:292;300
 msgid "Modified membership"
 msgstr ""
 
-#: membership.module:289
-msgid "Dear !member,\n\nyour membership of the !role role has just been modified at !site (!url): it expires at !date.\n\nSincerely: !owner"
+#: membership.module:292
+msgid "Dear !member,\n\n    your membership of the !role role has just been modified at !site (!url): it expires at !date.\n\n    Sincerely: !owner"
 msgstr ""
 
-#: membership.module:297
-msgid "Dear Power Manager,\n\n!owner has just modified the membership of !member regarding to the !role role at !site (!url): it expires at !date."
+#: membership.module:300
+msgid "Dear Power Manager,\n\n      !owner has just modified the membership of !member regarding to the !role role at !site (!url): it expires at !date."
 msgstr ""
 
-#: membership.module:301
+#: membership.module:304
 msgid "%owner modified membership of %member in %role, expires at %date."
 msgstr ""
 
-#: membership.module:307
-msgid "The module has not been set up yet."
-msgstr ""
-
-#: membership.module:333
-msgid "Membership-managed role"
+#: membership.module:310
+msgid "The module has not been set up yet; go <a href=\"@url\">set it up</a>."
 msgstr ""
 
 #: membership.module:336
-msgid "Select the role whose members should be managed in a time-limited manner."
+msgid "There is no point in using membership module without any non-standard roles, go <a href=\"@url\">create</a> some."
 msgstr ""
 
 #: membership.module:341
+msgid "Membership-managed role"
+msgstr ""
+
+#: membership.module:344
+msgid "Select the role whose members should be managed in a time-limited manner."
+msgstr ""
+
+#: membership.module:349
 msgid "Membership-managed role cannot be changed as it already has members."
 msgstr ""
 
-#: membership.module:346
+#: membership.module:354
 msgid "none"
 msgstr ""
 
-#: membership.module:354
+#: membership.module:362
 msgid "Membership Power Manager"
 msgstr ""
 
-#: membership.module:357
+#: membership.module:365
 msgid "Select the Power Manager who will receive emails on every membership change."
 msgstr ""
 
-#: membership.module:363
+#: membership.module:371
 msgid "Power Manager cannot be specified as there are no roles with %priv privilege."
 msgstr ""
 
-#: membership.module:364;52
+#: membership.module:372;52
 msgid "access membership"
 msgstr ""
 
-#: membership.module:404;409
+#: membership.module:412;417
 msgid "Expired membership"
 msgstr ""
 
-#: membership.module:404
-msgid "Dear !member,\n\nyou have just been removed from the !role role at !site (!url) because your membership has expired."
+#: membership.module:412
+msgid "Dear !member,\n\n        you have just been removed from the !role role at !site (!url) because your membership has expired."
 msgstr ""
 
-#: membership.module:409
-msgid "Dear Power Manager,\n\n!member has just been removed from the !role role at !site (!url) because of membership expiration."
+#: membership.module:417
+msgid "Dear Power Manager,\n\n          !member has just been removed from the !role role at !site (!url) because of membership expiration."
 msgstr ""
 
-#: membership.module:416
+#: membership.module:424
 msgid "Membership of %member in %role expired."
 msgstr ""
 
-#: membership.module:437
+#: membership.module:445
 msgid "Membership: Expires"
 msgstr ""
 
-#: membership.module:439
+#: membership.module:447
 msgid "Displays expiration date of author's membership."
 msgstr ""
 
-#: membership.module:439
+#: membership.module:447
 msgid "The option field may be used to specify the custom date format as it's required by the date() function."
 msgstr ""
 
-#: membership.module:171;233;301;416;0
+#: membership.module:487
+msgid "Should you wish to add this user to the membership-managed role, go to the <a href=\"@url\">list page</a>."
+msgstr ""
+
+#: membership.module:496
+msgid "Deleting the membership-managed role is not allowed."
+msgstr ""
+
+#: membership.module:175;237;304;424;0
 msgid "membership"
 msgstr ""
 
 #: membership.module:52
 msgid "administer membership"
+msgstr ""
+
+#: membership.install:24
+msgid "Membership module has been installed, go <a href=\"@url\">set it up</a>."
+msgstr ""
+
+#: membership.install:29
+msgid "Membership module does not support PGSQL yet. Patches welcome."
 msgstr ""
 
 #: membership.info:0
