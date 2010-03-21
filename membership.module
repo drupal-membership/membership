@@ -282,7 +282,7 @@ function membership_edit_form_submit($form_id, &$form_state) {
 
 function membership_edit() {
   if(variable_get('membership_role', 0) == 0) {
-    return t('The module has not been set up yet.');
+    return t('Go to the <a href="!url">setup form</a> and select a membership-managed role.', array('!url' => url('admin/settings/membership')));
   }
   switch(arg(3)) {
   case NULL:
