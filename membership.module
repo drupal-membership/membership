@@ -25,16 +25,16 @@ function membership_help($path, $arg) {
 function membership_menu() {
   $items = array();
   $items['admin/settings/membership'] = array(
-    'title'            => t('Membership management'),
-    'description'      => t('Configure time-limited membership management.'),
+    'title'            => 'Membership management',
+    'description'      => 'Configure time-limited membership management.',
     'page callback'    => 'drupal_get_form',
     'page arguments'   => array('membership_admin_settings'),
     'access arguments' => array('administer membership'),
     'type'             => MENU_NORMAL_ITEM,
   );
   $items['admin/user/membership'] = array(
-    'title'            => t('Membership management'),
-    'description'      => t('Easy time-limited membership management.'),
+    'title'            => 'Membership management',
+    'description'      => 'Easy time-limited membership management.',
     'page callback'    => 'membership_edit',
     'access arguments' => array('access membership'),
     'type'             => MENU_NORMAL_ITEM,
