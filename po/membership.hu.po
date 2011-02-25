@@ -1,5 +1,4 @@
 # translation of membership.po to
-# $Id$
 # Hungarian translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
