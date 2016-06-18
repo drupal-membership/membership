@@ -1,0 +1,14 @@
+{
+  "name": "bradjonesllc/membership",
+  "description": "Drupal module for handling memberships.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "keywords": ["membership"],
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Brad Jones"
+    }
+  ],
+  "require": { }
+}
