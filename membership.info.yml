@@ -1,0 +1,8 @@
+name: Membership
+type: module
+description: 'Handling for site memberships'
+package: Membership
+version: 1.x
+core: 8.x
+dependencies:
+  - state_machine
