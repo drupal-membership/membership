@@ -1,0 +1,4 @@
+services:
+  plugin.manager.membership_provider.processor:
+    class: Drupal\membership_provider\Plugin\MembershipProviderManager
+    parent: default_plugin_manager

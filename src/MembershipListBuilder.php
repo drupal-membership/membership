@@ -19,7 +19,6 @@ class MembershipListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('Membership ID');
-    $header['name'] = $this->t('Name');
     return $header + parent::buildHeader();
   }
 
@@ -28,9 +27,8 @@ class MembershipListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\membership\Entity\Membership */
-    $row['id'] = $entity->id();
-    $row['name'] = $this->l(
-      $entity->label(),
+    $row['id'] = $this->l(
+      $entity->id(),
       new Url(
         'entity.membership.edit_form', array(
           'membership' => $entity->id(),

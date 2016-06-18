@@ -44,11 +44,13 @@ use Drupal\user\UserInterface;
  *   },
  *   base_table = "membership",
  *   revision_table = "membership_revision",
+ *   data_table = "membership_field_data",
+ *   revision_data_table = "membership_field_revision",
  *   admin_permission = "administer membership entities",
+ *   field_ui_base_route = "entity.membership_type.edit_form",
  *   entity_keys = {
  *     "id" = "id",
  *     "bundle" = "type",
- *     "label" = "name",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "revision" = "vid",
@@ -179,25 +181,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-    $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Membership entity.'))
-      ->setSettings(array(
-        'max_length' => 50,
-        'text_processing' => 0,
-      ))
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', array(
-        'label' => 'above',
-        'type' => 'string',
-        'weight' => -4,
-      ))
-      ->setDisplayOptions('form', array(
-        'type' => 'string_textfield',
-        'weight' => -4,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
