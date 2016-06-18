@@ -1,0 +1,16 @@
+# Membership type menu items definition
+entity.membership_type.collection:
+  title: 'Membership type'
+  route_name: entity.membership_type.collection
+  description: 'List Membership type (bundles)'
+  parent: system.admin_structure
+  weight: 99
+
+# Membership menu items definition
+entity.membership.collection:
+  title: 'Membership list'
+  route_name: entity.membership.collection
+  description: 'List Membership entities'
+  parent: system.admin_structure
+  weight: 100
+

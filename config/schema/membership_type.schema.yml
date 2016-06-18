@@ -1,0 +1,12 @@
+membership.membership_type.*:
+  type: config_entity
+  label: 'Membership type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string

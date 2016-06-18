@@ -2,16 +2,19 @@
 
 namespace Drupal\membership\Entity;
 
-use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityChangedTrait;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
+use Drupal\membership\MembershipInterface;
 use Drupal\user\UserInterface;
-use Drupal\profile\Entity\ProfileInterface;
 
 /**
- * Defines the order entity class.
+ * Defines the Membership entity.
+ *
+ * @ingroup membership
  *
  * @ContentEntityType(
  *   id = "membership",
@@ -24,97 +27,75 @@ use Drupal\profile\Entity\ProfileInterface;
  *   ),
  *   bundle_label = @Translation("Membership type"),
  *   handlers = {
+ *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
+ *     "list_builder" = "Drupal\membership\MembershipListBuilder",
+ *     "views_data" = "Drupal\membership\Entity\MembershipViewsData",
+ *
+ *     "form" = {
+ *       "default" = "Drupal\membership\Form\MembershipForm",
+ *       "add" = "Drupal\membership\Form\MembershipForm",
+ *       "edit" = "Drupal\membership\Form\MembershipForm",
+ *       "delete" = "Drupal\membership\Form\MembershipDeleteForm",
+ *     },
+ *     "access" = "Drupal\membership\MembershipAccessControlHandler",
+ *     "route_provider" = {
+ *       "html" = "Drupal\membership\MembershipHtmlRouteProvider",
+ *     },
  *   },
  *   base_table = "membership",
  *   revision_table = "membership_revision",
- *   admin_permission = "administer memberships",
- *   fieldable = TRUE,
+ *   admin_permission = "administer membership entities",
  *   entity_keys = {
- *     "id" = "membership_id",
+ *     "id" = "id",
+ *     "bundle" = "type",
+ *     "label" = "name",
  *     "uuid" = "uuid",
- *     "revision" = "revision_id",
- *     "bundle" = "type"
+ *     "uid" = "user_id",
+ *     "revision" = "vid",
  *   },
  *   links = {
+ *     "canonical" = "/admin/structure/membership/{membership}",
+ *     "add-form" = "/admin/structure/membership/add/{membership_type}",
+ *     "edit-form" = "/admin/structure/membership/{membership}/edit",
+ *     "delete-form" = "/admin/structure/membership/{membership}/delete",
+ *     "collection" = "/admin/structure/membership",
  *   },
- *   bundle_entity_type = "membership_type"
+ *   bundle_entity_type = "membership_type",
+ *   field_ui_base_route = "entity.membership_type.edit_form"
  * )
  */
-class Membership extends RevisionableContentEntityBase {
-
+class Membership extends RevisionableContentEntityBase implements MembershipInterface {
   use EntityChangedTrait;
-
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage) {
-    parent::preSave($storage);
-
-    // If no owner has been set explicitly, make the current user the owner.
-    if (!$this->getOwner()) {
-      $this->setOwnerId(\Drupal::currentUser()->id());
-    }
-
-    if ($this->isNew()) {
-      if (!$this->getIpAddress()) {
-        $this->setIpAddress(\Drupal::request()->getClientIp());
-      }
-
-      if (!$this->getEmail()) {
-        $this->setEmail($this->getOwner()->getEmail());
-      }
-    }
-
-    // Recalculate the total.
-    // @todo Rework this once pricing is finished.
-    $this->total_price->amount = 0;
-    foreach ($this->getLineItems() as $line_item) {
-      $this->total_price->amount += $line_item->total_price->amount;
-      $this->total_price->currency_code = $line_item->total_price->currency_code;
-    }
+  public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
+    parent::preCreate($storage_controller, $values);
+    $values += array(
+      'user_id' => \Drupal::currentUser()->id(),
+    );
   }
 
   /**
    * {@inheritdoc}
    */
-  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
-    parent::postSave($storage, $update);
-
-    // If no order number has been set explicitly, set it to the order ID.
-    if (!$this->getOrderNumber()) {
-      $this->setOrderNumber($this->id());
-      $this->save();
-    }
-
-    // Ensure there's a back-reference on each line item.
-    foreach ($this->getLineItems() as $line_item) {
-      if ($line_item->order_id->isEmpty()) {
-        $line_item->order_id = $this->id();
-        $line_item->save();
-      }
-    }
+  public function getType() {
+    return $this->bundle();
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function postDelete(EntityStorageInterface $storage, array $entities) {
-    // Delete the line items of a deleted order.
-    $line_items = [];
-    foreach ($entities as $entity) {
-      foreach ($entity->getLineItems() as $line_item) {
-        $line_items[$line_item->id()] = $line_item;
-      }
-    }
-    $line_item_storage = \Drupal::service('entity_type.manager')->getStorage('commerce_line_item');
-    $line_item_storage->delete($line_items);
+  public function getName() {
+    return $this->get('name')->value;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getState() {
-    return $this->get('state')->first();
+  public function setName($name) {
+    $this->set('name', $name);
+    return $this;
   }
 
   /**
@@ -136,21 +117,21 @@ class Membership extends RevisionableContentEntityBase {
    * {@inheritdoc}
    */
   public function getOwner() {
-    return $this->get('uid')->entity;
+    return $this->get('user_id')->entity;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getOwnerId() {
-    return $this->get('uid')->target_id;
+    return $this->get('user_id')->target_id;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setOwnerId($uid) {
-    $this->set('uid', $uid);
+    $this->set('user_id', $uid);
     return $this;
   }
 
@@ -158,52 +139,7 @@ class Membership extends RevisionableContentEntityBase {
    * {@inheritdoc}
    */
   public function setOwner(UserInterface $account) {
-    $this->set('uid', $account->id());
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getEmail() {
-    return $this->get('mail')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setEmail($mail) {
-    $this->set('mail', $mail);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPlacedTime() {
-    return $this->get('placed')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setPlacedTime($timestamp) {
-    $this->set('placed', $timestamp);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getData() {
-    return $this->get('data')->first()->getValue();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setData($data) {
-    $this->set('data', [$data]);
+    $this->set('user_id', $account->id());
     return $this;
   }
 
@@ -213,20 +149,62 @@ class Membership extends RevisionableContentEntityBase {
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
-    $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Owner'))
-      ->setDescription(t('The order owner.'))
+    $fields['type'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Type'))
+      ->setDescription(t('The Membership type/bundle.'))
+      ->setSetting('target_type', 'membership_type')
+      ->setRequired(TRUE);
+    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Authored by'))
+      ->setDescription(t('The user ID of author of the Membership entity.'))
+      ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
-      ->setDefaultValueCallback('Drupal\membership\Entity\Membership::getCurrentUserId')
+      ->setDefaultValueCallback('Drupal\node\Entity\Node::getCurrentUserId')
       ->setTranslatable(TRUE)
-      ->setDisplayOptions('view', [
-        'label' => 'above',
+      ->setDisplayOptions('view', array(
+        'label' => 'hidden',
         'type' => 'author',
         'weight' => 0,
-      ])
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 5,
+        'settings' => array(
+          'match_operator' => 'CONTAINS',
+          'size' => '60',
+          'autocomplete_type' => 'tags',
+          'placeholder' => '',
+        ),
+      ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+    $fields['name'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Name'))
+      ->setDescription(t('The name of the Membership entity.'))
+      ->setSettings(array(
+        'max_length' => 50,
+        'text_processing' => 0,
+      ))
+      ->setDefaultValue('')
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -4,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'string_textfield',
+        'weight' => -4,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+    $fields['created'] = BaseFieldDefinition::create('created')
+      ->setLabel(t('Created'))
+      ->setDescription(t('The time that the entity was created.'));
+
+    $fields['changed'] = BaseFieldDefinition::create('changed')
+      ->setLabel(t('Changed'))
+      ->setDescription(t('The time that the entity was last edited.'));
 
     $fields['state'] = BaseFieldDefinition::create('state')
       ->setLabel(t('State'))
@@ -242,45 +220,20 @@ class Membership extends RevisionableContentEntityBase {
       ->setDisplayConfigurable('view', TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership\Entity\Membership', 'getWorkflowId']);
 
-    $fields['data'] = BaseFieldDefinition::create('map')
-      ->setLabel(t('Data'))
-      ->setDescription(t('A serialized array of additional data.'));
-
-    $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(t('Created'))
-      ->setDescription(t('The time when the order was created.'));
-
-    $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(t('Changed'))
-      ->setDescription(t('The time when the order was last edited.'));
-
     return $fields;
-  }
-
-  /**
-   * Default value callback for 'uid' base field definition.
-   *
-   * @see ::baseFieldDefinitions()
-   *
-   * @return array
-   *   An array of default values.
-   */
-  public static function getCurrentUserId() {
-    return [\Drupal::currentUser()->id()];
   }
 
   /**
    * Gets the workflow ID for the state field.
    *
-   * @param Membership $membership
-   *   The order.
+   * @param \Drupal\membership\MembershipInterface $membership
+   *   The membership.
    *
    * @return string
    *   The workflow ID.
    */
-  public static function getWorkflowId(Membership $membership) {
+  public static function getWorkflowId(MembershipInterface $membership) {
     $workflow = MembershipType::load($membership->bundle())->getWorkflowId();
     return $workflow;
   }
-
 }

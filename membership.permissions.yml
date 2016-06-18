@@ -1,0 +1,19 @@
+add membership entities:
+  title: 'Create new Membership entities'
+
+administer membership entities:
+  title: 'Administer Membership entities'
+  description: 'Allow to access the administration form to configure Membership entities.'
+  restrict access: true
+
+delete membership entities:
+  title: 'Delete Membership entities'
+
+edit membership entities:
+  title: 'Edit Membership entities'
+
+view published membership entities:
+  title: 'View published Membership entities'
+
+view unpublished membership entities:
+  title: 'View unpublished Membership entities'

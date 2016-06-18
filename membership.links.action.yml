@@ -1,0 +1,11 @@
+entity.membership_type.add_form:
+  route_name: 'entity.membership_type.add_form'
+  title: 'Add Membership type'
+  appears_on:
+    - entity.membership_type.collection
+
+entity.membership.add_form:
+  route_name: 'membership.add_page'
+  title: 'Add Membership'
+  appears_on:
+    - entity.membership.collection
