@@ -10,5 +10,7 @@
       "name": "Brad Jones"
     }
   ],
-  "require": { }
+  "require": {
+    "drupal/state_machine": "1.0.x-dev"
+  }
 }
