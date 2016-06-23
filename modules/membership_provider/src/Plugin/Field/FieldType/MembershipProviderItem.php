@@ -7,8 +7,12 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Form\OptGroup;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
+use Drupal\Core\TypedData\OptionsProviderInterface;
+use Drupal\membership_provider\Plugin\MembershipProviderManager;
 
 /**
  * Plugin implementation of the 'membership_provider' field type.
@@ -21,7 +25,7 @@ use Drupal\Core\TypedData\DataDefinition;
  *   default_formatter = "list_default"
  * )
  */
-class MembershipProviderItem extends FieldItemBase {
+class MembershipProviderItem extends FieldItemBase implements OptionsProviderInterface {
   /**
    * {@inheritdoc}
    */
@@ -61,6 +65,37 @@ class MembershipProviderItem extends FieldItemBase {
     );
 
     return $schema;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getPossibleValues(AccountInterface $account = NULL) {
+    $flatten_options = OptGroup::flattenOptions($this->getSettableOptions($account));
+    return array_keys($flatten_options);
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getPossibleOptions(AccountInterface $account = NULL) {
+    /* @var MembershipProviderManager $manager */
+    $manager = \Drupal::service('plugin.manager.membership_provider.processor');
+    return $manager->getDefinitions();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getSettableValues(AccountInterface $account = NULL) {
+    return $this->getPossibleValues($account);
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getSettableOptions(AccountInterface $account = NULL) {
+    return $this->getPossibleOptions($account);
   }
 
   /**
