@@ -1,0 +1,4 @@
+membership_provider:
+  label: 'Membership Provider'
+  plugin_manager_service_id: 'plugin.manager.membership_provider.processor'
+  plugin_definition_decorator_class: '\Drupal\plugin\PluginDefinition\ArrayPluginDefinitionDecorator'

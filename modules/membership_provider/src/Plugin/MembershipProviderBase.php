@@ -9,6 +9,18 @@ use Drupal\Component\Plugin\PluginBase;
  */
 abstract class MembershipProviderBase extends PluginBase implements MembershipProviderInterface {
 
-  // Add common methods and abstract methods for your plugin type here.
+  /**
+   * @inheritDoc
+   */
+  public function getConfiguration() {
+    return $this->configuration;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function setConfiguration(array $configuration) {
+    $this->configuration = $configuration;
+  }
 
 }

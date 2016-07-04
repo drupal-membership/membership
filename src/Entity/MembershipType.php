@@ -30,7 +30,11 @@ use Drupal\membership\MembershipTypeInterface;
  *     "label" = "label",
  *     "uuid" = "uuid"
  *   },
- *   
+ *   config_export = {
+ *     "label",
+ *     "id",
+ *     "workflow",
+ *   },
  *   links = {
  *     "canonical" = "/admin/structure/membership_type/{membership_type}",
  *     "add-form" = "/admin/structure/membership_type/add",

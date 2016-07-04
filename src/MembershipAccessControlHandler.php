@@ -20,9 +20,6 @@ class MembershipAccessControlHandler extends EntityAccessControlHandler {
     /** @var \Drupal\membership\MembershipInterface $entity */
     switch ($operation) {
       case 'view':
-        if (!$entity->isPublished()) {
-          return AccessResult::allowedIfHasPermission($account, 'view unpublished membership entities');
-        }
         return AccessResult::allowedIfHasPermission($account, 'view published membership entities');
 
       case 'update':

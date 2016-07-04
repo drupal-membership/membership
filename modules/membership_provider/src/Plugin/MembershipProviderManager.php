@@ -2,6 +2,7 @@
 
 namespace Drupal\membership_provider\Plugin;
 
+use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -29,4 +30,33 @@ class MembershipProviderManager extends DefaultPluginManager {
     $this->setCacheBackend($cache_backend, 'membership_provider_membership_provider_plugins');
   }
 
+  /**
+   * Leverages the plugin module field type to allow for querying stored configurations.
+   * 
+   * @param $id
+   * @return array
+   */
+  public static function getFieldInstances($id) {
+    /* @var EntityFieldManager $manager */
+    $manager = \Drupal::service('entity_field.manager');
+    $instances = $manager->getFieldMapByFieldType('plugin:membership_provider');
+    $tags = [];
+    /* @var \Drupal\Core\Entity\EntityTypeManager $manager */
+    $manager = \Drupal::service('entity_type.manager');
+    foreach ($instances as $entity_type => $def) {
+      foreach ($def as $field_name => $field_config) {
+        $query = \Drupal::entityQuery($entity_type)->condition($field_name . '.plugin_id', $id);
+        if ($entity_type == 'node') {
+          $query->condition('status', NODE_PUBLISHED);
+        }
+        if ($result = $query->execute()) {
+          $entities = $manager->getStorage($entity_type)->loadMultiple($result);
+          foreach ($entities as $e) {
+            $tags[$entity_type][$e->id()] = $e->{$field_name}->plugin_configuration;
+          }
+        }
+      }
+    }
+    return $tags;
+  }
 }

@@ -4,6 +4,7 @@ namespace Drupal\membership\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\state_machine\WorkflowManagerInterface;
 
 /**
  * Class MembershipTypeForm.
@@ -16,6 +17,9 @@ class MembershipTypeForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
+    /* @var WorkflowManagerInterface $workflow_manager */
+    $workflow_manager = \Drupal::service('plugin.manager.workflow');
+    $workflows = $workflow_manager->getGroupedLabels('membership');
 
     $membership_type = $this->entity;
     $form['label'] = array(
@@ -35,8 +39,13 @@ class MembershipTypeForm extends EntityForm {
       ),
       '#disabled' => !$membership_type->isNew(),
     );
-
-    /* You will need additional form elements for your custom properties. */
+    $form['workflow'] = [
+      '#type' => 'select',
+      '#title' => t('Workflow'),
+      '#options' => $workflows,
+      '#default_value' => $this->entity->getWorkflowId(),
+      '#description' => $this->t('Used by all memberships of this type.'),
+    ];
 
     return $form;
   }
