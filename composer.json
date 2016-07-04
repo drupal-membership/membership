@@ -1,16 +1,23 @@
 {
-  "name": "bradjonesllc/membership",
-  "description": "Drupal module for handling memberships.",
-  "type": "drupal-module",
-  "license": "GPL-2.0+",
-  "keywords": ["membership"],
-  "minimum-stability": "dev",
-  "authors": [
-    {
-      "name": "Brad Jones"
+    "name": "drupal/membership",
+    "description": "Drupal module for handling memberships.",
+    "type": "drupal-module",
+    "license": "GPL-2.0+",
+    "keywords": ["membership"],
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Brad Jones",
+            "mail": "brad@bradjonesllc.com"
+        }
+    ],
+    "require": {
+        "drupal/state_machine": "1.0.x-dev",
+        "drupal/plugin": "^2.2"
+    },
+    "support": {
+        "issues": "https://github.com/drupal-membership/membership/issues",
+        "irc": "irc://irc.freenode.org/drupal-contribute",
+        "source": "https://cgit.drupalcode.org/membership"
     }
-  ],
-  "require": {
-    "drupal/state_machine": "1.0.x-dev"
-  }
 }
