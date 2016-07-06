@@ -33,10 +33,10 @@ class MembershipProviderManager extends DefaultPluginManager {
   /**
    * Leverages the plugin module field type to allow for querying stored configurations.
    * 
-   * @param $id
-   * @return array
+   * @param $id string The plugin ID to query.
+   * @return array Array of plugin configurations
    */
-  public static function getFieldInstances($id) {
+  public static function getFieldInstances(string $id) {
     /* @var EntityFieldManager $manager */
     $manager = \Drupal::service('entity_field.manager');
     $instances = $manager->getFieldMapByFieldType('plugin:membership_provider');
@@ -58,5 +58,20 @@ class MembershipProviderManager extends DefaultPluginManager {
       }
     }
     return $tags;
+  }
+
+  /**
+   * Retrieve all plugin configurations stored in fields,
+   * flattened from entity types.
+   * 
+   * @param $id string Plugin ID
+   * @return array Array of plugin configs
+   */
+  public static function getFieldedSites(string $id) {
+    $configs = [];
+    foreach (self::getFieldInstances($id) as $entity_type => $defs) {
+      array_merge($configs, array_values($defs));
+    }
+    return $configs;
   }
 }

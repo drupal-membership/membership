@@ -8,15 +8,18 @@
     "authors": [
         {
             "name": "Brad Jones",
-            "mail": "brad@bradjonesllc.com"
+            "email": "brad@bradjonesllc.com"
         }
     ],
     "require": {
         "drupal/state_machine": "1.0.x-dev",
-        "drupal/plugin": "^2.2"
+        "drupal/entity": "~1"
+    },
+    "suggest": {
+        "drupal/plugin": "Required for membership_provider module"
     },
     "support": {
-        "issues": "https://github.com/drupal-membership/membership/issues",
+        "issues": "https://www.drupal.org/project/issues/membership?status=All&categories=All",
         "irc": "irc://irc.freenode.org/drupal-contribute",
         "source": "https://cgit.drupalcode.org/membership"
     }

@@ -6,3 +6,4 @@ version: 1.x
 core: 8.x
 dependencies:
   - state_machine
+  - entity
