@@ -52,7 +52,11 @@ class MembershipProviderManager extends DefaultPluginManager {
         if ($result = $query->execute()) {
           $entities = $manager->getStorage($entity_type)->loadMultiple($result);
           foreach ($entities as $e) {
-            $tags[$entity_type][$e->id()] = $e->{$field_name}->plugin_configuration;
+            foreach ($e->{$field_name} as $row) {
+              if ($row->plugin_id == $id) {
+                $tags[$entity_type][$e->id()] = $row->plugin_configuration;
+              }
+            }
           }
         }
       }
@@ -70,7 +74,7 @@ class MembershipProviderManager extends DefaultPluginManager {
   public static function getFieldedSites(string $id) {
     $configs = [];
     foreach (self::getFieldInstances($id) as $entity_type => $defs) {
-      array_merge($configs, array_values($defs));
+      $configs = array_merge($configs, $defs);
     }
     return $configs;
   }
