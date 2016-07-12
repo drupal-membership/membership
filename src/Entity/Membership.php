@@ -207,6 +207,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
+      ->setRevisionable(TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership\Entity\Membership', 'getWorkflowId']);
 
     return $fields;

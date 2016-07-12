@@ -2,12 +2,12 @@
 
 namespace Drupal\membership;
 
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\entity\Entity\RevisionableEntityBundleInterface;
 
 /**
  * Provides an interface for defining Membership type entities.
  */
-interface MembershipTypeInterface extends ConfigEntityInterface {
+interface MembershipTypeInterface extends RevisionableEntityBundleInterface {
 
   /**
    * Report whether the membership of this type is considered expired.

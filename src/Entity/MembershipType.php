@@ -92,4 +92,11 @@ class MembershipType extends ConfigEntityBase implements MembershipTypeInterface
     return $membership->get('state')->getValue() === 'expired';
   }
 
+  /**
+   * @inheritDoc
+   */
+  public function shouldCreateNewRevision() {
+    return true;
+  }
+
 }

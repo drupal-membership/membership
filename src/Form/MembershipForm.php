@@ -11,6 +11,7 @@ use Drupal\entity\Form\RevisionableContentEntityForm;
  * @ingroup membership
  */
 class MembershipForm extends RevisionableContentEntityForm {
+
   /**
    * {@inheritdoc}
    */
