@@ -7,6 +7,8 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
+use Drupal\membership\MembershipEvent;
+use Drupal\membership\MembershipEvents;
 use Drupal\membership\MembershipInterface;
 use Drupal\user\UserInterface;
 
@@ -29,7 +31,6 @@ use Drupal\user\UserInterface;
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\membership\MembershipListBuilder",
  *     "views_data" = "Drupal\membership\Entity\MembershipViewsData",
- *
  *     "form" = {
  *       "default" = "Drupal\membership\Form\MembershipForm",
  *       "add" = "Drupal\membership\Form\MembershipForm",
@@ -39,6 +40,7 @@ use Drupal\user\UserInterface;
  *     "access" = "Drupal\membership\MembershipAccessControlHandler",
  *     "route_provider" = {
  *       "html" = "Drupal\membership\MembershipHtmlRouteProvider",
+ *       "revision" = "Drupal\entity\Routing\RevisionRouteProvider",
  *     },
  *   },
  *   base_table = "membership",
@@ -60,13 +62,17 @@ use Drupal\user\UserInterface;
  *     "edit-form" = "/admin/structure/membership/{membership}/edit",
  *     "delete-form" = "/admin/structure/membership/{membership}/delete",
  *     "collection" = "/admin/structure/membership",
+ *     "revision" = "/admin/structure/membership/{membership}/revisions/{membership_revision}/view",
+ *     "version-history" = "/admin/structure/membership/{membership}/revisions",
  *   },
  *   bundle_entity_type = "membership_type",
  *   field_ui_base_route = "entity.membership_type.edit_form"
  * )
  */
 class Membership extends RevisionableContentEntityBase implements MembershipInterface {
+
   use EntityChangedTrait;
+
   /**
    * {@inheritdoc}
    */
@@ -219,4 +225,35 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
     $workflow = MembershipType::load($membership->bundle())->getWorkflowId();
     return $workflow;
   }
+
+  /**
+   * @inheritDoc
+   */
+  public function preSave(EntityStorageInterface $storage) {
+    if (!$this->isNew() && ($storage->loadUnchanged($this->id())->state->getValue()) != $this->state->getValue()) {
+      $event = new MembershipEvent($this);
+      \Drupal::service('event_dispatcher')
+        ->dispatch(MembershipEvents::STATE_CHANGE, $event);
+      if ($this->isExpired()) {
+        \Drupal::service('event_dispatcher')
+          ->dispatch(MembershipEvents::EXPIRE, $event);
+      }
+    }
+    parent::preSave($storage);
+  }
+
+  public function isExpired() {
+    return MembershipType::load($this->bundle())->isExpired($this);
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function postCreate(EntityStorageInterface $storage) {
+    $event = new MembershipEvent($this);
+    \Drupal::service('event_dispatcher')->dispatch(MembershipEvents::CREATED, $event);
+    parent::postCreate($storage);
+  }
+
+
 }

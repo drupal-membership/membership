@@ -3,6 +3,7 @@
 namespace Drupal\membership\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\membership\MembershipInterface;
 use Drupal\membership\MembershipTypeInterface;
 
 /**
@@ -45,6 +46,7 @@ use Drupal\membership\MembershipTypeInterface;
  * )
  */
 class MembershipType extends ConfigEntityBase implements MembershipTypeInterface {
+
   /**
    * The Membership type ID.
    *
@@ -79,6 +81,15 @@ class MembershipType extends ConfigEntityBase implements MembershipTypeInterface
   public function setWorkflowId($workflow_id) {
     $this->workflow = $workflow_id;
     return $this;
+  }
+
+  /**
+   * @inheritDoc
+   * 
+   * @todo Implement configurable options for expired state determination.
+   */
+  public function isExpired(MembershipInterface $membership) {
+    return $membership->get('state')->getValue() === 'expired';
   }
 
 }

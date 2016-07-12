@@ -2,22 +2,21 @@
 
 namespace Drupal\membership\Form;
 
-use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\entity\Form\RevisionableContentEntityForm;
 
 /**
  * Form controller for Membership edit forms.
  *
  * @ingroup membership
  */
-class MembershipForm extends ContentEntityForm {
+class MembershipForm extends RevisionableContentEntityForm {
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     /* @var $entity \Drupal\membership\Entity\Membership */
     $form = parent::buildForm($form, $form_state);
-    $entity = $this->entity;
 
     return $form;
   }
