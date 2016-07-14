@@ -1,13 +1,21 @@
 <?php
 
+use Drupal\Core\Field\BaseFieldDefinition;
+
+const MEMBERSHIP_PROVIDER_FOREIGN_KEY_FIELD = 'provider_foreign_key';
+
 /**
  * Add provider ID and foreign key fields to the membership entity type when
  * this module is enabled.
  *
- * Implements hook_entity_base_field_info_alter().
+ * Implements hook_entity_base_field_info().
  */
-function membership_provider_entity_base_field_info_alter(&$fields, \Drupal\Core\Entity\EntityTypeInterface $entity_type) {
+function membership_provider_entity_base_field_info(\Drupal\Core\Entity\EntityTypeInterface $entity_type) {
   if ($entity_type->id() == 'membership') {
-    
+    $fields = [];
+    $fields[MEMBERSHIP_PROVIDER_FOREIGN_KEY_FIELD] = BaseFieldDefinition::create('string')
+      ->setLabel('Membership Provider Foreign Key')
+      ->setReadOnly(TRUE);
+    return $fields;
   }
 }

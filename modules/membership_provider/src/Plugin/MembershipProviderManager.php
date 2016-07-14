@@ -31,6 +31,32 @@ class MembershipProviderManager extends DefaultPluginManager {
   }
 
   /**
+   * Find an entity containing a fielded plugin config, by config property.
+   *
+   * @param $plugin string The plugin ID
+   * @param $property string The property name
+   * @param $value mixed The property value to find
+   * @return array Array of:
+   *   - ContentEntityInterface The entity
+   *   - array The config
+   * @throws \Exception
+   */
+  public static function findEntityByFieldProperty($plugin, $property, $value) {
+    foreach (static::getFieldInstances($plugin) as $entity_type => $def) {
+      foreach ($def as $entityId => $config) {
+        if ($config[$property] !== $property) {
+          continue;
+        }
+        $entity = \Drupal::entityTypeManager()
+          ->getStorage($entity_type)
+          ->load($entityId);
+        return [$entity, $config];
+      }
+    }
+    throw new \Exception("No matching entity found for config property {$property} == {$value}");
+  }
+
+  /**
    * Leverages the plugin module field type to allow for querying stored configurations.
    * 
    * @param $id string The plugin ID to query.
@@ -71,11 +97,12 @@ class MembershipProviderManager extends DefaultPluginManager {
    * @param $id string Plugin ID
    * @return array Array of plugin configs
    */
-  public static function getFieldedSites(string $id) {
+  public static function getFieldedEntities(string $id) {
     $configs = [];
     foreach (self::getFieldInstances($id) as $entity_type => $defs) {
       $configs = array_merge($configs, $defs);
     }
     return $configs;
   }
+
 }

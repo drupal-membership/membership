@@ -12,7 +12,7 @@ use Drupal\user\EntityOwnerInterface;
  * @ingroup membership
  */
 interface MembershipInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
-  // Add get/set methods for your configuration properties here.
+
   /**
    * Gets the Membership type.
    *
