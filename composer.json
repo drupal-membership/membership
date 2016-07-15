@@ -13,7 +13,8 @@
     ],
     "require": {
         "drupal/state_machine": "1.x-dev",
-        "drupal/entity": "1.x-dev"
+        "drupal/entity": "1.x-dev",
+        "drupal/commerce": "2.x-dev"
     },
     "suggest": {
         "drupal/plugin": "Required for membership_provider module"

@@ -2,7 +2,7 @@
 
 namespace Drupal\membership;
 
-use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\commerce\PurchasableEntityInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\user\EntityOwnerInterface;
 
@@ -11,7 +11,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup membership
  */
-interface MembershipInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
+interface MembershipInterface extends PurchasableEntityInterface, EntityChangedInterface, EntityOwnerInterface {
 
   /**
    * Gets the Membership type.
@@ -20,25 +20,6 @@ interface MembershipInterface extends ContentEntityInterface, EntityChangedInter
    *   The Membership type.
    */
   public function getType();
-
-  /**
-   * Gets the Membership name.
-   *
-   * @return string
-   *   Name of the Membership.
-   */
-  public function getName();
-
-  /**
-   * Sets the Membership name.
-   *
-   * @param string $name
-   *   The Membership name.
-   *
-   * @return \Drupal\membership\MembershipInterface
-   *   The called Membership entity.
-   */
-  public function setName($name);
 
   /**
    * Gets the Membership creation timestamp.
@@ -58,4 +39,5 @@ interface MembershipInterface extends ContentEntityInterface, EntityChangedInter
    *   The called Membership entity.
    */
   public function setCreatedTime($timestamp);
+
 }

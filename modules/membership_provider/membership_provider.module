@@ -15,7 +15,8 @@ function membership_provider_entity_base_field_info(\Drupal\Core\Entity\EntityTy
     $fields = [];
     $fields[MEMBERSHIP_PROVIDER_FOREIGN_KEY_FIELD] = BaseFieldDefinition::create('string')
       ->setLabel('Membership Provider Foreign Key')
-      ->setReadOnly(TRUE);
+      ->setDisplayConfigurable('form', false)
+      ->setDisplayConfigurable('view', false);
     return $fields;
   }
 }

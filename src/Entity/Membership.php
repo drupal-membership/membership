@@ -10,7 +10,9 @@ use Drupal\entity\Revision\RevisionableContentEntityBase;
 use Drupal\membership\MembershipEvent;
 use Drupal\membership\MembershipEvents;
 use Drupal\membership\MembershipInterface;
+use Drupal\membership\MembershipPurchasableEvent;
 use Drupal\user\UserInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Defines the Membership entity.
@@ -74,6 +76,23 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
   use EntityChangedTrait;
 
   /**
+   * The event dispatcher service.
+   *
+   * @var EventDispatcherInterface
+   */
+  protected $eventDispatcher;
+
+  /**
+   * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  public function getEventDispatcher() {
+    if (!$this->eventDispatcher) {
+      $this->eventDispatcher = \Drupal::service('event_dispatcher');
+    }
+    return $this->eventDispatcher;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
@@ -88,21 +107,6 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
    */
   public function getType() {
     return $this->bundle();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getName() {
-    return $this->get('name')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setName($name) {
-    $this->set('name', $name);
-    return $this;
   }
 
   /**
@@ -243,6 +247,12 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
     parent::preSave($storage);
   }
 
+  /**
+   * Return a boolean indicating whether the membership is expired,
+   * for whatever reason. Looks to the bundle for logic to decide.
+   *
+   * @return bool
+   */
   public function isExpired() {
     return MembershipType::load($this->bundle())->isExpired($this);
   }
@@ -252,9 +262,26 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
    */
   public function postCreate(EntityStorageInterface $storage) {
     $event = new MembershipEvent($this);
-    \Drupal::service('event_dispatcher')->dispatch(MembershipEvents::CREATED, $event);
+    $this->getEventDispatcher()->dispatch(MembershipEvents::CREATED, $event);
     parent::postCreate($storage);
   }
 
+  /**
+   * @inheritDoc
+   */
+  public function getLineItemTypeId() {
+    $event = new MembershipPurchasableEvent($this);
+    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_LINE_ITEM_TYPE, $event);
+    return $event->getLineItemType();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getLineItemTitle() {
+    $event = new MembershipPurchasableEvent($this);
+    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_TITLE, $event);
+    return $event->getTitle();
+  }
 
 }

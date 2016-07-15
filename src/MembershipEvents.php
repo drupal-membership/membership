@@ -26,4 +26,8 @@ final class MembershipEvents {
    */
   const STATE_CHANGE = 'membership.state_change';
 
+  const PURCHASABLE_GET_TITLE = 'membership.purchasable.get_name';
+
+  const PURCHASABLE_GET_LINE_ITEM_TYPE = 'membership.purchasable_line_item';
+
 }
