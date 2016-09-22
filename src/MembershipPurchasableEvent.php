@@ -19,6 +19,48 @@ class MembershipPurchasableEvent extends MembershipEvent {
   protected $lineItemType;
 
   /**
+   * The price.
+   *
+   * @var \Drupal\commerce_price\Price|null
+   */
+  protected $price;
+
+  /**
+   * Applicable stores.
+   *
+   * @var \Drupal\commerce_store\Entity\StoreInterface[]
+   */
+  protected $stores = [];
+
+  /**
+   * @return \Drupal\commerce_store\Entity\StoreInterface[]
+   */
+  public function getStores() {
+    return $this->stores;
+  }
+
+  /**
+   * @param \Drupal\commerce_store\Entity\StoreInterface[] $stores
+   */
+  public function setStores($stores) {
+    $this->stores = $stores;
+  }
+
+  /**
+   * @return \Drupal\commerce_price\Price|null
+   */
+  public function getPrice() {
+    return $this->price;
+  }
+
+  /**
+   * @param \Drupal\commerce_price\Price|null $price
+   */
+  public function setPrice($price) {
+    $this->price = $price;
+  }
+
+  /**
    * @return string
    */
   public function getTitle() {

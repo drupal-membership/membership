@@ -284,4 +284,22 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
     return $event->getTitle();
   }
 
+  /**
+   * @inheritDoc
+   */
+  public function getStores() {
+    $event = new MembershipPurchasableEvent($this);
+    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_STORES, $event);
+    return $event->getStores();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getPrice() {
+    $event = new MembershipPurchasableEvent($this);
+    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_PRICE, $event);
+    return $event->getPrice();
+  }
+
 }

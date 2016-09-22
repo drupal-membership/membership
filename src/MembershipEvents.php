@@ -4,9 +4,9 @@ namespace Drupal\membership;
 
 /**
  * Class MembershipEvents
- * 
+ *
  * Events thrown on particular Membership transitions.
- * 
+ *
  * @package Drupal\membership
  */
 final class MembershipEvents {
@@ -29,5 +29,9 @@ final class MembershipEvents {
   const PURCHASABLE_GET_TITLE = 'membership.purchasable.get_name';
 
   const PURCHASABLE_GET_LINE_ITEM_TYPE = 'membership.purchasable_line_item';
+
+  const PURCHASABLE_GET_PRICE = 'membership.purchasable_price';
+
+  const PURCHASABLE_GET_STORES = 'membership.purchasable_stores';
 
 }
