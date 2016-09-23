@@ -7,6 +7,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
+use Drupal\membership\EventDispatcherTrait;
 use Drupal\membership\MembershipEvent;
 use Drupal\membership\MembershipEvents;
 use Drupal\membership\MembershipInterface;
@@ -67,30 +68,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *     "revision" = "/admin/structure/membership/{membership}/revisions/{membership_revision}/view",
  *     "version-history" = "/admin/structure/membership/{membership}/revisions",
  *   },
- *   bundle_entity_type = "membership_type",
- *   field_ui_base_route = "entity.membership_type.edit_form"
+ *   bundle_entity_type = "membership_type"
  * )
  */
 class Membership extends RevisionableContentEntityBase implements MembershipInterface {
 
   use EntityChangedTrait;
-
-  /**
-   * The event dispatcher service.
-   *
-   * @var EventDispatcherInterface
-   */
-  protected $eventDispatcher;
-
-  /**
-   * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
-   */
-  public function getEventDispatcher() {
-    if (!$this->eventDispatcher) {
-      $this->eventDispatcher = \Drupal::service('event_dispatcher');
-    }
-    return $this->eventDispatcher;
-  }
+  use EventDispatcherTrait;
 
   /**
    * {@inheritdoc}
@@ -264,42 +248,6 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
     $event = new MembershipEvent($this);
     $this->getEventDispatcher()->dispatch(MembershipEvents::CREATED, $event);
     parent::postCreate($storage);
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getLineItemTypeId() {
-    $event = new MembershipPurchasableEvent($this);
-    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_LINE_ITEM_TYPE, $event);
-    return $event->getLineItemType();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getLineItemTitle() {
-    $event = new MembershipPurchasableEvent($this);
-    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_TITLE, $event);
-    return $event->getTitle();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getStores() {
-    $event = new MembershipPurchasableEvent($this);
-    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_STORES, $event);
-    return $event->getStores();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getPrice() {
-    $event = new MembershipPurchasableEvent($this);
-    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_PRICE, $event);
-    return $event->getPrice();
   }
 
 }

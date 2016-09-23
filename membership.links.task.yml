@@ -15,3 +15,24 @@ entity.membership.delete_form:
   title: Delete
   weight: 10
 
+# Membership Offer routing definition
+membership_offer.settings_tab:
+  route_name: membership_offer.settings
+  title: 'Settings'
+  base_route: membership_offer.settings
+entity.membership_offer.canonical:
+  route_name: entity.membership_offer.canonical
+  base_route: entity.membership_offer.canonical
+  title: 'View'
+
+entity.membership_offer.edit_form:
+  route_name: entity.membership_offer.edit_form
+  base_route: entity.membership_offer.canonical
+  title: Edit
+
+entity.membership_offer.delete_form:
+  route_name:  entity.membership_offer.delete_form
+  base_route:  entity.membership_offer.canonical
+  title: Delete
+  weight: 10
+

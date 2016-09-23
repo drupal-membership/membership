@@ -1,0 +1,22 @@
+{#
+/**
+ * @file membership_offer.html.twig
+ * Default theme implementation to present Membership Offer data.
+ *
+ * This template is used when viewing Membership Offer pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_membership_offer()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('membership_offer') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

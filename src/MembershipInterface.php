@@ -2,16 +2,19 @@
 
 namespace Drupal\membership;
 
-use Drupal\commerce\PurchasableEntityInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\user\EntityOwnerInterface;
 
 /**
  * Provides an interface for defining Membership entities.
+ * 
+ * Implements PurchasableEntityInterface so as to allow the membership to
+ * be the basis for a line item.
  *
  * @ingroup membership
  */
-interface MembershipInterface extends PurchasableEntityInterface, EntityChangedInterface, EntityOwnerInterface {
+interface MembershipInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
 
   /**
    * Gets the Membership type.
