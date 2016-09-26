@@ -14,3 +14,22 @@ edit membership entities:
 
 view published membership entities:
   title: 'View published Membership entities'
+add membership offer entities:
+  title: 'Create new Membership Offer entities'
+
+administer membership offer entities:
+  title: 'Administer Membership Offer entities'
+  description: 'Allow to access the administration form to configure Membership Offer entities.'
+  restrict access: true
+
+delete membership offer entities:
+  title: 'Delete Membership Offer entities'
+
+edit membership offer entities:
+  title: 'Edit Membership Offer entities'
+
+view published membership offer entities:
+  title: 'View published Membership Offer entities'
+
+view unpublished membership offer entities:
+  title: 'View unpublished Membership Offer entities'

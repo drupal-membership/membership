@@ -7,12 +7,12 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
+use Drupal\membership\EventDispatcherTrait;
 use Drupal\membership\MembershipEvent;
 use Drupal\membership\MembershipEvents;
 use Drupal\membership\MembershipInterface;
 use Drupal\membership\MembershipPurchasableEvent;
 use Drupal\user\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Defines the Membership entity.
@@ -67,30 +67,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *     "revision" = "/admin/structure/membership/{membership}/revisions/{membership_revision}/view",
  *     "version-history" = "/admin/structure/membership/{membership}/revisions",
  *   },
- *   bundle_entity_type = "membership_type",
- *   field_ui_base_route = "entity.membership_type.edit_form"
+ *   bundle_entity_type = "membership_type"
  * )
  */
 class Membership extends RevisionableContentEntityBase implements MembershipInterface {
 
   use EntityChangedTrait;
-
-  /**
-   * The event dispatcher service.
-   *
-   * @var EventDispatcherInterface
-   */
-  protected $eventDispatcher;
-
-  /**
-   * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
-   */
-  public function getEventDispatcher() {
-    if (!$this->eventDispatcher) {
-      $this->eventDispatcher = \Drupal::service('event_dispatcher');
-    }
-    return $this->eventDispatcher;
-  }
+  use EventDispatcherTrait;
 
   /**
    * {@inheritdoc}
@@ -167,7 +150,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setRequired(TRUE);
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Membership entity.'))
+      ->setDescription(t('The owner of the Membership entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -213,6 +196,19 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership\Entity\Membership', 'getWorkflowId']);
+    $fields['membership_offer'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Membership Offer'))
+      ->setDescription(t('The offer type this membership fulfills.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'membership_offer')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', array(
+        'type' => 'options_select',
+        'weight' => 1,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
   }
@@ -237,11 +233,9 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
   public function preSave(EntityStorageInterface $storage) {
     if (!$this->isNew() && ($storage->loadUnchanged($this->id())->state->getValue()) != $this->state->getValue()) {
       $event = new MembershipEvent($this);
-      \Drupal::service('event_dispatcher')
-        ->dispatch(MembershipEvents::STATE_CHANGE, $event);
+      $this->getEventDispatcher()->dispatch(MembershipEvents::STATE_CHANGE, $event);
       if ($this->isExpired()) {
-        \Drupal::service('event_dispatcher')
-          ->dispatch(MembershipEvents::EXPIRE, $event);
+        $this->getEventDispatcher()->dispatch(MembershipEvents::EXPIRE, $event);
       }
     }
     parent::preSave($storage);
@@ -264,42 +258,6 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
     $event = new MembershipEvent($this);
     $this->getEventDispatcher()->dispatch(MembershipEvents::CREATED, $event);
     parent::postCreate($storage);
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getLineItemTypeId() {
-    $event = new MembershipPurchasableEvent($this);
-    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_LINE_ITEM_TYPE, $event);
-    return $event->getLineItemType();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getLineItemTitle() {
-    $event = new MembershipPurchasableEvent($this);
-    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_TITLE, $event);
-    return $event->getTitle();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getStores() {
-    $event = new MembershipPurchasableEvent($this);
-    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_STORES, $event);
-    return $event->getStores();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getPrice() {
-    $event = new MembershipPurchasableEvent($this);
-    $this->getEventDispatcher()->dispatch(MembershipEvents::PURCHASABLE_GET_PRICE, $event);
-    return $event->getPrice();
   }
 
 }
