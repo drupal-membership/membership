@@ -1,0 +1,18 @@
+membership_default:
+  id: membership_default
+  label: Default Membership Workflow
+  group: membership
+  states:
+    active:
+      label: Active
+    expired:
+      label: Expired
+  transitions:
+    expire:
+      label: Expire
+      from: [active]
+      to: expired
+    restart:
+      label: Restart
+      from: [expired]
+      to: active

@@ -45,6 +45,7 @@ class MembershipTypeForm extends EntityForm {
       '#options' => $workflows,
       '#default_value' => $this->entity->getWorkflowId(),
       '#description' => $this->t('Used by all memberships of this type.'),
+      '#required' => true,
     ];
 
     return $form;

@@ -225,6 +225,19 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the entity was last edited.'));
 
+    $fields['membership_type'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Membership Type'))
+      ->setDescription(t('The Membership type that is created as a result of redeeming this offer.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'membership_type')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', array(
+        'type' => 'options_select',
+        'weight' => 1,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
     return $fields;
   }
 

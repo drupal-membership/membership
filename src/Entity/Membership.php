@@ -13,7 +13,6 @@ use Drupal\membership\MembershipEvents;
 use Drupal\membership\MembershipInterface;
 use Drupal\membership\MembershipPurchasableEvent;
 use Drupal\user\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Defines the Membership entity.
@@ -151,7 +150,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setRequired(TRUE);
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Membership entity.'))
+      ->setDescription(t('The owner of the Membership entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -197,6 +196,19 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership\Entity\Membership', 'getWorkflowId']);
+    $fields['membership_offer'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Membership Offer'))
+      ->setDescription(t('The offer type this membership fulfills.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'membership_offer')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', array(
+        'type' => 'options_select',
+        'weight' => 1,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
   }
@@ -221,11 +233,9 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
   public function preSave(EntityStorageInterface $storage) {
     if (!$this->isNew() && ($storage->loadUnchanged($this->id())->state->getValue()) != $this->state->getValue()) {
       $event = new MembershipEvent($this);
-      \Drupal::service('event_dispatcher')
-        ->dispatch(MembershipEvents::STATE_CHANGE, $event);
+      $this->getEventDispatcher()->dispatch(MembershipEvents::STATE_CHANGE, $event);
       if ($this->isExpired()) {
-        \Drupal::service('event_dispatcher')
-          ->dispatch(MembershipEvents::EXPIRE, $event);
+        $this->getEventDispatcher()->dispatch(MembershipEvents::EXPIRE, $event);
       }
     }
     parent::preSave($storage);
