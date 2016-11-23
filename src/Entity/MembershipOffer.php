@@ -244,13 +244,6 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
   /**
    * @inheritDoc
    */
-  public function getLineItemTitle() {
-    return $this->label();
-  }
-
-  /**
-   * @inheritDoc
-   */
   public function getStores() {
     // todo: implement
     return [];
@@ -267,9 +260,16 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
   /**
    * @inheritDoc
    */
-  public function getLineItemTypeId() {
+  public function getOrderItemTypeId() {
     // todo: implement
     return '';
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function getOrderItemTitle() {
+    return $this->label();
   }
 
 }
