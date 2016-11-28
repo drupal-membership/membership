@@ -173,7 +173,11 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-
+    $fields['data'] = BaseFieldDefinition::create('map')
+      ->setLabel(t('Data'))
+      ->setReadOnly(TRUE)
+      ->setDisplayConfigurable('form', FALSE)
+      ->setDisplayConfigurable('view', FALSE);
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));

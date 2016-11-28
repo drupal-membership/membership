@@ -44,7 +44,7 @@ class MembershipProviderManager extends DefaultPluginManager {
   public static function findEntityByFieldProperty($plugin, $property, $value) {
     foreach (static::getFieldInstances($plugin) as $entity_type => $def) {
       foreach ($def as $entityId => $config) {
-        if ($config[$property] !== $property) {
+        if ($config[$property] !== $value) {
           continue;
         }
         $entity = \Drupal::entityTypeManager()
@@ -58,7 +58,7 @@ class MembershipProviderManager extends DefaultPluginManager {
 
   /**
    * Leverages the plugin module field type to allow for querying stored configurations.
-   * 
+   *
    * @param $id string The plugin ID to query.
    * @return array Array of plugin configurations
    */
@@ -93,7 +93,7 @@ class MembershipProviderManager extends DefaultPluginManager {
   /**
    * Retrieve all plugin configurations stored in fields,
    * flattened from entity types.
-   * 
+   *
    * @param $id string Plugin ID
    * @return array Array of plugin configs
    */
