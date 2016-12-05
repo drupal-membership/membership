@@ -218,6 +218,13 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
   }
 
   /**
+   * @inheritDoc
+   */
+  public function getOffer() {
+    return $this->get('membership_offer')->entity;
+  }
+
+  /**
    * Gets the workflow ID for the state field.
    *
    * @param \Drupal\membership\MembershipInterface $membership

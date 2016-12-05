@@ -8,7 +8,7 @@ use Drupal\user\EntityOwnerInterface;
 
 /**
  * Provides an interface for defining Membership entities.
- * 
+ *
  * Implements PurchasableEntityInterface so as to allow the membership to
  * be the basis for a line item.
  *
@@ -43,4 +43,10 @@ interface MembershipInterface extends ContentEntityInterface, EntityChangedInter
    */
   public function setCreatedTime($timestamp);
 
+  /**
+   * Get the related membership offer.
+   *
+   * @return \Drupal\membership\MembershipOfferInterface
+   */
+  public function getOffer();
 }
