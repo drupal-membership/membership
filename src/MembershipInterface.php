@@ -9,9 +9,6 @@ use Drupal\user\EntityOwnerInterface;
 /**
  * Provides an interface for defining Membership entities.
  *
- * Implements PurchasableEntityInterface so as to allow the membership to
- * be the basis for a line item.
- *
  * @ingroup membership
  */
 interface MembershipInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
@@ -44,9 +41,9 @@ interface MembershipInterface extends ContentEntityInterface, EntityChangedInter
   public function setCreatedTime($timestamp);
 
   /**
-   * Get the related membership offer.
+   * Get the related membership Term.
    *
-   * @return \Drupal\membership\MembershipOfferInterface
+   * @return \Drupal\membership\entity\MembershipTermEntityInterface
    */
-  public function getOffer();
+  public function getTerm();
 }

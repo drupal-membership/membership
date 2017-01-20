@@ -1,0 +1,38 @@
+uuid: bcc9eef0-a1d7-482c-9f2b-f49871983b98
+langcode: en
+status: true
+dependencies:
+  config:
+    - membership.membership_term_entity_type.annual_membership
+id: membership_term_entity.annual_membership.default
+targetEntityType: membership_term_entity
+bundle: annual_membership
+mode: default
+content:
+  langcode:
+    type: language_select
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+  membership:
+    type: options_select
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  state: true

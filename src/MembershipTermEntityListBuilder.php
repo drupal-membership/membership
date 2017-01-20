@@ -8,17 +8,19 @@ use Drupal\Core\Routing\LinkGeneratorTrait;
 use Drupal\Core\Url;
 
 /**
- * Defines a class to build a listing of Membership Offer entities.
+ * Defines a class to build a listing of Membership term entity entities.
  *
  * @ingroup membership
  */
-class MembershipOfferListBuilder extends EntityListBuilder {
+class MembershipTermEntityListBuilder extends EntityListBuilder {
+
   use LinkGeneratorTrait;
+
   /**
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('Membership Offer ID');
+    $header['id'] = $this->t('Membership term entity ID');
     $header['name'] = $this->t('Name');
     return $header + parent::buildHeader();
   }
@@ -27,13 +29,13 @@ class MembershipOfferListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\membership\Entity\MembershipOffer */
+    /* @var $entity \Drupal\membership\Entity\MembershipTermEntity */
     $row['id'] = $entity->id();
     $row['name'] = $this->l(
       $entity->label(),
       new Url(
-        'entity.membership_offer.edit_form', array(
-          'membership_offer' => $entity->id(),
+        'entity.membership_term_entity.edit_form', array(
+          'membership_term_entity' => $entity->id(),
         )
       )
     );

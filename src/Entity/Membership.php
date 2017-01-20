@@ -11,7 +11,6 @@ use Drupal\membership\EventDispatcherTrait;
 use Drupal\membership\MembershipEvent;
 use Drupal\membership\MembershipEvents;
 use Drupal\membership\MembershipInterface;
-use Drupal\membership\MembershipPurchasableEvent;
 use Drupal\user\UserInterface;
 
 /**
@@ -200,18 +199,17 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership\Entity\Membership', 'getWorkflowId']);
-    $fields['membership_offer'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Membership Offer'))
-      ->setDescription(t('The offer type this membership fulfills.'))
+    $fields['membership_term'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Membership Term'))
+      ->setDescription(t('The current term attached to this membership.'))
       ->setRevisionable(TRUE)
-      ->setSetting('target_type', 'membership_offer')
+      ->setSetting('target_type', 'membership_term_entity')
       ->setTranslatable(TRUE)
       ->setDisplayOptions('form', array(
         'type' => 'options_select',
         'weight' => 1,
       ))
       ->setDisplayConfigurable('form', TRUE)
-      ->setRequired(TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
@@ -220,8 +218,8 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
   /**
    * @inheritDoc
    */
-  public function getOffer() {
-    return $this->get('membership_offer')->entity;
+  public function getTerm() {
+    return $this->get('membership_term')->entity;
   }
 
   /**

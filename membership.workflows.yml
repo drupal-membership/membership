@@ -16,3 +16,35 @@ membership_default:
       label: Restart
       from: [expired]
       to: active
+
+membership_term_default:
+  id: membership_term_default
+  label: Default Membership Term Workflow
+  group: membership_term
+  states:
+    pending:
+      label: Pending
+    active:
+      label: Active
+    expiring:
+      label: Expiring
+    expired:
+      label: Expired
+  transitions:
+    activate:
+      label: Activate
+      from: [pending,expiring]
+      to: active
+    expiring:
+      label: About to Expire
+      from: [active]
+      to: expiring
+    expire:
+      label: Expire
+      from: [expiring,active]
+      to: expired
+    restart:
+      label: Restart
+      from: [expired]
+      to: active
+
