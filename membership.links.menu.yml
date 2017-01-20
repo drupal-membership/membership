@@ -1,29 +1,41 @@
-# Membership type menu items definition
-entity.membership_type.collection:
-  title: 'Membership type'
-  route_name: entity.membership_type.collection
-  description: 'List Membership type (bundles)'
-  parent: system.admin_structure
-  weight: 99
+# Main membership menu
+membership.admin_membership:
+  title: 'Membership'
+  route_name: entity.membership.collection
+  parent: 'system.admin'
+  description: 'List Membership Entities and configure memberships'
+  weight: 0
 
 # Membership menu items definition
 entity.membership.collection:
   title: 'Membership list'
   route_name: entity.membership.collection
   description: 'List Membership entities'
-  parent: system.admin_structure
+  parent: membership.admin_membership
+  weight: 10
+
+# Membership type menu items definition
+entity.membership_type.collection:
+  title: 'Membership type'
+  route_name: entity.membership_type.collection
+  description: 'List Membership type (bundles)'
+  parent: membership.admin_membership
+  weight: 99
+
+# Membership term entity menu items definition
+entity.membership_term_entity.collection:
+  title: 'Membership term entity list'
+  route_name: entity.membership_term_entity.collection
+  description: 'List Membership term entity entities'
+  parent: membership.admin_membership
   weight: 100
 
-# Membership Offer menu items definition
-entity.membership_offer.collection:
-  title: 'Membership Offer list'
-  route_name: entity.membership_offer.collection
-  description: 'List Membership Offer entities'
-  parent: system.admin_structure
-  weight: 100
 
-membership_offer.admin.structure.settings:
-  title: Membership Offer settings
-  description: 'Configure Membership Offer entities'
-  route_name: membership_offer.settings
-  parent: system.admin_structure
+# Membership term entity type menu items definition
+entity.membership_term_entity_type.collection:
+  title: 'Membership term entity type'
+  route_name: entity.membership_term_entity_type.collection
+  description: 'List Membership term entity type (bundles)'
+  parent: membership.admin_membership
+  weight: 110
+

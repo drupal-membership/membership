@@ -1,0 +1,21 @@
+uuid: 4519d9fc-3d19-478a-924c-c45940d32b7c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership_term_entity.field_membership
+    - membership.membership_term_entity_type.annual_membership
+id: membership_term_entity.annual_membership.field_membership
+field_name: field_membership
+entity_type: membership_term_entity
+bundle: annual_membership
+label: Membership
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:membership'
+  handler_settings: {  }
+field_type: entity_reference

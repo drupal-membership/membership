@@ -1,3 +1,7 @@
 membership:
   label: Membership
   entity_type: membership
+
+membership_term:
+  label: Membership Terms
+  entity_type: membership_term

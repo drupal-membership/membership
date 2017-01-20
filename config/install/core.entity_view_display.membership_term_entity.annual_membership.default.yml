@@ -1,0 +1,36 @@
+uuid: 69932ec6-3419-4232-91a6-7deb25411c64
+langcode: en
+status: true
+dependencies:
+  config:
+    - membership.membership_term_entity_type.annual_membership
+  module:
+    - options
+    - user
+id: membership_term_entity.annual_membership.default
+targetEntityType: membership_term_entity
+bundle: annual_membership
+mode: default
+content:
+  name:
+    label: above
+    type: string
+    weight: -4
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  state:
+    label: hidden
+    type: list_default
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  membership: true

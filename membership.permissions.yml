@@ -14,22 +14,26 @@ edit membership entities:
 
 view published membership entities:
   title: 'View published Membership entities'
-add membership offer entities:
-  title: 'Create new Membership Offer entities'
 
-administer membership offer entities:
-  title: 'Administer Membership Offer entities'
-  description: 'Allow to access the administration form to configure Membership Offer entities.'
+add membership term entity entities:
+  title: 'Create new Membership term entity entities'
+
+administer membership term entity entities:
+  title: 'Administer Membership term entity entities'
+  description: 'Allow to access the administration form to configure Membership term entity entities.'
   restrict access: true
 
-delete membership offer entities:
-  title: 'Delete Membership Offer entities'
+delete membership term entity entities:
+  title: 'Delete Membership term entity entities'
 
-edit membership offer entities:
-  title: 'Edit Membership Offer entities'
+edit membership term entity entities:
+  title: 'Edit Membership term entity entities'
 
-view published membership offer entities:
-  title: 'View published Membership Offer entities'
+access membership term entity overview:
+  title: 'Access the Membership term entity overview page'
 
-view unpublished membership offer entities:
-  title: 'View unpublished Membership Offer entities'
+view published membership term entity entities:
+  title: 'View published Membership term entity entities'
+
+view unpublished membership term entity entities:
+  title: 'View unpublished Membership term entity entities'

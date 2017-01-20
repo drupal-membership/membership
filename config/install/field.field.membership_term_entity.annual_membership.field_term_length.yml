@@ -1,0 +1,21 @@
+uuid: 99896eee-4f4c-476d-8c6c-efe5b3bcd4f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership_term_entity.field_term_length
+    - membership.membership_term_entity_type.annual_membership
+id: membership_term_entity.annual_membership.field_term_length
+field_name: field_term_length
+entity_type: membership_term_entity
+bundle: annual_membership
+label: 'Term Length'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: '1 year'
+default_value_callback: ''
+settings: {  }
+field_type: string
