@@ -1,0 +1,23 @@
+/**
+ * @file
+ * Membership toolbar icon styling.
+ *
+ * Icon made by [puppets](http://www.flaticon.com/authors/puppets) from [Flaticon](http://www.flaticon.com)
+ * licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
+ */
+
+/* Bar styling (first row), currently unused. */
+.toolbar-bar .toolbar-icon-membership-admin-membership:before {
+  background-image: url("../icons/id-card.svg");
+}
+.toolbar-bar .toolbar-icon-membership-admin-membership:active:before {
+  background-image: url("../icons/id-card.svg");
+}
+
+/* Tray styling (second row) */
+.toolbar-tray .toolbar-icon.toolbar-icon-membership-admin-membership:before {
+  background-image: url("../icons/id-card.svg");
+}
+.toolbar-tray .toolbar-icon.toolbar-icon-membership-admin-membership:active:before {
+  background-image: url("../icons/id-card.svg");
+}

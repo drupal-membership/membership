@@ -56,3 +56,10 @@ function membership_theme_suggestions_membership(array $variables) {
   $suggestions[] = 'membership__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
 }
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function membership_toolbar_alter(&$items) {
+  $items['administration']['#attached']['library'][] = 'membership/toolbar';
+}
