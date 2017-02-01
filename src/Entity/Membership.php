@@ -8,10 +8,9 @@ use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
 use Drupal\membership\EventDispatcherTrait;
+use Drupal\membership\Exception\MembershipFeatureNotImplementedException;
 use Drupal\membership\MembershipEvent;
 use Drupal\membership\MembershipEvents;
-use Drupal\membership\MembershipInterface;
-use Drupal\membership\MembershipPurchasableEvent;
 use Drupal\user\UserInterface;
 
 /**
@@ -80,9 +79,10 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
    */
   public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
     parent::preCreate($storage_controller, $values);
-    $values += array(
-      'user_id' => \Drupal::currentUser()->id(),
-    );
+    if (empty($values['user_id'])) {
+      $values['user_id'] = \Drupal::currentUser()->id();
+
+    }
   }
 
   /**
@@ -200,42 +200,14 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership\Entity\Membership', 'getWorkflowId']);
-    $fields['membership_offer'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Membership Offer'))
-      ->setDescription(t('The offer type this membership fulfills.'))
-      ->setRevisionable(TRUE)
-      ->setSetting('target_type', 'membership_offer')
-      ->setTranslatable(TRUE)
-      ->setDisplayOptions('form', array(
-        'type' => 'options_select',
-        'weight' => 1,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setRequired(TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-
     return $fields;
   }
 
   /**
    * @inheritDoc
    */
-  public function getOffer() {
-    return $this->get('membership_offer')->entity;
-  }
-
-  /**
-   * Gets the workflow ID for the state field.
-   *
-   * @param \Drupal\membership\MembershipInterface $membership
-   *   The membership.
-   *
-   * @return string
-   *   The workflow ID.
-   */
-  public static function getWorkflowId(MembershipInterface $membership) {
-    $workflow = MembershipType::load($membership->bundle())->getWorkflowId();
-    return $workflow;
+  public function getTerm() {
+    return $this->get('membership_term')->entity;
   }
 
   /**
@@ -269,6 +241,56 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
     $event = new MembershipEvent($this);
     $this->getEventDispatcher()->dispatch(MembershipEvents::CREATED, $event);
     parent::postCreate($storage);
+  }
+
+
+  /**
+   * @inheritDoc
+   */
+  public function cancel() {
+    // TODO: Implement cancel() method.
+    throw new MembershipFeatureNotImplementedException('Membership Cancel method not implemented.');
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function expireNotice() {
+    // TODO: Implement expireNotice() method.
+    throw new MembershipFeatureNotImplementedException('Membership Expire Notice method not implemented.');
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function extend() {
+    // TODO: Implement extend() method.
+    throw new MembershipFeatureNotImplementedException('Membership Extend method not implemented.');
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function isActive() {
+    // TODO: Implement isActive() method.
+    throw new MembershipFeatureNotImplementedException('Membership isActive method not implemented.');
+  }
+
+
+  /**
+   * @inheritdoc
+   */
+  static public function getWorkflowId(MembershipInterface $membership) {
+    $workflow = MembershipType::load($membership->bundle())->getWorkflowId();
+    return $workflow;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function setWorkflowId($workflow) {
+    $this->workflow = $workflow;
+    return $this;
   }
 
 }

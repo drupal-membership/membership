@@ -1,0 +1,20 @@
+uuid: 9cb697db-7ad8-41ff-a520-8f7f560e1bfc
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime_range
+    - membership
+id: membership_term.field_active_dates
+field_name: field_active_dates
+entity_type: membership_term
+type: daterange
+settings:
+  datetime_type: datetime
+module: datetime_range
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

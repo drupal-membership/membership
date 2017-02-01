@@ -1,0 +1,9 @@
+uuid: 5f8f4d04-b408-4d08-86f4-1d3babee5f53
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: s6o-XV26p1ZNSwMdh9qUN7RAxwQhuegcsms6xGN4Sog
+label: Membership
+id: membership
+workflow: membership_default

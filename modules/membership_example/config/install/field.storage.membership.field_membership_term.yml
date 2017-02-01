@@ -1,0 +1,19 @@
+uuid: f6b906ee-5807-4722-ad09-4951a3b04d4b
+langcode: en
+status: true
+dependencies:
+  module:
+    - membership
+id: membership.field_membership_term
+field_name: field_membership_term
+entity_type: membership
+type: entity_reference
+settings:
+  target_type: membership_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

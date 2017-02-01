@@ -1,0 +1,51 @@
+uuid: 69932ec6-3419-4232-91a6-7deb25411c64
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.membership_term.annual_membership.field_active_dates
+    - field.field.membership_term.annual_membership.field_term_length
+    - membership.membership_term_type.annual_membership
+  module:
+    - datetime_range
+    - options
+    - user
+_core:
+  default_config_hash: XCKHajHthZSfeTcqGvZDiNWRudj2iPYqOepr6Ysk-mM
+id: membership_term.annual_membership.default
+targetEntityType: membership_term
+bundle: annual_membership
+mode: default
+content:
+  field_active_dates:
+    weight: 1
+    label: above
+    settings:
+      separator: '-'
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: daterange_default
+  name:
+    label: above
+    type: string
+    weight: -4
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  state:
+    label: hidden
+    type: list_default
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_term_length: true
+  langcode: true
+  membership: true

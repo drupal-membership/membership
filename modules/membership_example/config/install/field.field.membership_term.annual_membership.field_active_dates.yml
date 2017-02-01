@@ -1,0 +1,26 @@
+uuid: 824c31ea-f0a5-4b32-9d96-261614752c9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership_term.field_active_dates
+    - membership.membership_term_type.annual_membership
+  module:
+    - datetime_range
+id: membership_term.annual_membership.field_active_dates
+field_name: field_active_dates
+entity_type: membership_term
+bundle: annual_membership
+label: 'Active Dates'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    default_date_type: now
+    default_date: now
+    default_end_date_type: relative
+    default_end_date: '+1 year'
+default_value_callback: ''
+settings: {  }
+field_type: daterange

@@ -2,28 +2,26 @@
 
 /**
  * @file
- * Contains membership_offer.page.inc.
+ * Contains membership_term.page.inc.
  *
- * Page callback for Membership Offer entities.
+ * Page callback for Membership term entity entities.
  */
 
 use Drupal\Core\Render\Element;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
 
 /**
- * Prepares variables for Membership Offer templates.
+ * Prepares variables for Membership term templates.
  *
- * Default template: membership_offer.html.twig.
+ * Default template: membership_term.html.twig.
  *
  * @param array $variables
  *   An associative array containing:
  *   - elements: An associative array containing the user information and any
  *   - attributes: HTML attributes for the containing element.
  */
-function template_preprocess_membership_offer(array &$variables) {
-  // Fetch MembershipOffer Entity Object.
-  $membership_offer = $variables['elements']['#membership_offer'];
+function template_preprocess_membership_term(array &$variables) {
+  // Fetch MembershipTerm Entity Object.
+  $membership_term= $variables['elements']['#membership_term'];
 
   // Helpful $content variable for templates.
   foreach (Element::children($variables['elements']) as $key) {

@@ -1,0 +1,10 @@
+uuid: 77eb747a-2439-48c7-a0e0-e0ef16f9058a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: XW0BcfGh2tOc7X2C-f3FjruEyQvy4L5XwhF5-OOWidY
+label: 'Annual Membership'
+id: annual_membership
+membership_type: basic_membership
+workflow: membership_term_default

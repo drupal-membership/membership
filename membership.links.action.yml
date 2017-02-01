@@ -9,8 +9,9 @@ entity.membership.add_form:
   title: 'Add Membership'
   appears_on:
     - entity.membership.collection
-entity.membership_offer.add_form:
-  route_name: entity.membership_offer.add_form
-  title: 'Add Membership Offer'
+entity.membership_term_type.add_form:
+  route_name: 'entity.membership_term_type.add_form'
+  title: 'Add Membership term type'
   appears_on:
-    - entity.membership_offer.collection
+    - entity.membership_term_type.collection
+

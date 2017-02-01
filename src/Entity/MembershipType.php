@@ -3,8 +3,6 @@
 namespace Drupal\membership\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\membership\MembershipInterface;
-use Drupal\membership\MembershipTypeInterface;
 
 /**
  * Defines the Membership type entity.

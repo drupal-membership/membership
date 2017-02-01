@@ -1,0 +1,28 @@
+uuid: c1018da8-9af5-4c17-b713-74b82a625e6b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership.field_membership_term
+    - membership.membership_term_type.annual_membership
+    - membership.membership_type.membership
+id: membership.membership.field_membership_term
+field_name: field_membership_term
+entity_type: membership
+bundle: membership
+label: 'Membership Term'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:membership_term'
+  handler_settings:
+    target_bundles:
+      annual_membership: annual_membership
+    sort:
+      field: _none
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

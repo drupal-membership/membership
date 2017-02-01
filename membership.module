@@ -24,6 +24,13 @@ function membership_help($route_name, RouteMatchInterface $route_match) {
 }
 
 /**
+ * Implements hook_toolbar_alter().
+ */
+function membership_toolbar_alter(&$items) {
+  $items['administration']['#attached']['library'][] = 'membership/toolbar';
+}
+
+/**
  * Implements hook_theme().
  */
 function membership_theme() {
@@ -37,6 +44,16 @@ function membership_theme() {
     'render element' => 'content',
     'variables' => ['content' => NULL],
     'file' => 'membership.page.inc',
+  ];
+  $theme['membership_term'] = array(
+    'render element' => 'elements',
+    'file' => 'membership_term.page.inc',
+    'template' => 'membership_term',
+  );
+  $theme['membership_term_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
+    'file' => 'membership_term.page.inc',
   ];
   return $theme;
 }
@@ -58,8 +75,17 @@ function membership_theme_suggestions_membership(array $variables) {
 }
 
 /**
- * Implements hook_toolbar_alter().
- */
-function membership_toolbar_alter(&$items) {
-  $items['administration']['#attached']['library'][] = 'membership/toolbar';
+* Implements hook_theme_suggestions_HOOK().
+*/
+function membership_theme_suggestions_membership_term(array $variables) {
+  $suggestions = array();
+  $entity = $variables['elements']['#membership_term'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'membership_term__' . $sanitized_view_mode;
+  $suggestions[] = 'membership_term__' . $entity->bundle();
+  $suggestions[] = 'membership_term__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'membership_term__' . $entity->id();
+  $suggestions[] = 'membership_term__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
 }
