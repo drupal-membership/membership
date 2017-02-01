@@ -74,18 +74,3 @@ function membership_theme_suggestions_membership(array $variables) {
   return $suggestions;
 }
 
-/**
-* Implements hook_theme_suggestions_HOOK().
-*/
-function membership_theme_suggestions_membership_term(array $variables) {
-  $suggestions = array();
-  $entity = $variables['elements']['#membership_term'];
-  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
-
-  $suggestions[] = 'membership_term__' . $sanitized_view_mode;
-  $suggestions[] = 'membership_term__' . $entity->bundle();
-  $suggestions[] = 'membership_term__' . $entity->bundle() . '__' . $sanitized_view_mode;
-  $suggestions[] = 'membership_term__' . $entity->id();
-  $suggestions[] = 'membership_term__' . $entity->id() . '__' . $sanitized_view_mode;
-  return $suggestions;
-}

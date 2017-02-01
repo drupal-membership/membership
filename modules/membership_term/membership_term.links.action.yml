@@ -1,0 +1,6 @@
+entity.membership_term_type.add_form:
+  route_name: 'entity.membership_term_type.add_form'
+  title: 'Add Membership term type'
+  appears_on:
+    - entity.membership_term_type.collection
+

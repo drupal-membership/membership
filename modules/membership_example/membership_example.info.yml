@@ -5,3 +5,4 @@ core: 8.x
 package: Membership
 dependencies:
   - membership
+  - inline_entity_form
