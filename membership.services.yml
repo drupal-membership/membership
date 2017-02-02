@@ -2,3 +2,6 @@ services:
   membership.manager:
     class: Drupal\membership\MembershipManagerService
     arguments: ['@entity.manager', '@entity_type.manager', '@entity.query']
+  plugin.manager.membership_provider.processor:
+    class: Drupal\membership\Plugin\MembershipProviderManager
+    arguments: ['@container.namespaces', '@cache.discovery', '@module_handler', '@entity_field.manager', '@entity_type.manager', '@entity.query']

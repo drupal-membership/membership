@@ -1,8 +1,0 @@
-name: membership_provider
-type: module
-description: Membership Providers
-core: 8.x
-package: Membership
-dependencies:
-  - membership
-  - plugin
