@@ -2,10 +2,8 @@
 
 /**
  * @file
- * Contains membership.module..
+ * Contains membership_term.module.
  */
-
-use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_theme().

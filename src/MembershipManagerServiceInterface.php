@@ -32,5 +32,4 @@ interface MembershipManagerServiceInterface {
    */
   public function getMembership(User $user, $membership_type = '', $create_if_not_found = FALSE);
 
-
 }

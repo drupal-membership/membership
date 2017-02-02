@@ -2,4 +2,3 @@ services:
   membership.manager:
     class: Drupal\membership\MembershipManagerService
     arguments: ['@entity.manager', '@entity_type.manager', '@entity.query']
-

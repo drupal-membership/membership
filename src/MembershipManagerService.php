@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\membership;
+
 use Drupal\Core\Entity\EntityManager;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\Query\QueryFactory;

@@ -5,4 +5,3 @@ entity.membership_term_type.collection:
   description: 'List Membership term type (bundles)'
   parent: membership.admin_membership
   weight: 110
-

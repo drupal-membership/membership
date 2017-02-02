@@ -20,10 +20,7 @@ use Drupal\Core\Render\Element;
  *   - attributes: HTML attributes for the containing element.
  */
 function template_preprocess_membership_term(array &$variables) {
-  // Fetch MembershipTerm Entity Object.
-  $membership_term= $variables['elements']['#membership_term'];
-
-  // Helpful $content variable for templates.
+  // Helpful content variable for templates.
   foreach (Element::children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];
   }

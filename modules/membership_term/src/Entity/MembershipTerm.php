@@ -251,5 +251,4 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
     return $workflow;
   }
 
-
 }

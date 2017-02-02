@@ -28,4 +28,3 @@ membership_term_default:
       label: Restart
       from: [expired]
       to: active
-
