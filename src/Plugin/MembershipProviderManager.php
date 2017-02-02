@@ -2,7 +2,7 @@
 
 namespace Drupal\membership\Plugin;
 
-use Drupal\Core\Config\Entity\Query\QueryFactory;
+use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
