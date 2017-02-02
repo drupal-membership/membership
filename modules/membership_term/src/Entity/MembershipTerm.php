@@ -1,60 +1,54 @@
 <?php
 
-namespace Drupal\membership\Entity;
+namespace Drupal\membership_term\Entity;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\membership\Entity\MembershipTermInterface;
 use Drupal\membership\EventDispatcherTrait;
-use Drupal\membership\MembershipOfferInterface;
 use Drupal\user\UserInterface;
 
 /**
- * Defines the Membership Offer entity.
+ * Defines the Membership term entity.
  *
  * @ingroup membership
  *
  * @ContentEntityType(
- *   id = "membership_offer",
- *   label = @Translation("Membership Offer"),
+ *   id = "membership_term",
+ *   label = @Translation("Membership term"),
+ *   bundle_label = @Translation("Membership term type"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\membership\MembershipOfferListBuilder",
- *     "views_data" = "Drupal\membership\Entity\MembershipOfferViewsData",
+ *     "list_builder" = "Drupal\membership_term\MembershipTermListBuilder",
+ *     "views_data" = "Drupal\membership_term\Entity\MembershipTermViewsData",
+ *
  *     "form" = {
- *       "default" = "Drupal\membership\Form\MembershipOfferForm",
- *       "add" = "Drupal\membership\Form\MembershipOfferForm",
- *       "edit" = "Drupal\membership\Form\MembershipOfferForm",
- *       "delete" = "Drupal\membership\Form\MembershipOfferDeleteForm",
+ *       "default" = "Drupal\membership_term\Form\MembershipTermForm",
+ *       "add" = "Drupal\membership_term\Form\MembershipTermForm",
+ *       "edit" = "Drupal\membership_term\Form\MembershipTermForm",
+ *       "delete" = "Drupal\membership_term\Form\MembershipTermDeleteForm",
  *     },
- *     "access" = "Drupal\membership\MembershipOfferAccessControlHandler",
- *     "route_provider" = {
- *       "html" = "Drupal\membership\MembershipOfferHtmlRouteProvider",
- *     },
+ *     "access" = "Drupal\membership_term\MembershipTermAccessControlHandler",
  *   },
- *   base_table = "membership_offer",
- *   admin_permission = "administer membership offer entities",
+ *   base_table = "membership_term",
+ *   admin_permission = "administer membership term entities",
  *   entity_keys = {
  *     "id" = "id",
+ *     "bundle" = "type",
  *     "label" = "name",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
  *     "status" = "status",
  *   },
- *   links = {
- *     "canonical" = "/admin/structure/membership_offer/membership_offer/{membership_offer}",
- *     "add-form" = "/admin/structure/membership_offer/membership_offer/add",
- *     "edit-form" = "/admin/structure/membership_offer/membership_offer/{membership_offer}/edit",
- *     "delete-form" = "/admin/structure/membership_offer/membership_offer/{membership_offer}/delete",
- *     "collection" = "/admin/structure/membership_offer/membership_offer",
- *   },
- *   field_ui_base_route = "membership_offer.settings"
+ *   bundle_entity_type = "membership_term_type",
+ *   field_ui_base_route = "entity.membership_term_type.edit_form"
  * )
  */
-class MembershipOffer extends ContentEntityBase implements MembershipOfferInterface {
+class MembershipTerm extends ContentEntityBase implements MembershipTermInterface {
 
   use EntityChangedTrait;
   use EventDispatcherTrait;
@@ -67,6 +61,13 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
     $values += array(
       'user_id' => \Drupal::currentUser()->id(),
     );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getType() {
+    return $this->bundle();
   }
 
   /**
@@ -140,7 +141,7 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
    * {@inheritdoc}
    */
   public function setPublished($published) {
-    $this->set('status', $published ? NODE_PUBLISHED : NODE_NOT_PUBLISHED);
+    $this->set('status', $published ? TRUE : FALSE);
     return $this;
   }
 
@@ -148,22 +149,14 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
-    $fields['id'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('ID'))
-      ->setDescription(t('The ID of the Membership Offer entity.'))
-      ->setReadOnly(TRUE);
-    $fields['uuid'] = BaseFieldDefinition::create('uuid')
-      ->setLabel(t('UUID'))
-      ->setDescription(t('The UUID of the Membership Offer entity.'))
-      ->setReadOnly(TRUE);
+    $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Membership Offer entity.'))
+      ->setDescription(t('The user ID of author of the Membership term entity entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
-      ->setDefaultValueCallback('Drupal\node\Entity\Node::getCurrentUserId')
       ->setTranslatable(TRUE)
       ->setDisplayOptions('view', array(
         'label' => 'hidden',
@@ -185,7 +178,7 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Membership Offer entity.'))
+      ->setDescription(t('The name of the Membership term entity.'))
       ->setSettings(array(
         'max_length' => 50,
         'text_processing' => 0,
@@ -205,17 +198,8 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
 
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Membership Offer is published.'))
+      ->setDescription(t('A boolean indicating whether the Membership term is published.'))
       ->setDefaultValue(TRUE);
-
-    $fields['langcode'] = BaseFieldDefinition::create('language')
-      ->setLabel(t('Language code'))
-      ->setDescription(t('The language code for the Membership Offer entity.'))
-      ->setDisplayOptions('form', array(
-        'type' => 'language_select',
-        'weight' => 10,
-      ))
-      ->setDisplayConfigurable('form', TRUE);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
@@ -225,11 +209,26 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the entity was last edited.'));
 
-    $fields['membership_type'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Membership Type'))
-      ->setDescription(t('The Membership type that is created as a result of redeeming this offer.'))
+    $fields['state'] = BaseFieldDefinition::create('state')
+      ->setLabel(t('State'))
+      ->setDescription(t('The order state.'))
+      ->setRequired(TRUE)
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'list_default',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
-      ->setSetting('target_type', 'membership_type')
+      ->setSetting('workflow_callback', ['\Drupal\membership_term\Entity\MembershipTerm', 'getWorkflowId']);
+
+    $fields['membership'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Membership'))
+      ->setDescription(t('The Membership associated with this term.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'membership')
       ->setTranslatable(TRUE)
       ->setDisplayOptions('form', array(
         'type' => 'options_select',
@@ -237,39 +236,19 @@ class MembershipOffer extends ContentEntityBase implements MembershipOfferInterf
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
-
     return $fields;
   }
 
-  /**
-   * @inheritDoc
-   */
-  public function getStores() {
-    // todo: implement
-    return [];
+  public function getMembershipType() {
+    return 'membership';
   }
 
   /**
-   * @inheritDoc
+   * @inheritdoc
    */
-  public function getPrice() {
-    // todo: implement
-    return null;
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getOrderItemTypeId() {
-    // todo: implement
-    return '';
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function getOrderItemTitle() {
-    return $this->label();
+  static public function getWorkflowId(MembershipTermInterface $membership_term) {
+    $workflow = MembershipTermType::load($membership_term->bundle())->getWorkflowId();
+    return $workflow;
   }
 
 }

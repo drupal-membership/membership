@@ -4,6 +4,7 @@ namespace Drupal\membership\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\membership\Entity\MembershipTypeInterface;
 use Drupal\state_machine\WorkflowManagerInterface;
 
 /**
@@ -21,6 +22,8 @@ class MembershipTypeForm extends EntityForm {
     $workflow_manager = \Drupal::service('plugin.manager.workflow');
     $workflows = $workflow_manager->getGroupedLabels('membership');
 
+    /** @var MembershipTypeInterface $entity */
+    $entity = $this->entity;
     $membership_type = $this->entity;
     $form['label'] = array(
       '#type' => 'textfield',
@@ -43,7 +46,7 @@ class MembershipTypeForm extends EntityForm {
       '#type' => 'select',
       '#title' => t('Workflow'),
       '#options' => $workflows,
-      '#default_value' => $this->entity->getWorkflowId(),
+      '#default_value' => $entity->getWorkflowId(),
       '#description' => $this->t('Used by all memberships of this type.'),
       '#required' => true,
     ];
@@ -70,7 +73,7 @@ class MembershipTypeForm extends EntityForm {
           '%label' => $membership_type->label(),
         ]));
     }
-    $form_state->setRedirectUrl($membership_type->urlInfo('collection'));
+    $form_state->setRedirectUrl($membership_type->toUrl('collection'));
   }
 
 }

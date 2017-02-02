@@ -1,0 +1,7 @@
+name: membership_term
+type: module
+description: Membership Term plugin for basic membership systems
+core: 8.x
+package: Membership
+dependencies:
+  - membership

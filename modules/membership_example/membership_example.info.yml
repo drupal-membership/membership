@@ -1,0 +1,9 @@
+name: Membership Example
+type: module
+description: Starter configuration to get a basic membership system up and running, purely a set of config entities to install. You may uninstall the module after enabling it, and the configurations will remain.
+core: 8.x
+package: Membership
+dependencies:
+  - membership
+  - membership_term
+  - inline_entity_form

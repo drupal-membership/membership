@@ -1,0 +1,23 @@
+uuid: a937ea7b-f8e2-4504-96e4-641e94b38154
+langcode: en
+status: true
+dependencies:
+  module:
+    - membership_term
+_core:
+  default_config_hash: PrZvSYS1gL0rgGGb29O4peW6FykKuxf5KLiWE5-zszo
+id: membership_term.field_term_length
+field_name: field_term_length
+entity_type: membership_term
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

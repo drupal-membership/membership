@@ -1,0 +1,22 @@
+add membership term entities:
+  title: 'Create new Membership term entities'
+
+administer membership term entities:
+  title: 'Administer Membership term entities'
+  description: 'Allow to access the administration form to configure Membership term entities.'
+  restrict access: true
+
+delete membership term entities:
+  title: 'Delete Membership term entities'
+
+edit membership term entities:
+  title: 'Edit Membership term entities'
+
+access membership term overview:
+  title: 'Access the Membership term overview page'
+
+view published membership term entities:
+  title: 'View published Membership term entities'
+
+view unpublished membership term entities:
+  title: 'View unpublished Membership term entities'

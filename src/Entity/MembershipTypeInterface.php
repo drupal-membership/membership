@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\membership;
+namespace Drupal\membership\Entity;
 
 use Drupal\entity\Entity\RevisionableEntityBundleInterface;
 
@@ -11,9 +11,21 @@ interface MembershipTypeInterface extends RevisionableEntityBundleInterface {
 
   /**
    * Report whether the membership of this type is considered expired.
+   * @param \Drupal\membership\Entity\MembershipInterface $membership
    * 
    * @return boolean|null True or false, or NULL if not able to determine.
    */
   public function isExpired(MembershipInterface $membership);
+
+  /**
+   * @return string
+   */
+  public function getWorkflowId();
+
+  /**
+   * @param string $workflow_id
+   * @return mixed
+   */
+  public function setWorkflowId($workflow_id);
 
 }

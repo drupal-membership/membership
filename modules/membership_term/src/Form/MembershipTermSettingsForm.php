@@ -1,18 +1,19 @@
 <?php
 
-namespace Drupal\membership\Form;
+namespace Drupal\membership_term\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class MembershipOfferSettingsForm.
+ * Class MembershipTermSettingsForm.
  *
- * @package Drupal\membership\Form
+ * @package Drupal\membership_term\Form
  *
  * @ingroup membership
  */
-class MembershipOfferSettingsForm extends FormBase {
+class MembershipTermSettingsForm extends FormBase {
+
   /**
    * Returns a unique string identifying the form.
    *
@@ -20,7 +21,7 @@ class MembershipOfferSettingsForm extends FormBase {
    *   The unique string identifying the form.
    */
   public function getFormId() {
-    return 'MembershipOffer_settings';
+    return 'MembershipTerm_settings';
   }
 
   /**
@@ -35,9 +36,8 @@ class MembershipOfferSettingsForm extends FormBase {
     // Empty implementation of the abstract submit class.
   }
 
-
   /**
-   * Defines the settings form for Membership Offer entities.
+   * Defines the settings form for Membership term entities.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
@@ -48,7 +48,7 @@ class MembershipOfferSettingsForm extends FormBase {
    *   Form definition array.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['MembershipOffer_settings']['#markup'] = 'Settings form for Membership Offer entities. Manage field settings here.';
+    $form['MembershipTerm_settings']['#markup'] = 'Settings form for Membership term entities. Manage field settings here.';
     return $form;
   }
 

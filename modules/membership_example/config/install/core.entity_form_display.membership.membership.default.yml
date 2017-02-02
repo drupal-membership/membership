@@ -1,0 +1,51 @@
+uuid: 42dfc54b-d19a-49e2-a927-444d9ad19722
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.membership.membership.field_membership_term
+    - membership.membership_type.membership
+  module:
+    - inline_entity_form
+id: membership.membership.default
+targetEntityType: membership
+bundle: membership
+mode: default
+content:
+  field_membership_term:
+    weight: 26
+    settings:
+      form_mode: default
+      label_singular: ''
+      label_plural: ''
+      override_labels: false
+    third_party_settings: {  }
+    type: inline_entity_form_simple
+  membership_term:
+    type: inline_entity_form_complex
+    weight: 0
+    settings:
+      form_mode: default
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      match_operator: CONTAINS
+      override_labels: false
+      allow_existing: false
+    third_party_settings:
+      entity_browser_entity_form:
+        entity_browser_id: _none
+  state:
+    type: options_select
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

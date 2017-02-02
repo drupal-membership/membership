@@ -1,0 +1,35 @@
+uuid: 4ee2e7d1-5bbb-400d-83ef-a033cd0b7dea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.membership.membership.field_membership_term
+    - membership.membership_type.membership
+  module:
+    - options
+    - user
+id: membership.membership.default
+targetEntityType: membership
+bundle: membership
+mode: default
+content:
+  field_membership_term:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+  state:
+    label: hidden
+    type: list_default
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

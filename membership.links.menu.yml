@@ -22,16 +22,3 @@ entity.membership_type.collection:
   parent: membership.admin_membership
   weight: 99
 
-# Membership Offer menu items definition
-entity.membership_offer.collection:
-  title: 'Membership Offers'
-  route_name: entity.membership_offer.collection
-  description: 'List Membership Offer entities'
-  parent: membership.admin_membership
-  weight: 100
-
-membership_offer.admin.structure.settings:
-  title: Membership Offer settings
-  description: 'Configure Membership Offer entities'
-  route_name: membership_offer.settings
-  parent: entity.membership_offer.collection

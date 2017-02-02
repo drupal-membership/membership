@@ -24,6 +24,13 @@ function membership_help($route_name, RouteMatchInterface $route_match) {
 }
 
 /**
+ * Implements hook_toolbar_alter().
+ */
+function membership_toolbar_alter(&$items) {
+  $items['administration']['#attached']['library'][] = 'membership/toolbar';
+}
+
+/**
  * Implements hook_theme().
  */
 function membership_theme() {
@@ -57,9 +64,3 @@ function membership_theme_suggestions_membership(array $variables) {
   return $suggestions;
 }
 
-/**
- * Implements hook_toolbar_alter().
- */
-function membership_toolbar_alter(&$items) {
-  $items['administration']['#attached']['library'][] = 'membership/toolbar';
-}
