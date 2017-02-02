@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.membership_term.field_term_length
-    - membership.membership_term_type.annual_membership
+    - membership_term.membership_term_type.annual_membership
 _core:
   default_config_hash: SIlKsN0Jd3pQi8xtuGIcM-3gyQ8GAsL1hAjuuqb3NFk
 id: membership_term.annual_membership.field_term_length

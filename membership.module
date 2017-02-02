@@ -45,16 +45,6 @@ function membership_theme() {
     'variables' => ['content' => NULL],
     'file' => 'membership.page.inc',
   ];
-  $theme['membership_term'] = array(
-    'render element' => 'elements',
-    'file' => 'membership_term.page.inc',
-    'template' => 'membership_term',
-  );
-  $theme['membership_term_content_add_list'] = [
-    'render element' => 'content',
-    'variables' => ['content' => NULL],
-    'file' => 'membership_term.page.inc',
-  ];
   return $theme;
 }
 

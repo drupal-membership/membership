@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.field.membership_term.annual_membership.field_active_dates
     - field.field.membership_term.annual_membership.field_term_length
-    - membership.membership_term_type.annual_membership
+    - membership_term.membership_term_type.annual_membership
   module:
     - datetime_range
     - options

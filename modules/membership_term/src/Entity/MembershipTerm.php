@@ -7,6 +7,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\membership\Entity\MembershipTermInterface;
 use Drupal\membership\EventDispatcherTrait;
 use Drupal\user\UserInterface;
 
@@ -21,16 +22,16 @@ use Drupal\user\UserInterface;
  *   bundle_label = @Translation("Membership term type"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\membership\MembershipTermListBuilder",
- *     "views_data" = "Drupal\membership\Entity\MembershipTermViewsData",
+ *     "list_builder" = "Drupal\membership_term\MembershipTermListBuilder",
+ *     "views_data" = "Drupal\membership_term\Entity\MembershipTermViewsData",
  *
  *     "form" = {
- *       "default" = "Drupal\membership\Form\MembershipTermForm",
- *       "add" = "Drupal\membership\Form\MembershipTermForm",
- *       "edit" = "Drupal\membership\Form\MembershipTermForm",
- *       "delete" = "Drupal\membership\Form\MembershipTermDeleteForm",
+ *       "default" = "Drupal\membership_term\Form\MembershipTermForm",
+ *       "add" = "Drupal\membership_term\Form\MembershipTermForm",
+ *       "edit" = "Drupal\membership_term\Form\MembershipTermForm",
+ *       "delete" = "Drupal\membership_term\Form\MembershipTermDeleteForm",
  *     },
- *     "access" = "Drupal\membership\MembershipTermAccessControlHandler",
+ *     "access" = "Drupal\membership_term\MembershipTermAccessControlHandler",
  *   },
  *   base_table = "membership_term",
  *   admin_permission = "administer membership term entities",
@@ -221,7 +222,7 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
-      ->setSetting('workflow_callback', ['\Drupal\membership\Entity\MembershipTerm', 'getWorkflowId']);
+      ->setSetting('workflow_callback', ['\Drupal\membership_term\Entity\MembershipTerm', 'getWorkflowId']);
 
     $fields['membership'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Membership'))

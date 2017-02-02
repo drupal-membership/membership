@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.membership_term.field_active_dates
-    - membership.membership_term_type.annual_membership
+    - membership_term.membership_term_type.annual_membership
   module:
     - datetime_range
 id: membership_term.annual_membership.field_active_dates

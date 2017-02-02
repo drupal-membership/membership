@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - membership
+    - membership_term
 _core:
   default_config_hash: PrZvSYS1gL0rgGGb29O4peW6FykKuxf5KLiWE5-zszo
 id: membership_term.field_term_length

@@ -10,7 +10,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_theme().
  */
-function membership_theme() {
+function membership_term_theme() {
   $theme = [];
   $theme['membership_term'] = array(
     'render element' => 'elements',

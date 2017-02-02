@@ -4,7 +4,7 @@ status: true
 dependencies:
   module:
     - datetime_range
-    - membership
+    - membership_term
 id: membership_term.field_active_dates
 field_name: field_active_dates
 entity_type: membership_term

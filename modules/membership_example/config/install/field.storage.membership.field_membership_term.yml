@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - membership
+    - membership_term
 id: membership.field_membership_term
 field_name: field_membership_term
 entity_type: membership

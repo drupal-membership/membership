@@ -3,6 +3,7 @@
 namespace Drupal\membership_term\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\membership\Entity\MembershipTermTypeInterface;
 
 /**
  * Defines the Membership term type entity.
@@ -11,14 +12,14 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *   id = "membership_term_type",
  *   label = @Translation("Membership term type"),
  *   handlers = {
- *     "list_builder" = "Drupal\membership\MembershipTermTypeListBuilder",
+ *     "list_builder" = "Drupal\membership_term\MembershipTermTypeListBuilder",
  *     "form" = {
- *       "add" = "Drupal\membership\Form\MembershipTermTypeForm",
- *       "edit" = "Drupal\membership\Form\MembershipTermTypeForm",
- *       "delete" = "Drupal\membership\Form\MembershipTermTypeDeleteForm"
+ *       "add" = "Drupal\membership_term\Form\MembershipTermTypeForm",
+ *       "edit" = "Drupal\membership_term\Form\MembershipTermTypeForm",
+ *       "delete" = "Drupal\membership_term\Form\MembershipTermTypeDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\membership\MembershipTermTypeHtmlRouteProvider",
+ *       "html" = "Drupal\membership_term\MembershipTermTypeHtmlRouteProvider",
  *     },
  *   },
  *   config_prefix = "membership_term_type",
