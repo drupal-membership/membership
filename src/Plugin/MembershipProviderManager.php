@@ -88,7 +88,7 @@ class MembershipProviderManager extends DefaultPluginManager {
    * @param $id string The plugin ID to query.
    * @return array Array of plugin configurations
    */
-  public function getFieldInstances(string $id) {
+  public function getFieldInstances($id) {
     $instances = $this->entityFieldManager->getFieldMapByFieldType('plugin:membership_provider');
     $tags = [];
     foreach ($instances as $entity_type => $def) {
@@ -119,7 +119,7 @@ class MembershipProviderManager extends DefaultPluginManager {
    * @param $id string Plugin ID
    * @return array Array of plugin configs
    */
-  public function getFieldedEntities(string $id) {
+  public function getFieldedEntities($id) {
     $configs = [];
     foreach ($this->getFieldInstances($id) as $entity_type => $defs) {
       $configs = array_merge($configs, $defs);

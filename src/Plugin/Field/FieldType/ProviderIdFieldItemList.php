@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\commerce\Plugin\Field\FieldType;
+namespace Drupal\membership\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldItemList;
 
 /**
  * Defines the 'commerce_remote_id' field item list class.
  */
-class RemoteIdFieldItemList extends FieldItemList {
+class ProviderIdFieldItemList extends FieldItemList {
 
   /**
    * {@inheritdoc}
