@@ -16,7 +16,7 @@
         "drupal/entity": "1.x-dev"
     },
     "suggest": {
-        "drupal/plugin": "Required for membership_provider module"
+        "drupal/plugin": "Exposes membership_provider plugin type to Plugin module."
     },
     "support": {
         "issues": "https://www.drupal.org/project/issues/membership?status=All&categories=All",

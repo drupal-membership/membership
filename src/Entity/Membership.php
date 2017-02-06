@@ -201,7 +201,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setRevisionable(TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership\Entity\Membership', 'getWorkflowId']);
     $fields['provider'] = BaseFieldDefinition::create('membership_provider_id')
-      ->setLabel('Membership Provider')
+      ->setLabel('Provider plugin/remote ID')
       ->setDisplayConfigurable('form', false)
       ->setDisplayConfigurable('view', false);
 

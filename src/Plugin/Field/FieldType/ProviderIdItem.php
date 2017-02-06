@@ -25,10 +25,10 @@ class ProviderIdItem extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
-    $properties['plugin_id'] = DataDefinition::create('plugin_id')
+    $properties['plugin_id'] = DataDefinition::create('string')
       ->setLabel(t('Plugin ID'));
     $properties['remote_id'] = DataDefinition::create('string')
-      ->setLabel(t('ID'));
+      ->setLabel(t('Remote ID'));
 
     return $properties;
   }
