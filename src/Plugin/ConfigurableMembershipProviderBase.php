@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\membership_provider\Plugin;
+namespace Drupal\membership\Plugin;
 
 use Drupal\Component\Plugin\ConfigurablePluginInterface;
 use Drupal\Component\Utility\NestedArray;
@@ -15,17 +15,24 @@ abstract class ConfigurableMembershipProviderBase extends MembershipProviderBase
   /**
    * @inheritDoc
    */
-  public function calculateDependencies() {
-    return [
-      'module' => ['membership', 'plugin'],
-    ];
+  public function getConfiguration() {
+    return $this->configuration;
   }
 
   /**
    * @inheritDoc
    */
-  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
-    // TODO: Implement validateConfigurationForm() method.
+  public function setConfiguration(array $configuration) {
+    $this->configuration = $configuration;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function calculateDependencies() {
+    return [
+      'module' => ['membership', 'plugin'],
+    ];
   }
 
   /**

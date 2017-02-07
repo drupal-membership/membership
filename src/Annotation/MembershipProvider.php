@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\membership_provider\Annotation;
+namespace Drupal\membership\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
 
 /**
  * Defines a Membership provider item annotation object.
  *
- * @see \Drupal\membership_provider\Plugin\MembershipProviderManager
+ * @see \Drupal\membership\Plugin\MembershipProviderManager
  * @see plugin_api
  *
  * @Annotation
