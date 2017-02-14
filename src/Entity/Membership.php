@@ -298,4 +298,13 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
     return $this;
   }
 
+  /**
+   * @inheritDoc
+   */
+  public function getProviderPlugin() {
+    /** @var \Drupal\membership\Plugin\MembershipProviderManager $manager */
+    $manager = \Drupal::service('plugin.manager.membership_provider.processor');
+    return $manager->getInstance($this->get('provider')->first()->getValue());
+  }
+
 }
