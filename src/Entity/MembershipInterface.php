@@ -90,7 +90,7 @@ interface MembershipInterface extends ContentEntityInterface, EntityChangedInter
   /**
    * Gets the workflow ID for the state field.
    *
-   * @param \Drupal\membership\MembershipInterface $membership
+   * @param \Drupal\membership\Entity\MembershipInterface $membership
    *   The membership.
    *
    * @return string
@@ -103,5 +103,12 @@ interface MembershipInterface extends ContentEntityInterface, EntityChangedInter
    * @return mixed
    */
   public function setWorkflowId($workflow_id);
+
+  /**
+   * Return a configured provider plugin for the membership.
+   *
+   * @return \Drupal\membership\Plugin\MembershipProviderInterface|NULL
+   */
+  public function getProviderPlugin();
 
 }
