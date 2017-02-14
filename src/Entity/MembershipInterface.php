@@ -99,12 +99,6 @@ interface MembershipInterface extends ContentEntityInterface, EntityChangedInter
   static public function getWorkflowId(MembershipInterface $membership);
 
   /**
-   * @param string $workflow_id
-   * @return mixed
-   */
-  public function setWorkflowId($workflow_id);
-
-  /**
    * Return a configured provider plugin for the membership.
    *
    * @return \Drupal\membership\Plugin\MembershipProviderInterface|NULL

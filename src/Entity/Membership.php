@@ -291,14 +291,6 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
   }
 
   /**
-   * @inheritdoc
-   */
-  public function setWorkflowId($workflow) {
-    $this->workflow = $workflow;
-    return $this;
-  }
-
-  /**
    * @inheritDoc
    */
   public function getProviderPlugin() {
