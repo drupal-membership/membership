@@ -34,7 +34,10 @@ use Drupal\membership\Entity\MembershipTermTypeInterface;
  *     "label",
  *     "id",
  *     "membership_type",
+ *     "term_length",
+ *     "grace_period",
  *     "workflow",
+ *     "term_length",
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/membership_term_type/membership_term_type/{membership_term_type}",
@@ -60,6 +63,20 @@ class MembershipTermType extends ConfigEntityBundleBase implements MembershipTer
    * @var string
    */
   protected $label;
+
+  /**
+   * Term length for this membership term type.
+   *
+   * @var string
+   */
+  protected $term_length;
+
+  /**
+   * Grace period after term expires, before membership is revoked.
+   *
+   * @var string
+   */
+  protected $grace_period;
 
   /**
    * The membership term workflow ID.
@@ -88,6 +105,20 @@ class MembershipTermType extends ConfigEntityBundleBase implements MembershipTer
   public function setMembershipType($membership_type) {
     $this->membership_type = $membership_type;
     return $this;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getTermLength() {
+    return $this->term_length;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getGracePeriod() {
+    return $this->grace_period;
   }
 
   /**
