@@ -22,8 +22,7 @@ class MembershipTypeForm extends EntityForm {
     $workflow_manager = \Drupal::service('plugin.manager.workflow');
     $workflows = $workflow_manager->getGroupedLabels('membership');
 
-    /** @var MembershipTypeInterface $entity */
-    $entity = $this->entity;
+    /** @var MembershipTypeInterface $membership_type */
     $membership_type = $this->entity;
     $form['label'] = array(
       '#type' => 'textfield',
@@ -46,7 +45,7 @@ class MembershipTypeForm extends EntityForm {
       '#type' => 'select',
       '#title' => t('Workflow'),
       '#options' => $workflows,
-      '#default_value' => $entity->getWorkflowId(),
+      '#default_value' => $membership_type->getWorkflowId(),
       '#description' => $this->t('Used by all memberships of this type.'),
       '#required' => true,
     ];

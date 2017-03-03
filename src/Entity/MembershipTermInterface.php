@@ -15,6 +15,32 @@ interface MembershipTermInterface extends  ContentEntityInterface, EntityChanged
 
   // Add get/set methods for your configuration properties here.
 
+
+  /**
+   * Gets the membership for a term
+   *
+   * @return Membership
+   *   The membership entity
+   */
+  public function getMembership();
+
+  /**
+   * Set a membership on a term.
+   *
+   * @param \Drupal\membership\Entity\MembershipInterface $membership
+   *
+   * @return \Drupal\membership\Entity\MembershipTermInterface
+   *   The called Membership term.
+   */
+  public function setMembership(MembershipInterface $membership);
+  /**
+   * Gets the membership id for a term
+   *
+   * @return integer
+   *   The membership entity_id
+   */
+  public function getMembershipId();
+
   /**
    * Gets the Membership term type.
    *
@@ -22,25 +48,6 @@ interface MembershipTermInterface extends  ContentEntityInterface, EntityChanged
    *   The Membership term type.
    */
   public function getType();
-
-  /**
-   * Gets the Membership term name.
-   *
-   * @return string
-   *   Name of the Membership term.
-   */
-  public function getName();
-
-  /**
-   * Sets the Membership term name.
-   *
-   * @param string $name
-   *   The Membership term name.
-   *
-   * @return \Drupal\membership\Entity\MembershipTermInterface
-   *   The called Membership term entity.
-   */
-  public function setName($name);
 
   /**
    * Gets the Membership term creation timestamp.
@@ -61,26 +68,6 @@ interface MembershipTermInterface extends  ContentEntityInterface, EntityChanged
    */
   public function setCreatedTime($timestamp);
 
-  /**
-   * Returns the Membership term published status indicator.
-   *
-   * Unpublished Membership term are only visible to restricted users.
-   *
-   * @return bool
-   *   TRUE if the Membership term is published.
-   */
-  public function isPublished();
-
-  /**
-   * Sets the published status of a Membership term.
-   *
-   * @param bool $published
-   *   TRUE to set this Membership term to published, FALSE to set it to unpublished.
-   *
-   * @return \Drupal\membership\Entity\MembershipTermInterface
-   *   The called Membership term entity.
-   */
-  public function setPublished($published);
 
   /**
    * Returns the Membership Type (bundle) that this membership term is associated with.

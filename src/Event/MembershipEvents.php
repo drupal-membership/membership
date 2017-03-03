@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\membership;
+namespace Drupal\membership\Event;
 
 /**
  * Class MembershipEvents
@@ -21,6 +21,10 @@ final class MembershipEvents {
    */
   const CREATED = 'membership.create';
 
+  /**
+   * Membership is updated.
+   */
+  const UPDATED = 'membership.updated';
   /**
    * Membership state changes.
    */

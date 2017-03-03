@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\membership;
+namespace Drupal\membership\Event;
 
 use Drupal\membership\Entity\MembershipInterface;
 use Symfony\Component\EventDispatcher\Event;

@@ -9,8 +9,8 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
 use Drupal\membership\EventDispatcherTrait;
 use Drupal\membership\Exception\MembershipFeatureNotImplementedException;
-use Drupal\membership\MembershipEvent;
-use Drupal\membership\MembershipEvents;
+use Drupal\membership\Event\MembershipEvent;
+use Drupal\membership\Event\MembershipEvents;
 use Drupal\user\UserInterface;
 
 /**
@@ -148,9 +148,10 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setDescription(t('The Membership type/bundle.'))
       ->setSetting('target_type', 'membership_type')
       ->setRequired(TRUE);
+
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Authored by'))
-      ->setDescription(t('The owner of the Membership entity.'))
+      ->setLabel(t('Primary user'))
+      ->setDescription(t('The owner of the Membership.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -173,6 +174,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+
     $fields['data'] = BaseFieldDefinition::create('map')
       ->setLabel(t('Data'))
       ->setReadOnly(TRUE)
@@ -200,6 +202,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership\Entity\Membership', 'getWorkflowId']);
+
     $fields['provider'] = BaseFieldDefinition::create('membership_provider_id')
       ->setLabel('Provider plugin/remote ID')
       ->setDisplayConfigurable('form', false)
@@ -225,6 +228,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       if ($this->isExpired()) {
         $this->getEventDispatcher()->dispatch(MembershipEvents::EXPIRE, $event);
       }
+      $this->setRevisionLogMessage($this->t('State changed: '.$this->state->getValue()));
     }
     parent::preSave($storage);
   }
@@ -248,6 +252,15 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
     parent::postCreate($storage);
   }
 
+  /**
+   * @inheritDoc
+   */
+  function postSave(EntityStorageInterface $storage, $update = TRUE) {
+    $event = new MembershipEvent($this);
+    $this->getEventDispatcher()->dispatch(MembershipEvents::UPDATED, $event);
+    parent::postSave($storage, $update);
+
+  }
 
   /**
    * @inheritDoc

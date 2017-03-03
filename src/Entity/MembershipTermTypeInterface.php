@@ -28,6 +28,15 @@ interface MembershipTermTypeInterface extends ConfigEntityInterface {
   public function getMembershipType();
 
   /**
+   * @return string
+   */
+  public function getTermLength();
+
+  /**
+   * @return string
+   */
+  public function getGracePeriod();
+  /**
    * @param string $membership_type
    * @return string
    */

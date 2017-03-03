@@ -3,6 +3,7 @@
 namespace Drupal\membership\Entity;
 
 use Drupal\entity\Entity\RevisionableEntityBundleInterface;
+use Drupal\membership\Plugin\MembershipProviderInterface;
 
 /**
  * Provides an interface for defining Membership type entities.
@@ -24,8 +25,23 @@ interface MembershipTypeInterface extends RevisionableEntityBundleInterface {
 
   /**
    * @param string $workflow_id
-   * @return mixed
+   * @return MembershipTypeInterface This object
    */
   public function setWorkflowId($workflow_id);
+
+  /**
+   * Get the provider plugin for this membership type.
+   *
+   * @return MembershipProviderInterface
+   */
+  public function getProcessorPlugin();
+
+  /**
+   * Set the processor plugin type and instance id.
+   *
+   * @param $processor_plugin_id string
+   * @return MembershipTypeInterface This object
+   */
+  public function setProcessorPluginId($processor_plugin_id);
 
 }
