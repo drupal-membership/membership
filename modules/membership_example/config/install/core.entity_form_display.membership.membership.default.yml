@@ -6,21 +6,29 @@ dependencies:
     - field.field.membership.membership.field_membership_term
     - membership.membership_type.membership
   module:
+    - entity_browser_entity_form
     - inline_entity_form
+_core:
+  default_config_hash: XhzOrhvlfaGLMLkUyShlzzjlUgNp2crr_OBrTxheIGY
 id: membership.membership.default
 targetEntityType: membership
 bundle: membership
 mode: default
 content:
   field_membership_term:
-    weight: 26
+    weight: 1
     settings:
       form_mode: default
       label_singular: ''
       label_plural: ''
+      allow_new: true
+      match_operator: CONTAINS
       override_labels: false
-    third_party_settings: {  }
-    type: inline_entity_form_simple
+      allow_existing: false
+    third_party_settings:
+      entity_browser_entity_form:
+        entity_browser_id: _none
+    type: inline_entity_form_complex
   membership_term:
     type: inline_entity_form_complex
     weight: 0
@@ -35,17 +43,14 @@ content:
     third_party_settings:
       entity_browser_entity_form:
         entity_browser_id: _none
-  state:
-    type: options_select
-    weight: 1
-    settings: {  }
-    third_party_settings: {  }
   user_id:
     type: entity_reference_autocomplete
-    weight: 2
+    weight: 0
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  provider: true
+  state: true

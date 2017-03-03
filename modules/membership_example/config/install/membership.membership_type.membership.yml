@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: s6o-XV26p1ZNSwMdh9qUN7RAxwQhuegcsms6xGN4Sog
+  default_config_hash: a1-SP2B48R9bhwpfs81XOgHmeWwgNM1VMBDvqj75GWM
 label: Membership
 id: membership
 workflow: membership_default

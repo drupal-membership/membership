@@ -4,14 +4,33 @@ status: true
 dependencies:
   config:
     - field.field.membership_term.annual_membership.field_active_dates
-    - field.field.membership_term.annual_membership.field_term_length
+    - field.field.membership_term.annual_membership.field_revoke_date
     - membership_term.membership_term_type.annual_membership
   module:
     - datetime_range
-    - options
+    - field_group
+    - state_machine
     - user
+third_party_settings:
+  field_group:
+    group_term:
+      children:
+        - field_active_dates
+      parent_name: ''
+      weight: 2
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: ''
+        element: div
+        show_label: true
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Term
 _core:
-  default_config_hash: XCKHajHthZSfeTcqGvZDiNWRudj2iPYqOepr6Ysk-mM
+  default_config_hash: wM7bQ3_yDrPuWkeUfrjgYg0zvpTKFfabrcOTt3MzHTM
 id: membership_term.annual_membership.default
 targetEntityType: membership_term
 bundle: annual_membership
@@ -35,17 +54,17 @@ content:
     third_party_settings: {  }
   state:
     label: hidden
-    type: list_default
+    type: state_transition_form
     weight: 0
     settings: {  }
     third_party_settings: {  }
   user_id:
     label: hidden
     type: author
-    weight: 0
+    weight: 1
     settings: {  }
     third_party_settings: {  }
 hidden:
-  field_term_length: true
+  field_revoke_date: true
   langcode: true
   membership: true

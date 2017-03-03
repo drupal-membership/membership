@@ -7,7 +7,8 @@ dependencies:
     - membership.membership_type.membership
   module:
     - options
-    - user
+_core:
+  default_config_hash: vvQgNRiZC-qPSF-J7l8lsuePZzMgijUSNQFpwIOSLsY
 id: membership.membership.default
 targetEntityType: membership
 bundle: membership
@@ -17,9 +18,10 @@ content:
     weight: 1
     label: above
     settings:
-      link: true
+      view_mode: default
+      link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    type: entity_reference_entity_view
   state:
     label: hidden
     type: list_default
@@ -28,8 +30,11 @@ content:
     third_party_settings: {  }
   user_id:
     label: hidden
-    type: author
+    type: entity_reference_entity_view
     weight: 0
-    settings: {  }
+    settings:
+      view_mode: compact
+      link: false
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  provider: true

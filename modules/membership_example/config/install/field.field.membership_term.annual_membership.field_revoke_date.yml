@@ -1,0 +1,26 @@
+uuid: 0c15b3f2-7747-403e-825a-3b51aae711cb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership_term.field_revoke_date
+    - membership_term.membership_term_type.annual_membership
+  module:
+    - datetime
+_core:
+  default_config_hash: z-leK1S1JDPXgyCyEh5KTE3tJvXe6m6bnimCLSI_vUg
+id: membership_term.annual_membership.field_revoke_date
+field_name: field_revoke_date
+entity_type: membership_term
+bundle: annual_membership
+label: 'Revoke date'
+description: 'Date the membership benefits will be revoked, after the grace period.'
+required: false
+translatable: false
+default_value:
+  -
+    default_date_type: relative
+    default_date: '+425 days'
+default_value_callback: ''
+settings: {  }
+field_type: datetime
