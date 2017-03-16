@@ -150,7 +150,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setRequired(TRUE);
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Primary user'))
+      ->setLabel(t('User'))
       ->setDescription(t('The owner of the Membership.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')

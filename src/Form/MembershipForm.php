@@ -19,9 +19,6 @@ class MembershipForm extends RevisionableContentEntityForm {
     /* @var $entity \Drupal\membership\Entity\Membership */
     $form = parent::buildForm($form, $form_state);
 
-    // Hide revision message and revision fields...
-    $form['revision_information']['#access'] = FALSE;
-    $form['revision_log_message']['#access'] = FALSE;
     return $form;
   }
 

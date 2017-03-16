@@ -3,7 +3,6 @@
 namespace Drupal\membership_term\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
-use Drupal\membership\Entity\MembershipTermTypeInterface;
 
 /**
  * Defines the Membership term type entity.

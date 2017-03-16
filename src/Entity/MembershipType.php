@@ -67,13 +67,6 @@ class MembershipType extends ConfigEntityBase implements MembershipTypeInterface
   protected $workflow;
 
   /**
-   * The processor plugin string ID.
-   *
-   * @var string
-   */
-  protected $processor_plugin_id;
-
-  /**
    * {@inheritdoc}
    */
   public function getWorkflowId() {
@@ -88,19 +81,6 @@ class MembershipType extends ConfigEntityBase implements MembershipTypeInterface
     return $this;
   }
 
-  /**
-   * @inheritdoc
-   */
-  public function getProcessorPlugin() {
-    // TODO: Implement getProcessorPlugin() method.
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public function setProcessorPluginId($processor_plugin_id) {
-    // TODO: Implement setProcessorPluginId() method.
-  }
 
   /**
    * @inheritDoc
