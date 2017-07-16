@@ -41,4 +41,15 @@ interface MembershipTermTypeInterface extends ConfigEntityInterface {
    * @return string
    */
   public function setMembershipType($membership_type);
+
+  /**
+   * @return array
+   */
+  public function getMessages();
+
+  /**
+   * @param $messages
+   *
+   * @return mixed
+   */
 }

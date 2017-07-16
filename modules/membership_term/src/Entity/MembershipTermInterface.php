@@ -1,9 +1,10 @@
 <?php
 
-namespace Drupal\membership\Entity;
+namespace Drupal\membership_term\Entity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
+use Drupal\membership\Entity\MembershipInterface;
 use Drupal\user\EntityOwnerInterface;
 
 /**
@@ -68,6 +69,64 @@ interface MembershipTermInterface extends  ContentEntityInterface, EntityChanged
    */
   public function setCreatedTime($timestamp);
 
+  /**
+   * @return bool
+   *   Whether this term is pending.
+   */
+  public function isPending();
+
+  /**
+   * @return bool
+   *   Whether this term is active.
+   */
+  public function isActive();
+
+  /**
+   * @return bool
+   *   Whether this term is expiring.
+   */
+  public function isExpiring();
+
+  /**
+   * @return bool
+   *   Whether this term is expired.
+   */
+  public function isExpired();
+
+  /**
+   * @return bool
+   *   Whether this term is renewed.
+   */
+  public function isRenewed();
+
+  /**
+   * Set the start date of this term to $date.
+   *
+   * Updates the end date and revoke date according to membership_term type.
+   *
+   * @param string $date
+   *
+   * @param bool $update_end_date
+   *   Whether to update end date or only start date.
+   *
+   * @return void
+   */
+  public function setStartDate($date, $update_end_date = FALSE);
+
+  /**
+   * Updates the revokeDate.
+   *
+   * @return int
+   *   Timestamp of new revoke date.
+   */
+  public function updateRevokeDate();
+
+  /**
+   * Cancel a membership term by setting dates to yesterday.
+   *
+   * @return void
+   */
+  public function cancel();
 
   /**
    * Returns the Membership Type (bundle) that this membership term is associated with.

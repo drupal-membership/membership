@@ -11,20 +11,22 @@ membership_term_default:
       label: Expiring
     expired:
       label: Expired
+    renewed:
+      label: Renewed
   transitions:
     activate:
       label: Activate
-      from: [pending,expiring]
+      from: [pending]
       to: active
-    expiring:
-      label: About to Expire
-      from: [active]
-      to: expiring
     expire:
       label: Expire
-      from: [expiring,active]
+      from: [pending,expiring,active]
       to: expired
     restart:
       label: Restart
       from: [expired]
-      to: active
+      to: renewed
+    replace:
+      label: Renew
+      from: [active,expiring]
+      to: renewed

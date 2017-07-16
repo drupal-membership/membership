@@ -3,5 +3,7 @@ type: module
 description: Membership Term plugin for basic membership systems
 core: 8.x
 package: Membership
+project: Membership
 dependencies:
   - membership
+  - scheduled_message

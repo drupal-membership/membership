@@ -1,0 +1,23 @@
+services:
+  membership_term_subscriber:
+    class: Drupal\membership_term\EventSubscriber\MembershipSubscriber
+    arguments: ['@membership.manager', '@logger.factory']
+    tags:
+      - { name: event_subscriber }
+
+  membership_term.term_subscriber:
+    class: Drupal\membership_term\EventSubscriber\MembershipTermSubscriber
+    arguments: ['@membership.manager', '@logger.factory', '@membership_term.manager', '@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  membership_term.manager:
+    class: Drupal\membership_term\MembershipTermManager
+    arguments: ['@entity_type.manager']
+
+  membership_term.term_guard:
+    class: Drupal\membership_term\Guard\MembershipTermGuard
+    arguments: []
+    tags:
+      - { name: state_machine.guard, group: membership_term }
+

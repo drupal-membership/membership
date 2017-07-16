@@ -13,3 +13,16 @@ membership.membership_term_type.*:
     membership_type:
       type: string
       label: "Membership Type"
+    messages:
+      type: sequence
+      sequence:
+        type: mapping
+        mapping:
+          id:
+            type: string
+          data:
+            type: field.scheduled_message.[%parent.id]
+          weight:
+            type: integer
+          uuid:
+            type: string
