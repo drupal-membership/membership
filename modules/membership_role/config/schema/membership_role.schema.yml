@@ -1,0 +1,7 @@
+membership.membership_type.*.third_party.membership_role:
+  type: mapping
+  label: 'Membership Role'
+  mapping:
+    role:
+      type: text
+      label: 'Role'
