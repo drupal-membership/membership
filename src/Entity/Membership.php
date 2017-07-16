@@ -46,8 +46,6 @@ use Drupal\user\UserInterface;
  *   },
  *   base_table = "membership",
  *   revision_table = "membership_revision",
- *   data_table = "membership_field_data",
- *   revision_data_table = "membership_field_revision",
  *   admin_permission = "administer membership entities",
  *   field_ui_base_route = "entity.membership_type.edit_form",
  *   entity_keys = {
@@ -80,8 +78,13 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
   public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
     parent::preCreate($storage_controller, $values);
     if (empty($values['user_id'])) {
-      $values['user_id'] = \Drupal::currentUser()->id();
-
+      $user = \Drupal::currentUser();
+      if ($user->hasPermission('create membership for other user')) {
+        return ;
+      }
+      else {
+        $values['user_id'] = \Drupal::currentUser()->id();
+      }
     }
   }
 
@@ -155,7 +158,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
-      ->setDefaultValueCallback('Drupal\node\Entity\Node::getCurrentUserId')
+      ->setDefaultValueCallback('Drupal\membership\Entity\Membership::getMembershipUserId')
       ->setTranslatable(TRUE)
       ->setDisplayOptions('view', array(
         'label' => 'hidden',
@@ -212,25 +215,28 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
   }
 
   /**
+   * Default value callback for 'Membership::user_id' base field definition.
+   *
+   * @see ::baseFieldDefinitions()
+   *
+   * @return array
+   *   An array of default values.
+   * @return
+   */
+  public static function getMembershipUserId() {
+    $user = \Drupal::currentUser();
+    if ($user->hasPermission('create membership for other user')) {
+      return [];
+    }
+    else {
+      return [$user->id()];
+    }
+  }
+  /**
    * @inheritDoc
    */
   public function getTerm() {
     return $this->get('membership_term')->entity;
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function preSave(EntityStorageInterface $storage) {
-    if (!$this->isNew() && ($storage->loadUnchanged($this->id())->state->getValue()) != $this->state->getValue()) {
-      $event = new MembershipEvent($this);
-      $this->getEventDispatcher()->dispatch(MembershipEvents::STATE_CHANGE, $event);
-      if ($this->isExpired()) {
-        $this->getEventDispatcher()->dispatch(MembershipEvents::EXPIRE, $event);
-      }
-      $this->setRevisionLogMessage($this->t('State changed: '.$this->state->getValue()));
-    }
-    parent::preSave($storage);
   }
 
   /**

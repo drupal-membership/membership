@@ -1,6 +1,9 @@
 add membership entities:
   title: 'Create new Membership entities'
 
+create membership for other user:
+  title: 'Create a membership for another user'
+
 administer membership entities:
   title: 'Administer Membership entities'
   description: 'Allow to access the administration form to configure Membership entities.'

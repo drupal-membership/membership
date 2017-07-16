@@ -3,11 +3,17 @@ membership_default:
   label: Default Membership Workflow
   group: membership
   states:
+    pending:
+      label: Pending
     active:
       label: Active
     expired:
       label: Expired
   transitions:
+    activate:
+      label: Activate
+      from: [pending]
+      to: active
     expire:
       label: Expire
       from: [active]
