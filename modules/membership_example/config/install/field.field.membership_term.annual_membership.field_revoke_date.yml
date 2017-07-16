@@ -8,7 +8,7 @@ dependencies:
   module:
     - datetime
 _core:
-  default_config_hash: z-leK1S1JDPXgyCyEh5KTE3tJvXe6m6bnimCLSI_vUg
+  default_config_hash: Po5kQesv7Ioh6_xJCOaX287xUn52yDAbGCA7anfGwdA
 id: membership_term.annual_membership.field_revoke_date
 field_name: field_revoke_date
 entity_type: membership_term

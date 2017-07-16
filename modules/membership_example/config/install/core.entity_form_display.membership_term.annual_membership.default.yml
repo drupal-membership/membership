@@ -9,8 +9,14 @@ dependencies:
   module:
     - datetime
     - datetime_range
+    - field_layout
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
 _core:
-  default_config_hash: rP4tAg3eXa5PjUXwjgm1d2xpxTz2Em3O3lgJjOUAMws
+  default_config_hash: BAX_4HN44n9SvDI-Qovfzvz7M5JEuM615f6AvWMoxvU
 id: membership_term.annual_membership.default
 targetEntityType: membership_term
 bundle: annual_membership
@@ -21,16 +27,19 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: daterange_default
+    region: content
   field_revoke_date:
     weight: 1
     settings: {  }
     third_party_settings: {  }
     type: datetime_default
+    region: content
   membership:
     type: options_select
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -38,6 +47,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
 hidden:
   langcode: true
   user_id: true

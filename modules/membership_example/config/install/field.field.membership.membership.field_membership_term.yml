@@ -7,7 +7,7 @@ dependencies:
     - membership.membership_type.membership
     - membership_term.membership_term_type.annual_membership
 _core:
-  default_config_hash: d5bNZhtxhNMhOzDXIp9RsjBkpM6uN7vYcrpqRIW112M
+  default_config_hash: 3bMDxjM7dmZNRFlcqxjJYfZjFF2H8r4XEN3BtUrezZk
 id: membership.membership.field_membership_term
 field_name: field_membership_term
 entity_type: membership

@@ -6,7 +6,7 @@ dependencies:
     - membership
     - membership_term
 _core:
-  default_config_hash: rci4Jgaj8jY4B3PMtm5Zt758DZEu3vGR5fqzI3SZ4FU
+  default_config_hash: g9HB6tj08D7Ak86p5DWZZF-40RFn71KKDjwklj8FRug
 id: membership.field_membership_term
 field_name: field_membership_term
 entity_type: membership

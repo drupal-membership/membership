@@ -7,17 +7,20 @@ dependencies:
     - field.field.membership_term.annual_membership.field_revoke_date
     - membership_term.membership_term_type.annual_membership
   module:
+    - datetime
     - datetime_range
     - field_group
-    - state_machine
-    - user
+    - field_layout
+    - layout_discovery
+    - options
 third_party_settings:
   field_group:
     group_term:
       children:
         - field_active_dates
+        - field_revoke_date
       parent_name: ''
-      weight: 2
+      weight: 1
       format_type: html_element
       format_settings:
         id: ''
@@ -29,8 +32,11 @@ third_party_settings:
         effect: none
         speed: fast
       label: Term
+  field_layout:
+    id: layout_onecol
+    settings: {  }
 _core:
-  default_config_hash: wM7bQ3_yDrPuWkeUfrjgYg0zvpTKFfabrcOTt3MzHTM
+  default_config_hash: L8_bs8cKigD9tECC6OxDJI0bTxt-YbAQtZa0rAZQGEE
 id: membership_term.annual_membership.default
 targetEntityType: membership_term
 bundle: annual_membership
@@ -45,6 +51,16 @@ content:
       timezone_override: ''
     third_party_settings: {  }
     type: daterange_default
+    region: content
+  field_revoke_date:
+    type: datetime_default
+    weight: 2
+    region: content
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
   name:
     label: above
     type: string
@@ -52,19 +68,15 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    region: content
   state:
     label: hidden
-    type: state_transition_form
+    type: list_default
     weight: 0
     settings: {  }
     third_party_settings: {  }
-  user_id:
-    label: hidden
-    type: author
-    weight: 1
-    settings: {  }
-    third_party_settings: {  }
+    region: content
 hidden:
-  field_revoke_date: true
   langcode: true
   membership: true
+  user_id: true

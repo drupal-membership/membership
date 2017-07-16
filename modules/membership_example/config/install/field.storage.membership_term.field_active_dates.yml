@@ -6,13 +6,13 @@ dependencies:
     - datetime_range
     - membership_term
 _core:
-  default_config_hash: 3VpYOxyEIKGjARQBuE7maDh_tlW0zp81yucd83zDxew
+  default_config_hash: vrqZX8HEs9VFFbNutprzy5JdImFIPeGLR69GO0cM2uM
 id: membership_term.field_active_dates
 field_name: field_active_dates
 entity_type: membership_term
 type: daterange
 settings:
-  datetime_type: datetime
+  datetime_type: date
 module: datetime_range
 locked: false
 cardinality: 1

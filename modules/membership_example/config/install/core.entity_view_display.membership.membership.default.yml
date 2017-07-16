@@ -4,30 +4,48 @@ status: true
 dependencies:
   config:
     - field.field.membership.membership.field_membership_term
+    - field.field.membership.membership.field_provider
+    - field.field.membership.membership.field_role
     - membership.membership_type.membership
   module:
-    - options
+    - field_layout
+    - layout_discovery
+    - state_machine
+third_party_settings:
+  field_layout:
+    id: layout_twocol
+    settings: {  }
 _core:
-  default_config_hash: vvQgNRiZC-qPSF-J7l8lsuePZzMgijUSNQFpwIOSLsY
+  default_config_hash: cjWeWqLqsyVmxvYkt9KS92fF51S3FUMcStMiPjhauNs
 id: membership.membership.default
 targetEntityType: membership
 bundle: membership
 mode: default
 content:
   field_membership_term:
-    weight: 1
+    weight: 3
     label: above
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
     type: entity_reference_entity_view
+    region: right
+  field_role:
+    weight: 2
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: left
   state:
     label: hidden
-    type: list_default
-    weight: 0
+    type: state_transition_form
+    weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: left
   user_id:
     label: hidden
     type: entity_reference_entity_view
@@ -36,5 +54,6 @@ content:
       view_mode: compact
       link: false
     third_party_settings: {  }
+    region: left
 hidden:
-  provider: true
+  field_provider: true

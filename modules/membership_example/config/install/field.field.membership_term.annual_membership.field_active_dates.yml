@@ -8,7 +8,7 @@ dependencies:
   module:
     - datetime_range
 _core:
-  default_config_hash: A1CtwjEfRkou0h4Nu_SKmUGDN9Xp9vC_jTUX_n-LtCY
+  default_config_hash: hhXJRcc952m0ZsouYRpZR9-YEWoFeT4KOr35AfJimGc
 id: membership_term.annual_membership.field_active_dates
 field_name: field_active_dates
 entity_type: membership_term

@@ -4,19 +4,27 @@ status: true
 dependencies:
   config:
     - field.field.membership.membership.field_membership_term
+    - field.field.membership.membership.field_provider
+    - field.field.membership.membership.field_role
     - membership.membership_type.membership
   module:
     - entity_browser_entity_form
+    - field_layout
     - inline_entity_form
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_twocol_bricks
+    settings: {  }
 _core:
-  default_config_hash: XhzOrhvlfaGLMLkUyShlzzjlUgNp2crr_OBrTxheIGY
+  default_config_hash: me84kZHKDh-69b2Pwm02YCKcDc51Bdbywblv9tCHVLM
 id: membership.membership.default
 targetEntityType: membership
 bundle: membership
 mode: default
 content:
   field_membership_term:
-    weight: 1
+    weight: 2
     settings:
       form_mode: default
       label_singular: ''
@@ -29,6 +37,16 @@ content:
       entity_browser_entity_form:
         entity_browser_id: _none
     type: inline_entity_form_complex
+    region: middle
+  field_role:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: right_above
   membership_term:
     type: inline_entity_form_complex
     weight: 0
@@ -43,6 +61,7 @@ content:
     third_party_settings:
       entity_browser_entity_form:
         entity_browser_id: _none
+    region: middle
   user_id:
     type: entity_reference_autocomplete
     weight: 0
@@ -51,6 +70,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: left_above
 hidden:
-  provider: true
+  field_provider: true
   state: true

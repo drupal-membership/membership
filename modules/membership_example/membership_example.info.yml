@@ -6,4 +6,5 @@ package: Membership
 dependencies:
   - membership
   - membership_term
+  - membership_role
   - inline_entity_form
