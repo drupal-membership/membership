@@ -188,7 +188,7 @@ class Membership extends RevisionableContentEntityBase implements MembershipInte
 
     $fields['state'] = BaseFieldDefinition::create('state')
       ->setLabel(t('State'))
-      ->setDescription(t('The order state.'))
+      ->setDescription(t('The membership\'s state.'))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('view', [

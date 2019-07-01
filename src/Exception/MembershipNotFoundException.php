@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: john
- * Date: 1/20/17
- * Time: 3:10 PM
- */
 
 namespace Drupal\membership\Exception;
+
 use Drupal\user\Entity\User;
 
 /**
