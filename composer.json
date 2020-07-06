@@ -12,15 +12,14 @@
         }
     ],
     "require": {
-        "drupal/state_machine": "1.x-dev",
-        "drupal/entity": "1.x-dev"
+        "drupal/state_machine": "^1.0",
+        "drupal/entity": "^1.0"
     },
     "suggest": {
         "drupal/plugin": "Exposes membership_provider plugin type to Plugin module."
     },
     "support": {
         "issues": "https://www.drupal.org/project/issues/membership?status=All&categories=All",
-        "irc": "irc://irc.freenode.org/drupal-contribute",
-        "source": "https://cgit.drupalcode.org/membership"
+        "source": "https://git.drupalcode.org/project/entity"
     }
 }
