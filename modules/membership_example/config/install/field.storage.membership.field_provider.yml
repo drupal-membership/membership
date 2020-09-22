@@ -1,0 +1,18 @@
+uuid: c0ae4991-44db-4127-aa1b-c8ae42d2ff59
+langcode: en
+status: true
+dependencies:
+  module:
+    - membership
+id: membership.field_provider
+field_name: field_provider
+entity_type: membership
+type: membership_provider_id
+settings: {  }
+module: membership
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

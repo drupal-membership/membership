@@ -4,39 +4,42 @@ status: true
 dependencies:
   config:
     - field.field.membership_term.annual_membership.field_active_dates
-    - field.field.membership_term.annual_membership.field_term_length
+    - field.field.membership_term.annual_membership.field_revoke_date
     - membership_term.membership_term_type.annual_membership
   module:
+    - datetime
     - datetime_range
+    - field_layout
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
 _core:
-  default_config_hash: 6C4wsDEdjZCC3Zab6qTNiJl45-_5_kv6U6krdG4QFoQ
+  default_config_hash: BAX_4HN44n9SvDI-Qovfzvz7M5JEuM615f6AvWMoxvU
 id: membership_term.annual_membership.default
 targetEntityType: membership_term
 bundle: annual_membership
 mode: default
 content:
   field_active_dates:
-    weight: 4
+    weight: 0
     settings: {  }
     third_party_settings: {  }
     type: daterange_default
-  field_term_length:
-    type: string_textfield
-    weight: 5
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  langcode:
-    type: language_select
-    weight: 2
+    region: content
+  field_revoke_date:
+    weight: 1
     settings: {  }
     third_party_settings: {  }
+    type: datetime_default
+    region: content
   membership:
     type: options_select
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
   name:
     type: string_textfield
     weight: 0
@@ -44,17 +47,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  state:
-    type: options_select
-    weight: 6
-    settings: {  }
-    third_party_settings: {  }
-  user_id:
-    type: entity_reference_autocomplete
-    weight: 3
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-hidden: {  }
+    region: content
+hidden:
+  langcode: true
+  user_id: true

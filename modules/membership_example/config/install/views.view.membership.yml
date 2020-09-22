@@ -5,6 +5,8 @@ dependencies:
   module:
     - membership
     - user
+_core:
+  default_config_hash: 53qdOfW0FBq2kJH5R67E_St3VQ7Ex6hOlAYdEljC3Z4
 id: membership
 label: Membership
 module: views
@@ -191,7 +193,8 @@ display:
         - url
         - url.query_args
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:core.entity_view_display.membership.membership.default'
   page_1:
     display_plugin: page
     id: page_1
@@ -216,4 +219,5 @@ display:
         - url
         - url.query_args
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:core.entity_view_display.membership.membership.default'

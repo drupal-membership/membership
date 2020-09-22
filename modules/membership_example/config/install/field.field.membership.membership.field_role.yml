@@ -1,0 +1,26 @@
+uuid: b6844249-a411-437a-835d-719d9a980c26
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership.field_role
+    - membership.membership_type.membership
+    - user.role.member
+id: membership.membership.field_role
+field_name: field_role
+entity_type: membership
+bundle: membership
+label: Role
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    target_uuid: 3f390267-361a-4d93-91c5-531e456f66d2
+default_value_callback: ''
+settings:
+  handler: 'default:user_role'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

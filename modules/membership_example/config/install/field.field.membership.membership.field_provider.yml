@@ -1,0 +1,23 @@
+uuid: 12fd6012-683e-4c9f-bd8e-bee163cca9c1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.membership.field_provider
+    - membership.membership_type.membership
+  module:
+    - membership
+id: membership.membership.field_provider
+field_name: field_provider
+entity_type: membership
+bundle: membership
+label: Provider
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    plugin_id: {  }
+default_value_callback: ''
+settings: {  }
+field_type: membership_provider_id

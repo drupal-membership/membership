@@ -1,0 +1,20 @@
+uuid: 7daa36c6-b524-4593-993b-58b4dfab5f74
+langcode: en
+status: true
+dependencies:
+  module:
+    - membership
+    - user
+id: membership.field_role
+field_name: field_role
+entity_type: membership
+type: entity_reference
+settings:
+  target_type: user_role
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

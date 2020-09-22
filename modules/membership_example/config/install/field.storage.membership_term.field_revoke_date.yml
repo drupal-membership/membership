@@ -1,19 +1,19 @@
-uuid: 9cb697db-7ad8-41ff-a520-8f7f560e1bfc
+uuid: 44b08c5f-e589-4b29-9b80-24f286943512
 langcode: en
 status: true
 dependencies:
   module:
-    - datetime_range
+    - datetime
     - membership_term
 _core:
-  default_config_hash: vrqZX8HEs9VFFbNutprzy5JdImFIPeGLR69GO0cM2uM
-id: membership_term.field_active_dates
-field_name: field_active_dates
+  default_config_hash: NKxqiKiQiuheJt2dqGRdkuE4-Q419RrhxxuxZLZFcSM
+id: membership_term.field_revoke_date
+field_name: field_revoke_date
 entity_type: membership_term
-type: daterange
+type: datetime
 settings:
   datetime_type: date
-module: datetime_range
+module: datetime
 locked: false
 cardinality: 1
 translatable: true

@@ -3,8 +3,10 @@ langcode: en
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: XW0BcfGh2tOc7X2C-f3FjruEyQvy4L5XwhF5-OOWidY
+  default_config_hash: 0oO4McO2Tu8j79P2ZDGAtDfxBVNNWjfRX_4pg_147Xs
 label: 'Annual Membership'
 id: annual_membership
-membership_type: basic_membership
+membership_type: membership
+term_length: '1 year'
+grace_period: '+60 days'
 workflow: membership_term_default

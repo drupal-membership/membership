@@ -4,32 +4,56 @@ status: true
 dependencies:
   config:
     - field.field.membership.membership.field_membership_term
+    - field.field.membership.membership.field_provider
+    - field.field.membership.membership.field_role
     - membership.membership_type.membership
   module:
-    - options
-    - user
+    - field_layout
+    - layout_discovery
+    - state_machine
+third_party_settings:
+  field_layout:
+    id: layout_twocol
+    settings: {  }
+_core:
+  default_config_hash: cjWeWqLqsyVmxvYkt9KS92fF51S3FUMcStMiPjhauNs
 id: membership.membership.default
 targetEntityType: membership
 bundle: membership
 mode: default
 content:
   field_membership_term:
-    weight: 1
+    weight: 3
     label: above
     settings:
-      link: true
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: right
+  field_role:
+    weight: 2
+    label: inline
+    settings:
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
+    region: left
   state:
     label: hidden
-    type: list_default
-    weight: 0
+    type: state_transition_form
+    weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: left
   user_id:
     label: hidden
-    type: author
+    type: entity_reference_entity_view
     weight: 0
-    settings: {  }
+    settings:
+      view_mode: compact
+      link: false
     third_party_settings: {  }
-hidden: {  }
+    region: left
+hidden:
+  field_provider: true

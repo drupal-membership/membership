@@ -4,8 +4,10 @@ status: true
 dependencies:
   config:
     - field.storage.membership.field_membership_term
-    - membership_term.membership_term_type.annual_membership
     - membership.membership_type.membership
+    - membership_term.membership_term_type.annual_membership
+_core:
+  default_config_hash: 3bMDxjM7dmZNRFlcqxjJYfZjFF2H8r4XEN3BtUrezZk
 id: membership.membership.field_membership_term
 field_name: field_membership_term
 entity_type: membership

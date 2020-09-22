@@ -4,14 +4,39 @@ status: true
 dependencies:
   config:
     - field.field.membership_term.annual_membership.field_active_dates
-    - field.field.membership_term.annual_membership.field_term_length
+    - field.field.membership_term.annual_membership.field_revoke_date
     - membership_term.membership_term_type.annual_membership
   module:
+    - datetime
     - datetime_range
+    - field_group
+    - field_layout
+    - layout_discovery
     - options
-    - user
+third_party_settings:
+  field_group:
+    group_term:
+      children:
+        - field_active_dates
+        - field_revoke_date
+      parent_name: ''
+      weight: 1
+      format_type: html_element
+      format_settings:
+        id: ''
+        classes: ''
+        element: div
+        show_label: true
+        label_element: h3
+        attributes: ''
+        effect: none
+        speed: fast
+      label: Term
+  field_layout:
+    id: layout_onecol
+    settings: {  }
 _core:
-  default_config_hash: XCKHajHthZSfeTcqGvZDiNWRudj2iPYqOepr6Ysk-mM
+  default_config_hash: L8_bs8cKigD9tECC6OxDJI0bTxt-YbAQtZa0rAZQGEE
 id: membership_term.annual_membership.default
 targetEntityType: membership_term
 bundle: annual_membership
@@ -26,6 +51,16 @@ content:
       timezone_override: ''
     third_party_settings: {  }
     type: daterange_default
+    region: content
+  field_revoke_date:
+    type: datetime_default
+    weight: 2
+    region: content
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
   name:
     label: above
     type: string
@@ -33,19 +68,15 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    region: content
   state:
     label: hidden
     type: list_default
     weight: 0
     settings: {  }
     third_party_settings: {  }
-  user_id:
-    label: hidden
-    type: author
-    weight: 0
-    settings: {  }
-    third_party_settings: {  }
+    region: content
 hidden:
-  field_term_length: true
   langcode: true
   membership: true
+  user_id: true
