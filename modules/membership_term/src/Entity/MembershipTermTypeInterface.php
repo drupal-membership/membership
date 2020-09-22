@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\membership\Entity;
+namespace Drupal\membership_term\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 
@@ -27,6 +27,15 @@ interface MembershipTermTypeInterface extends ConfigEntityInterface {
    */
   public function getMembershipType();
 
+  /**
+   * @return string
+   */
+  public function getTermLength();
+
+  /**
+   * @return string
+   */
+  public function getGracePeriod();
   /**
    * @param string $membership_type
    * @return string

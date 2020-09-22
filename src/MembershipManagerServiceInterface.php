@@ -2,6 +2,7 @@
 
 namespace Drupal\membership;
 
+use Drupal\membership\Entity\MembershipInterface;
 use Drupal\user\Entity\User;
 
 /**
@@ -32,4 +33,14 @@ interface MembershipManagerServiceInterface {
    */
   public function getMembership(User $user, $membership_type = '', $create_if_not_found = FALSE);
 
+  /**
+   * Return an array of user objects that are controlled by this membership.
+   *
+   * @param \Drupal\membership\Entity\MembershipInterface $membership
+   *   A Membership object attached to one or more users.
+   *
+   * @return array
+   *   An array of User objects.
+   */
+  public function getUsers(MembershipInterface $membership);
 }

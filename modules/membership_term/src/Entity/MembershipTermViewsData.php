@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\membership\Entity;
+namespace Drupal\membership_term\Entity;
 
 use Drupal\views\EntityViewsData;
 

@@ -81,6 +81,7 @@ class MembershipType extends ConfigEntityBase implements MembershipTypeInterface
     return $this;
   }
 
+
   /**
    * @inheritDoc
    * 

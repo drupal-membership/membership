@@ -7,7 +7,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\membership\Entity\MembershipTermInterface;
+use Drupal\membership\Entity\MembershipInterface;
 use Drupal\membership\EventDispatcherTrait;
 use Drupal\user\UserInterface;
 
