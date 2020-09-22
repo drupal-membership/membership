@@ -21,9 +21,9 @@ class MembershipTermAccessControlHandler extends EntityAccessControlHandler {
     /** @var \Drupal\membership_term\Entity\MembershipTermInterface $entity */
     switch ($operation) {
       case 'view':
-        if (!$entity->isPublished()) {
+       // if (!$entity->isPublished()) {
           return AccessResult::allowedIfHasPermission($account, 'view unpublished membership term entities');
-        }
+       // }
         return AccessResult::allowedIfHasPermission($account, 'view published membership term entities');
 
       case 'update':

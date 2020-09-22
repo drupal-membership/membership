@@ -7,7 +7,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\membership\Entity\MembershipTermInterface;
+use Drupal\membership\Entity\MembershipInterface;
 use Drupal\membership\EventDispatcherTrait;
 use Drupal\user\UserInterface;
 
@@ -38,10 +38,8 @@ use Drupal\user\UserInterface;
  *   entity_keys = {
  *     "id" = "id",
  *     "bundle" = "type",
- *     "label" = "name",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
- *     "langcode" = "langcode",
  *     "status" = "status",
  *   },
  *   bundle_entity_type = "membership_term_type",
@@ -52,6 +50,27 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
 
   use EntityChangedTrait;
   use EventDispatcherTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMembership() {
+    return $this->get('membership_id')->entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setMembership(MembershipInterface $membership) {
+    $this->set('membership_id', $membership->id());
+    return $this;
+  }
+  /**
+   * {@inheritdoc}
+   */
+  public function getMembershipId() {
+    return $this->get('membership_id')->target_id;
+  }
 
   /**
    * {@inheritdoc}
@@ -70,19 +89,10 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
     return $this->bundle();
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getName() {
-    return $this->get('name')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setName($name) {
-    $this->set('name', $name);
-    return $this;
+  public function label() {
+    $active_dates = $this->get('field_active_dates');
+    $label = $active_dates->value . ' - ' . $active_dates->end_value;
+    return $label;
   }
 
   /**
@@ -130,19 +140,8 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
     return $this;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function isPublished() {
-    return (bool) $this->getEntityKey('status');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setPublished($published) {
-    $this->set('status', $published ? TRUE : FALSE);
-    return $this;
+  public function getWorkflowState() {
+    return $this->get('state')->value;
   }
 
   /**
@@ -151,9 +150,16 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
+    // The membership backreference, populated by Membership::postSave().
+    $fields['membership_id'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Membership'))
+      ->setDescription(t('The parent membership.'))
+      ->setSetting('target_type', 'membership')
+      ->setReadOnly(TRUE);
+
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Authored by'))
-      ->setDescription(t('The user ID of author of the Membership term entity entity.'))
+      ->setLabel(t('Created by'))
+      ->setDescription(t('The user ID of the creator of the Membership term entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
@@ -176,31 +182,6 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the Membership term entity.'))
-      ->setSettings(array(
-        'max_length' => 50,
-        'text_processing' => 0,
-      ))
-      ->setDefaultValue('')
-      ->setDisplayOptions('view', array(
-        'label' => 'above',
-        'type' => 'string',
-        'weight' => -4,
-      ))
-      ->setDisplayOptions('form', array(
-        'type' => 'string_textfield',
-        'weight' => -4,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the Membership term is published.'))
-      ->setDefaultValue(TRUE);
-
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
@@ -219,24 +200,110 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
         'type' => 'list_default',
         'weight' => 0,
       ])
-      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('form', FALSE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('workflow_callback', ['\Drupal\membership_term\Entity\MembershipTerm', 'getWorkflowId']);
 
-    $fields['membership'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Membership'))
-      ->setDescription(t('The Membership associated with this term.'))
-      ->setRevisionable(TRUE)
-      ->setSetting('target_type', 'membership')
-      ->setTranslatable(TRUE)
-      ->setDisplayOptions('form', array(
-        'type' => 'options_select',
-        'weight' => 1,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
     return $fields;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  function preSave(EntityStorageInterface $storage) {
+    $oldstate = $this->getWorkflowState();
+    $state = $this->getCalculatedState();
+    switch ($oldstate) {
+      case 'renewed':
+        // Button on transition form was pressed, or term has been renewed.
+        // Skip all processing.
+        break;
+      case 'expired':
+        // Either the button on transition form was pressed, or this term has expired.
+        // Check to see what it should be...
+        if ($state != 'expired') {
+          // then let the state event handler clean up...
+          break;
+        }
+        $this->state->value = $state;
+        break;
+      case 'active':
+        if ($state == 'pending') {
+          // Then we are activating the membership by setting the start date to now...
+          $this->setStartDate(date('Y-m-d'), FALSE);
+          break;
+        }
+        // Else fall down into the normal processing.
+      default:
+        /** @var MembershipInterface $membership */
+        if ($membership = $this->getMembership()) {
+          if ($state != $oldstate) {
+            $this->state->value = $state;
+          }
+          $this->setOwner($membership->getOwner());
+        }
+    }
+
+    parent::preSave($storage);
+
+  }
+
+  protected function getCalculatedState() {
+    $date = time();
+    $state = 'pending';
+
+    $active_times = $this->get('field_active_dates')->first()->getValue();
+    $start = strtotime($active_times['value']);
+    $end = strtotime($active_times['end_value']);
+    if ($date > $start) {
+      $state = 'active';
+    }
+    if ($date > $end) {
+      $state = 'expiring';
+    }
+    $revokeField = $this->get('field_revoke_date')->first();
+    if ($revokeField) {
+      $revoke = strtotime($revokeField->value);
+    }
+    else {
+      $revoke = $this->updateRevokeDate();
+    }
+    if ($date > $revoke) {
+      $state = 'expired';
+    }
+    return $state;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  function postSave(EntityStorageInterface $storage, $update = TRUE) {
+    parent::postSave($storage, $update);
+    // Go update the membership...
+    /** @var MembershipInterface $membership */
+    $membership = $this->getMembership();
+    if (!$membership) {
+      return;
+    }
+    if ($this->isActive()) {
+      $oldprovider = $membership->getProviderPlugin();
+      $provider = [
+        'plugin_id' => 'membership_term',
+        'remote_id' => $this->id(),
+      ];
+      $membership->set('provider', $provider);
+    }
+    $found = FALSE;
+    foreach ($membership->get('field_membership_term')->getValue() as $indx => $term) {
+      if ($term['target_id'] == $this->id()) {
+        $found = TRUE;
+      }
+    }
+    if (!$found) {
+      $membership->field_membership_term[] = ['target_id' => $this->id()];
+    }
+    $membership->save();
   }
 
   public function getMembershipType() {
@@ -251,4 +318,88 @@ class MembershipTerm extends ContentEntityBase implements MembershipTermInterfac
     return $workflow;
   }
 
+  /**
+   * @inheritDoc
+   */
+  public function isPending() {
+    return $this->getWorkflowState() == 'pending';
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function isActive() {
+    return $this->getWorkflowState() == 'active';
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function isExpiring() {
+    return $this->getWorkflowState() == 'expiring';
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function isExpired() {
+    return $this->getWorkflowState() == 'expired';
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function isRenewed() {
+    return $this->getWorkflowState() == 'renewed';
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function setStartDate($date, $update_end_date = FALSE) {
+    $this->field_active_dates->value = $date;
+
+    if ($update_end_date) {
+      /** @var \Drupal\membership_term\Entity\MembershipTermTypeInterface $membership_term_type */
+      $membership_term_type = $this->entityTypeManager()
+        ->getStorage('membership_term_type')
+        ->load($this->bundle());
+      $membership_term_type->getTermLength();
+      $end = strtotime($date . ' ' . $membership_term_type->getTermLength());
+      $this->field_active_dates->end_value = date('Y-m-d', $end);
+    }
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function updateRevokeDate() {
+    $end = $this->field_active_dates->end_value;
+    /** @var \Drupal\membership_term\Entity\MembershipTermTypeInterface $membership_term_type */
+    $membership_term_type = $this->entityTypeManager()
+      ->getStorage('membership_term_type')
+      ->load($this->bundle());
+    $grace = $membership_term_type->getGracePeriod();
+    $revoke = strtotime($end . ' ' . $grace);
+    $this->set('field_revoke_date', ['value' => date('Y-m-d', $revoke)]);
+    return $revoke;
+
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function cancel() {
+    $date = date('Y-m-d', strtotime('Yesterday'));
+
+    if ($date < $this->field_active_dates->value) {
+      $this->field_active_dates->value = $date;
+    }
+    if ($date < $this->field_active_dates->end_value) {
+      $this->field_active_dates->end_value = $date;
+    }
+    if ($date < $this->field_revoke_date->value) {
+      $this->field_revoke_date->value = $date;
+    }
+  }
 }

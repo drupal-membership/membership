@@ -14,8 +14,6 @@ use Drupal\Core\Url;
  */
 class MembershipTermListBuilder extends EntityListBuilder {
 
-  use LinkGeneratorTrait;
-
   /**
    * {@inheritdoc}
    */

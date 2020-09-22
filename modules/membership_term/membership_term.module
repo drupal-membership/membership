@@ -38,3 +38,16 @@ function membership_theme_suggestions_membership_term(array $variables) {
   $suggestions[] = 'membership_term__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
 }
+
+
+/**
+ * Implements hook_cron().
+ */
+function membership_term_cron() {
+  $last_run = \Drupal::state()->get('membership_term_cron_last', strtotime('yesterday'));
+  if ($last_run + 7200 < time()) {
+    \Drupal::service('membership_term.manager')->expireTerms();
+    \Drupal::state()->set('membership_term_cron_last', time());
+  }
+}
+
