@@ -1,0 +1,7 @@
+name: Membership Role
+type: module
+description: Grant and revoke a Drupal role based on a membership term
+core: 8.x
+package: Membership
+dependencies:
+  - membership

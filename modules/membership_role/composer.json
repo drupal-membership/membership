@@ -1,0 +1,14 @@
+{
+  "name": "drupal/membership_role",
+  "type": "drupal-module",
+  "description": "Grant and revoke a Drupal role based on a membership term",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/membership_role",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/membership_role",
+    "source": "http://cgit.drupalcode.org/membership_role"
+  },
+  "require": { }
+}

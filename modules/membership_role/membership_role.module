@@ -1,0 +1,44 @@
+<?php
+/**
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function membership_role_form_membership_type_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\membership\Entity\MembershipTypeInterface $membership_type */
+  $membership_type = $form_state->getFormObject()->getEntity();
+  $roles = [];
+  $user_roles = user_roles(TRUE);
+  foreach ($user_roles as $rolename=>$role) {
+    $roles[$rolename] = $role->label();
+  }
+
+  $form['role'] = [
+    '#type' => 'select',
+    '#title' => t('Membership Role'),
+    '#options' => $roles,
+    '#default_value' => $membership_type->getThirdPartySetting('membership_role', 'role'),
+    '#description' => t('Role controlled by this membership type. If this membership type does not correspond to a role, use "Authenticated User."'),
+  ];
+  $form['#entity_builders'][] = 'membership_role_membership_type_edit_form_builder';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function membership_role_form_membership_type_add_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  membership_role_form_membership_type_edit_form_alter($form, $form_state, $form_id);
+}
+
+/**
+ * Entity builder for the membership_type forms
+ */
+function membership_role_membership_type_edit_form_builder($entity_type, \Drupal\membership\Entity\MembershipTypeInterface $membership_type, &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  if ($form_state->getValue('role')) {
+    $membership_type->setThirdPartySetting('membership_role', 'role', $form_state->getValue('role'));
+    return;
+  }
+
+  $membership_type->unsetThirdPartySetting('membership_role', 'role');
+}

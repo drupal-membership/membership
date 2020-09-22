@@ -1,0 +1,7 @@
+services:
+  membership_role.event_subscriber:
+    class: Drupal\membership_role\EventSubscriber\MembershipRoleSubscriber
+    arguments: ['@membership.manager','@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
