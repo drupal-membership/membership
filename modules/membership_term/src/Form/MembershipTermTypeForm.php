@@ -49,21 +49,36 @@ class MembershipTermTypeForm extends EntityForm {
       '#type' => 'machine_name',
       '#default_value' => $membership_term_type->id(),
       '#machine_name' => [
-        'exists' => '\Drupal\membership\Entity\MembershipTermType::load',
+        'exists' => '\Drupal\membership_term\Entity\MembershipTermType::load',
       ],
       '#disabled' => !$membership_term_type->isNew(),
     ];
 
     $form['membership_type'] = [
       '#type' => 'select',
-      '#title' => t('Membership Type'),
+      '#title' => $this->t('Membership Type'),
       '#options' => $membership_types,
       '#default_value' => $membership_term_type->getMembershipType(),
       '#description' => $this->t('Used by all membership terms of this type.'),
       '#required' => true,
     ];
 
+    $form['term_length'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Membership Term Length'),
+      '#maxlength' => 50,
+      '#default_value' => $membership_term_type->getTermLength(),
+      '#description' => $this->t('Length of active membership defined by this membership term. Set to 0 for lifetime.'),
+      '#required' => true,
+    ];
 
+    $form['grace_period'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Grace Period'),
+      '#maxlength' => 50,
+      '#default_value' => $membership_term_type->getGracePeriod(),
+      '#description' => $this->t('Revoke membership privileges how long after "official" expiration? Use strtotime modifiers -- e.g. "+1 day", "+2 months". Sets the "revoke_date" field. Leave blank to use the actual expiration date.'),
+    ];
 
     $form['workflow'] = [
       '#type' => 'select',

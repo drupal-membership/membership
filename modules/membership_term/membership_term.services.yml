@@ -1,0 +1,7 @@
+services:
+  membership_term_subscriber:
+    class: Drupal\membership_term\EventSubscriber\MembershipSubscriber
+    arguments: ['@membership.manager']
+    tags:
+      - { name: event_subscriber }
+
